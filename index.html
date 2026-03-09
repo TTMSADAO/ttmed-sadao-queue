@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>จองคิว V35.5 | รพ.สะเดา</title>
+  <title>จองคิวออนไลน์ V36.0 | รพ.สะเดา</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2e7d32">
@@ -23,102 +23,86 @@
     .hero-banner { width: 100%; height: 300px; background-image: url('https://img2.pic.in.th/pic/2e56ebb3c838125fd55c9db5dcd51baf.png'); background-size: cover; background-position: center; position: relative; border-radius: 0 0 30px 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); margin-bottom: 20px; overflow: hidden; }
     .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(46,125,50,0.35), rgba(27,94,32,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
     .main-logo { width: 80px; height: 80px; object-fit: contain; margin-bottom: 12px; background: white; border-radius: 50%; padding: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.1s; }
-    .main-logo:active { transform: scale(0.9); }
-    .online-badge { background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top:12px; }
-    .online-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: pulseDot 2s infinite; }
-    @keyframes pulseDot { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
 
-    /* PATIENT PORTAL */
-    .patient-card { background: linear-gradient(135deg, #ffffff, #f1f5f9); width: 90%; max-width: 560px; border-radius: 24px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 20px; border: 1px solid white; display: none; animation: slideUp 0.4s; position: relative; overflow: hidden; }
-    .patient-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--primary); }
-    .pc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
-    .pc-name { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); margin: 0; display: flex; align-items: center; gap: 8px; }
-    .btn-logout { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 12px; font-size: 0.8rem; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    /* PATIENT CARD (PDPA) */
+    .patient-card { background: linear-gradient(135deg, #ffffff, #f1f5f9); width: 92%; max-width: 560px; border-radius: 24px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 20px; border: 1px solid white; display: none; animation: slideUp 0.4s; position: relative; border-left: 8px solid var(--primary); }
+    .pc-name { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); margin: 0; }
+    .btn-logout { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 12px; font-size: 0.8rem; cursor: pointer; font-weight: 600; float: right; }
 
     .menu-container { width: 100%; padding: 0 20px; z-index: 2; }
-    .dept-card { background: white; border-radius: 22px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid rgba(255,255,255,0.8); transition: transform 0.2s; }
-    .dept-card:active { transform: scale(0.97); }
+    .dept-card { background: white; border-radius: 22px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid rgba(255,255,255,0.8); transition: 0.2s; }
     .dept-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 6px 0 0 6px; }
-    .card-ttm::before { background: #2e7d32; } .card-tcm::before { background: #c62828; } .card-postpartum::before { background: #ec4899; } .card-steam::before { background: #0288d1; }
-    .dept-icon { width: 65px; height: 65px; border-radius: 18px; margin-right: 18px; object-fit: cover; background: #f8fafc; padding: 2px; }
-    .dept-info h3 { margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 700; color: #1e293b; } .dept-info p { margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.4; }
+    .card-ttm::before { background: #2e7d32; } .card-tcm::before { background: #c62828; } .card-steam::before { background: #0288d1; }
+    .dept-icon { width: 65px; height: 65px; border-radius: 18px; margin-right: 18px; }
 
     /* DASHBOARD */
     .top-section { background: var(--primary); color: white; padding: 15px 0 10px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-    .header-top-row { display: flex; align-items: center; justify-content: center; position: relative; padding: 0 15px; margin-bottom: 8px; }
-    .back-btn { position: absolute; left: 15px; background: rgba(255,255,255,0.2); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .header-logo-title { display: flex; align-items: center; gap: 10px; } .header-logo-title img { width: 36px; height: 36px; background: white; border-radius: 50%; padding: 2px; } .header-logo-title h1 { margin: 0; font-size: 1.3rem; font-weight: 700; }
-    .date-scroller { display: flex; overflow-x: auto; padding: 10px 15px 5px 15px; gap: 10px; scrollbar-width: none; } .date-scroller::-webkit-scrollbar { display: none; }
-    .date-chip { background: rgba(255,255,255,0.15); color: white; border-radius: 14px; padding: 10px 0; min-width: 60px; text-align: center; cursor: pointer; flex-shrink: 0; transition: 0.2s; }
-    .date-chip.active { background: white; color: var(--primary); transform: scale(1.05); font-weight: 700; }
+    .date-scroller { display: flex; overflow-x: auto; padding: 10px 15px 5px 15px; gap: 10px; scrollbar-width: none; }
+    .date-chip { background: rgba(255,255,255,0.15); color: white; border-radius: 14px; padding: 10px 0; min-width: 60px; text-align: center; cursor: pointer; flex-shrink: 0; }
+    .date-chip.active { background: white; color: var(--primary); font-weight: 700; transform: scale(1.05); }
 
     /* SLOT CARDS */
     .container { max-width: 600px; margin: 0 auto; padding: 0 15px 80px; }
-    .selected-date-header { font-size: 1.1rem; font-weight: 700; color: #1e293b; padding: 20px 5px 15px; display: flex; align-items: center; } .header-bar { width: 5px; height: 20px; border-radius: 5px; margin-right: 12px; background-color: var(--primary); }
-    .slot-card { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 16px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; margin-bottom: 14px; border-left: 6px solid var(--primary); transition: 0.2s; }
-    .slot-card.is-full { border-left-color: #cbd5e1; background: #f8fafc; opacity: 0.8; pointer-events: none; }
-    .time-text { font-weight: 700; font-size: 1.15rem; color: #1e293b; }
-    .status-capsule { background: var(--primary-light); padding: 8px 16px; border-radius: 14px; color: var(--primary); font-weight: 700; }
+    .slot-card { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 16px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 14px; border-left: 6px solid var(--primary); }
+    .slot-card.is-full { border-left-color: #cbd5e1; opacity: 0.8; pointer-events: none; }
 
-    /* MODALS */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.65); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px); } .modal-overlay.show { opacity: 1; visibility: visible; }
-    .modal-card { background: white; width: 100%; max-width: 500px; border-radius: 28px 28px 0 0; padding: 25px 20px 40px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; } .modal-overlay.show .modal-card { transform: translateY(0); }
-    .form-label { display: block; margin-bottom: 6px; font-size: 0.95rem; color: #475569; font-weight: 600; }
-    .form-control { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Prompt'; font-size: 1rem; background: #f8fafc; outline: none; }
-    .id-card-input { background: #f0fdf4 !important; border-color: #4ade80 !important; color: #166534 !important; font-size: 1.3rem !important; font-weight: 700 !important; text-align: center; letter-spacing: 2px; }
-    .btn-group { display: flex; gap: 12px; margin-top: 25px; } .btn { flex: 1; padding: 14px; border: none; border-radius: 14px; font-size: 1.05rem; cursor: pointer; font-weight: 700; text-align:center; }
-    .btn-confirm { background: var(--primary); color: white; } .btn-cancel { background: #f1f5f9; color: #64748b; }
+    /* ADMIN TABLE */
+    .admin-tab-container { display: flex; background: #e2e8f0; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
+    .admin-tab { flex: 1; text-align: center; padding: 10px; font-size: 0.9rem; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 8px; }
+    .admin-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .log-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; background: white; border-radius: 10px; overflow: hidden; }
+    .log-table th { background: #f1f5f9; padding: 10px; text-align: left; border-bottom: 2px solid #cbd5e1; }
+    .log-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
 
-    /* LOADING SCREEN */
-    .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .page-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .btn-action { padding: 5px 8px; border-radius: 5px; border: none; cursor: pointer; margin-right: 5px; }
+    .btn-edit { background: #0288d1; color: white; } .btn-delete { background: #ef4444; color: white; }
 
-    /* ADMIN STYLES */
-    .admin-tab { padding: 10px; font-weight: 700; cursor: pointer; border-radius: 10px; flex: 1; text-align: center; }
-    .admin-tab.active { background: var(--primary); color: white; }
-    .user-result-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; margin-top: 15px; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+    .modal-card { background: white; width: 100%; max-width: 500px; border-radius: 28px 28px 0 0; padding: 25px 20px 40px; transform: translateY(100%); transition: 0.4s; }
+    .modal-overlay.show .modal-card { transform: translateY(0); }
+    .form-control { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Prompt'; font-size: 1rem; }
   </style>
 </head>
 <body>
 
-  <div id="pageLoader" class="page-loader hidden">
-      <div style="width:50px; height:50px; border:5px solid #f3f3f3; border-top:5px solid var(--primary); border-radius:50%; animation:spin 1s linear infinite;"></div>
-      <p style="margin-top:15px; font-weight:700; color:var(--primary);">กำลังโหลดระบบ...</p>
+  <div id="pageLoader" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <div style="width:40px; height:40px; border:4px solid #f3f3f3; border-top:4px solid var(--primary); border-radius:50%; animation:spin 1s linear infinite;"></div>
+      <p style="margin-top:15px; font-weight:700;">กำลังประมวลผล...</p>
   </div>
-  <style> @keyframes spin { 100% { transform: rotate(360deg); } } </style>
 
   <div id="view-home" class="home-container fade-in">
     <div class="hero-banner">
         <div class="hero-overlay">
             <img src="https://img2.pic.in.th/pic/6f7b352408393a1295f3000e7d9e6754.md.png" class="main-logo" onclick="handleAdminTap()">
-            <h2 style="margin:0; font-size:1rem; font-weight:500;">กลุ่มงานการแพทย์แผนไทยและทางเลือก</h2>
-            <h1 style="margin:5px 0; font-size:1.6rem;">โรงพยาบาลสะเดา</h1>
-            <div class="online-badge"><div class="online-dot"></div> ระบบ V35.5 Hybrid</div>
+            <h1 style="margin:10px 0; font-size:1.6rem;">จองคิวออนไลน์ รพ.สะเดา</h1>
+            <div class="online-badge">⚡ V36.0 Hybrid Full System</div>
         </div>
     </div>
 
     <div id="patient-card" class="patient-card">
-        <div class="pc-header">
-            <div><p style="font-size:0.85rem; color:#64748b; margin:0;">สวัสดีคุณ</p><h3 class="pc-name" id="pc-name-display">...</h3></div>
-            <button class="btn-logout" onclick="logoutPatient()"><i class="fas fa-sign-out-alt"></i> เปลี่ยน</button>
-        </div>
-        <div id="pc-history-area" style="font-size:0.9rem; color:#475569;">กำลังดึงข้อมูลคิวล่าสุด...</div>
+        <button class="btn-logout" onclick="logoutPatient()">เปลี่ยนคน</button>
+        <p style="font-size:0.85rem; color:#64748b; margin:0;">ยินดีต้อนรับ</p>
+        <h3 class="pc-name" id="pc-name-display">...</h3>
+        <div id="pc-history-area" style="font-size:0.9rem; margin-top:10px; color:#475569;">กำลังดึงข้อมูลคิวล่าสุด...</div>
         <div id="btn-cancel-area"></div>
     </div>
 
     <div class="menu-container">
         <div class="dept-card card-ttm" onclick="openApp('ttm')"><img src="https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png" class="dept-icon"><div class="dept-info"><h3>แพทย์แผนไทย</h3><p>นวดรักษา, ประคบ, นวดส่งเสริมฯ</p></div></div>
         <div class="dept-card card-tcm" onclick="openApp('tcm')"><img src="https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png" class="dept-icon"><div class="dept-info"><h3>แพทย์แผนจีน</h3><p>ฝังเข็ม, ครอบแก้ว, ฝังเข็มใบหน้า</p></div></div>
-        <div class="dept-card card-postpartum" onclick="openApp('postpartum')"><img src="https://img2.pic.in.th/pic/eb06897c542c79b64690c8e794fa84a4.png" class="dept-icon"><div class="dept-info"><h3>บริการหลังคลอด</h3><p>นวดพอกตา, ทับหม้อเกลือ</p></div></div>
         <div class="dept-card card-steam" onclick="openApp('steam')"><img src="https://img2.pic.in.th/pic/-3b445847427fcbfd.png" class="dept-icon"><div class="dept-info"><h3>อบไอน้ำสมุนไพร</h3><p>ช่วยการไหลเวียน, แก้ภูมิแพ้</p></div></div>
     </div>
   </div>
 
   <div id="view-dashboard" class="hidden">
     <div class="top-section">
-        <div class="header-top-row">
-            <div class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></div>
-            <div class="header-logo-title"><img id="app-logo" src=""><h1 id="app-title"></h1></div>
+        <div style="display:flex; align-items:center; padding:0 15px; margin-bottom:10px;">
+            <div onclick="goHome()" style="cursor:pointer; background:rgba(255,255,255,0.2); width:35px; height:35px; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fas fa-arrow-left"></i></div>
+            <h1 id="app-title" style="margin-left:15px; font-size:1.2rem;"></h1>
         </div>
         <div id="dateScroller" class="date-scroller"></div>
     </div>
@@ -128,104 +112,110 @@
   <div id="bookingModal" class="modal-overlay">
     <div class="modal-card">
       <div id="step-form">
-        <div style="font-size:1.2rem; font-weight:700; margin-bottom:20px;"><i class="fas fa-edit"></i> กรอกข้อมูลจองคิว</div>
+        <h3 style="margin-top:0;"><i class="fas fa-edit"></i> กรอกข้อมูลจองคิว</h3>
         
-        <div id="auth-section">
-            <div class="form-group" style="margin-bottom:15px;">
-              <label class="form-label">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
-              <input type="tel" id="inp-idcard" class="form-control id-card-input" maxlength="13" placeholder="เลข 13 หลัก" oninput="checkIDCardInput()">
-              <div id="idcard-status" style="font-size:0.85rem; margin-top:10px; font-weight:600; text-align:center;"></div>
-            </div>
-        </div>
+        <label class="form-label">เลขประจำตัวประชาชน (13 หลัก) <span style="color:red">*</span></label>
+        <input type="tel" id="inp-idcard" class="form-control id-card-input" maxlength="13" oninput="checkIDCardInput()">
+        <div id="idcard-status" style="font-size:0.8rem; margin:8px 0; text-align:center; font-weight:600;"></div>
 
-        <div id="existing-user-display" class="hidden" style="background:var(--primary-light); padding:15px; border-radius:16px; margin-bottom:15px; border:1px solid #a5d6a7;">
-            <div style="font-weight:700; margin-bottom:5px; display:flex; justify-content:space-between;">
-                <span><i class="fas fa-user-check"></i> ข้อมูลผู้รับบริการ</span>
-                <span onclick="resetUserForm()" style="color:#ef4444; font-size:0.8rem; cursor:pointer; text-decoration:underline;">ไม่ใช่ฉัน?</span>
-            </div>
-            <div id="masked-name" style="font-size:1.1rem; color:#1e293b; font-weight:700;"></div>
+        <div id="existing-user-display" class="hidden" style="background:var(--primary-light); padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #a5d6a7;">
+            <div style="font-weight:700; font-size:0.8rem; color:var(--primary-dark);">พบข้อมูลผู้รับบริการ:</div>
+            <div id="masked-name" style="font-size:1.1rem; font-weight:700; color:#1e293b;"></div>
             <div id="masked-tel" style="font-size:0.9rem; color:#475569;"></div>
         </div>
 
         <div id="user-details-form" class="hidden" style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:15px;">
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <div style="flex: 1.2;">
-                    <label class="form-label">ชื่อจริง <span style="color:red">*</span></label>
-                    <input type="text" id="inp-fname" class="form-control" placeholder="ระบุชื่อ">
-                </div>
-                <div style="flex: 0.8;">
-                    <label class="form-label">นามสกุล</label>
-                    <input type="text" id="inp-lname" class="form-control" placeholder="(ถ้ามี)">
-                </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <div style="flex: 1;"><label class="form-label">ชื่อจริง *</label><input type="text" id="inp-fname" class="form-control" placeholder="ชื่อ"></div>
+                <div style="flex: 1;"><label class="form-label">นามสกุล</label><input type="text" id="inp-lname" class="form-control" placeholder="นามสกุล"></div>
             </div>
-            <div class="form-group">
-                <label class="form-label">เบอร์โทรศัพท์ <span style="color:red">*</span></label>
-                <input type="tel" id="inp-tel" class="form-control" placeholder="08x-xxx-xxxx" maxlength="10">
-            </div>
+            <label class="form-label">เบอร์โทรศัพท์ *</label>
+            <input type="tel" id="inp-tel" class="form-control" placeholder="08xxxxxxxx" maxlength="10">
         </div>
 
         <div id="booking-fields" class="hidden">
-            <div class="form-group">
-              <label class="form-label">เลือกบริการ</label>
-              <select id="inp-service" class="form-control" onchange="updatePriceDisplay()"></select>
-            </div>
-            <div id="price-tag" style="margin-top:8px; font-size:0.85rem; color:#0288d1; background:#e1f5fe; padding:8px 12px; border-radius:8px; display:none;"></div>
-            
+            <label class="form-label">เลือกบริการ</label>
+            <select id="inp-service" class="form-control"></select>
             <div class="form-group" style="margin-top:15px;">
               <label class="form-label">หมายเหตุ (ถ้ามี)</label>
               <input type="text" id="inp-note" class="form-control" placeholder="โรคประจำตัว/อาการ">
             </div>
         </div>
 
-        <div class="btn-group">
-          <button class="btn btn-cancel" onclick="closeModal()">ปิด</button>
-          <button class="btn btn-confirm" id="btn-check-info" onclick="goToSummary()" disabled>ตรวจสอบข้อมูล</button>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button class="btn btn-cancel" style="flex:1; padding:12px;" onclick="closeModal()">ยกเลิก</button>
+          <button class="btn btn-confirm" id="btn-check-info" style="flex:1.5; padding:12px;" onclick="goToSummary()" disabled>ตรวจสอบข้อมูล</button>
         </div>
       </div>
 
       <div id="step-summary" class="hidden">
-        <div style="font-size:1.2rem; font-weight:700; margin-bottom:20px;"><i class="fas fa-clipboard-check"></i> ยืนยันข้อมูล</div>
-        <div id="summary-content" style="background:#f8fafc; padding:15px; border-radius:12px; line-height:1.7;"></div>
-        <div class="btn-group">
-          <button class="btn btn-cancel" onclick="switchStep('step-form')">แก้ไข</button>
-          <button class="btn btn-confirm" id="btn-final-confirm" onclick="confirmBooking()">ยืนยันจองคิว</button>
+        <h3><i class="fas fa-check-circle"></i> ยืนยันข้อมูล</h3>
+        <div id="summary-content" style="background:#f8fafc; padding:15px; border-radius:12px; line-height:1.8; border:1px solid #e2e8f0;"></div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button class="btn btn-cancel" style="flex:1; padding:12px;" onclick="switchStep('step-form')">แก้ไข</button>
+          <button class="btn btn-confirm" id="btn-final-confirm" style="flex:1.5; padding:12px;" onclick="confirmBooking()">ยืนยันจองคิว</button>
         </div>
       </div>
     </div>
   </div>
 
   <div id="adminModal" class="modal-overlay">
-      <div class="modal-card" style="padding:0; background:#f0f4f8;">
-          <div style="background:white; padding:20px; font-weight:700; border-bottom:1px solid #e2e8f0;"><i class="fas fa-user-shield"></i> ผู้ดูแลระบบ</div>
-          <div style="padding:20px;">
-              <div style="display:flex; gap:10px; margin-bottom:20px;">
-                  <div class="admin-tab active" onclick="switchAdminTab('tab-search')">ค้นหาคนไข้</div>
-                  <div class="admin-tab" onclick="switchAdminTab('tab-sync')">ซิงค์ระบบ</div>
+      <div class="modal-card" style="max-height:95vh; overflow-y:auto; padding:0; background:#f1f5f9; border-radius:0;">
+          <div style="background:white; padding:20px; font-weight:700; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0;">
+              <span>🛡️ ระบบจัดการหลังบ้าน</span>
+              <i class="fas fa-times" onclick="document.getElementById('adminModal').classList.remove('show')" style="cursor:pointer;"></i>
+          </div>
+          <div style="padding:15px;">
+              <div class="admin-tab-container">
+                  <div class="admin-tab active" id="btn-tab-p" onclick="switchAdminTab('tab-patients')">คนไข้</div>
+                  <div class="admin-tab" id="btn-tab-l" onclick="switchAdminTab('tab-logs')">ประวัติจอง</div>
+                  <div class="admin-tab" id="btn-tab-s" onclick="switchAdminTab('tab-sync')">ระบบ</div>
               </div>
-              <div id="tab-search">
-                  <input type="text" id="adminSearchInp" class="form-control" placeholder="เลข ปชช / ชื่อ">
-                  <button class="btn btn-confirm" style="width:100%; margin-top:10px;" onclick="adminSearch()"><i class="fas fa-search"></i> ค้นหา/แก้ไข</button>
-                  <div id="adminSearchResult"></div>
+
+              <div id="tab-patients">
+                  <div style="display:flex; gap:8px; margin-bottom:15px;">
+                    <input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลขบัตร">
+                    <button class="btn btn-confirm" style="flex:none; padding:0 20px;" onclick="adminSearch()"><i class="fas fa-search"></i></button>
+                  </div>
+                  <button class="btn" style="width:100%; margin-bottom:15px; background:#10b981; color:white; padding:10px; border-radius:10px;" onclick="openAddPatientModal()">
+                      <i class="fas fa-user-plus"></i> เพิ่มรายชื่อคนไข้ใหม่
+                  </button>
+                  <div style="overflow-x:auto;">
+                      <table class="log-table">
+                          <thead><tr><th>ชื่อ-สกุล</th><th>บัตร ปชช / โทร</th><th>จัดการ</th></tr></thead>
+                          <tbody id="adminSearchResult"><tr><td colspan="3" style="text-align:center; padding:30px; color:#94a3b8;">กรุณาค้นหารายชื่อ</td></tr></tbody>
+                      </table>
+                  </div>
               </div>
-              <div id="tab-sync" class="hidden" style="text-align:center;">
-                  <p style="color:#64748b;">ซิงค์ข้อมูลตารางเวรจาก Google Sheets</p>
-                  <button class="btn btn-confirm" onclick="forceSyncSystem(this)" style="background:#f59e0b; width:100%;"><i class="fas fa-bolt"></i> เริ่มซิงค์เดี๋ยวนี้</button>
+
+              <div id="tab-logs" class="hidden">
+                  <button class="btn btn-cancel" style="width:100%; margin-bottom:10px;" onclick="loadAdminLogs()"><i class="fas fa-sync"></i> รีเฟรชข้อมูล</button>
+                  <div style="overflow-x:auto;">
+                      <table class="log-table">
+                          <thead><tr><th>เวลา</th><th>คนไข้/บริการ</th><th>นัดวันที่</th><th>สถานะ</th></tr></thead>
+                          <tbody id="adminLogsArea"></tbody>
+                      </table>
+                  </div>
               </div>
-              <button class="btn btn-cancel" style="width:100%; margin-top:20px;" onclick="document.getElementById('adminModal').classList.remove('show')">ปิดหน้าต่าง</button>
+
+              <div id="tab-sync" class="hidden" style="text-align:center; background:white; padding:30px; border-radius:15px;">
+                  <i class="fas fa-bolt" style="font-size:3rem; color:#f59e0b;"></i>
+                  <h3>บังคับซิงค์ข้อมูล</h3>
+                  <p style="font-size:0.8rem; color:#64748b;">กดเพื่อดึงตารางเวรจาก Sheets ไป Firebase ทันที</p>
+                  <button class="btn btn-confirm" style="background:#f59e0b; width:100%; margin-top:20px;" onclick="forceSyncSystem(this)">เริ่มซิงค์เดี๋ยวนี้</button>
+              </div>
           </div>
       </div>
   </div>
 
   <script>
-    // 🌟 CONFIG
+    // 🔗 API ENDPOINTS
     const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby0EQfBeg8ylgU9Q7IZDf-weHopsK4EFxXkqBUVvtDsEVKKpsIIDZ7y8fXXVWdyzKkbAw/exec";
     const FIREBASE_BASE = "https://sadao-queue-999c3-default-rtdb.asia-southeast1.firebasedatabase.app/";
-    const FIREBASE_DB_URL = FIREBASE_BASE + "sadaoData.json";
     
     const APP_CONFIG = {
-      ttm: { title: "แพทย์แผนไทย", logo: "https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png", color: "#2e7d32", svcs: ["นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)"] },
-      tcm: { title: "แพทย์แผนจีน", logo: "https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png", color: "#c62828", svcs: ["ฝังเข็มเพื่อการรักษา", "ครอบแก้ว", "ฝังเข็มใบหน้า", "ปรึกษาแพทย์แผนจีน"] },
-      postpartum: { title: "บริการหลังคลอด", logo: "https://img2.pic.in.th/pic/eb06897c542c79b64690c8e794fa84a4.png", color: "#ec4899", svcs: ["บริการหลังคลอด"] },
+      ttm: { title: "แพทย์แผนไทย", logo: "https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png", color: "#2e7d32", svcs: ["นวดรักษา", "นวดส่งเสริมฯ", "นวดและประคบเพื่อการรักษา"] },
+      tcm: { title: "แพทย์แผนจีน", logo: "https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png", color: "#c62828", svcs: ["ฝังเข็มรักษา", "ครอบแก้ว", "ฝังเข็มใบหน้า", "ปรึกษาแพทย์แผนจีน"] },
       steam: { title: "อบไอน้ำสมุนไพร", logo: "https://img2.pic.in.th/pic/-3b445847427fcbfd.png", color: "#0288d1", svcs: ["อบไอน้ำสมุนไพร"] }
     };
 
@@ -235,31 +225,34 @@
         let savedId = localStorage.getItem('sdh_patient_id');
         if (savedId) {
             document.getElementById('patient-card').style.display = 'block';
-            document.getElementById('pc-name-display').innerText = localStorage.getItem('sdh_patient_name') || 'ผู้ใช้ทั่วไป';
+            document.getElementById('pc-name-display').innerText = maskName(localStorage.getItem('sdh_patient_fname'), localStorage.getItem('sdh_patient_lname'));
             fetchPatientHistory(savedId);
         }
     };
+
+    function maskName(f, l) {
+        let fname = f || ""; let lname = (l && l !== "undefined") ? l : "";
+        return `คุณ ${fname.substring(0,1)}*** ${lname ? lname.substring(0,1)+"***" : ""}`;
+    }
 
     function openApp(type) {
       currentApp = type; let conf = APP_CONFIG[type];
       document.documentElement.style.setProperty('--primary', conf.color);
       document.getElementById('app-title').innerText = conf.title;
-      document.getElementById('app-logo').src = conf.logo;
       document.getElementById('view-home').classList.add('hidden');
       document.getElementById('view-dashboard').classList.remove('hidden');
       fetchData(true);
     }
-
     function goHome() { document.getElementById('view-dashboard').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); }
 
     async function fetchData(showLoader) {
       if(showLoader) document.getElementById('pageLoader').classList.remove('hidden');
       try {
-        let res = await fetch(FIREBASE_DB_URL + "?t=" + new Date().getTime());
+        let res = await fetch(FIREBASE_BASE + "sadaoData.json?t=" + new Date().getTime());
         let data = await res.json();
         globalData = data[currentApp] || [];
         renderScroller(); renderSlots(selectedIndex);
-      } catch(e) { console.log(e); }
+      } catch(e) {}
       if(showLoader) document.getElementById('pageLoader').classList.add('hidden');
     }
 
@@ -271,7 +264,6 @@
       });
       document.getElementById('dateScroller').innerHTML = html;
     }
-
     function selectDate(i) { selectedIndex = i; renderScroller(); renderSlots(i); }
 
     function renderSlots(idx) {
@@ -281,7 +273,7 @@
         day.slots.forEach(slot => {
             let isFull = slot.val.includes('เต็ม');
             html += `<div class="slot-card ${isFull?'is-full':''}" onclick="${isFull?'':'openBooking(\''+slot.time+'\', \''+day.sysDate+'\', \''+day.sheetName+'\')'}">
-                        <div class="time-text">${slot.time} น.</div>
+                        <div><div style="font-size:0.7rem; color:#64748b;">เริ่มให้บริการ</div><div class="time-text">${slot.time} น.</div></div>
                         <div class="status-capsule">${slot.val}</div>
                     </div>`;
         });
@@ -296,185 +288,183 @@
       
       let savedId = localStorage.getItem('sdh_patient_id');
       if(savedId) { document.getElementById('inp-idcard').value = savedId; checkIDCardInput(); }
-      
       document.getElementById('bookingModal').classList.add('show');
     }
 
-    // 🌟 HYBRID LOOKUP STRATEGY (V35.5)
+    // 🏎️ HYBRID LOOKUP
     async function checkIDCardInput() {
         clearTimeout(typingTimer);
         let id = document.getElementById('inp-idcard').value;
         let statusDiv = document.getElementById('idcard-status');
         let btnCheck = document.getElementById('btn-check-info');
-        
         if (id.length === 13) {
             statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังตรวจสอบ...';
-            
-            // 🏎️ STEP 1: FAST LOOKUP (FIREBASE CACHE)
+            // 1. Firebase Cache
             try {
-                let fastRes = await fetch(`${FIREBASE_BASE}patientRegistry/${id}.json`);
-                let fastUser = await fastRes.json();
-                if(fastUser) {
-                    fillUserData(id, fastUser.fname, fastUser.lname, fastUser.tel);
-                    statusDiv.innerHTML = '<span style="color:#2e7d32;">✅ พบข้อมูล (Fast Mode)</span>';
-                }
-            } catch(e) { console.log("Firebase cache fail"); }
-
-            // 🏛️ STEP 2: FULL CHECK (MYSQL/TIDB)
+                let fr = await fetch(`${FIREBASE_BASE}patientRegistry/${id}.json`);
+                let fu = await fr.json();
+                if(fu) { fillUserData(id, fu.fname, fu.lname, fu.tel); statusDiv.innerHTML = '<span style="color:#2e7d32;">✅ พบข้อมูลประวัติ</span>'; }
+            } catch(e) {}
+            // 2. MySQL Full Check
             typingTimer = setTimeout(async () => {
                 try {
-                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) });
+                    let res = await fetch(API_ENDPOINT, { method:'POST', body:JSON.stringify({action:'check_user', idCard:id, serviceCategory:currentApp}) });
                     let data = await res.json();
-                    if (data.status === 'success') {
-                        if(data.user) {
-                            fillUserData(id, data.user.fname, data.user.lname, data.user.tel);
-                        } else {
-                            document.getElementById('user-details-form').classList.remove('hidden');
-                            document.getElementById('existing-user-display').classList.add('hidden');
-                        }
+                    if(data.status==='success') {
+                        if(data.user) fillUserData(id, data.user.fname, data.user.lname, data.user.tel);
+                        else { document.getElementById('user-details-form').classList.remove('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); }
                         
-                        if (data.isBanned) {
-                            Swal.fire('ขออภัย!', 'คุณถูกระงับการจองชั่วคราวถึง ' + data.banUntil, 'error');
-                            btnCheck.disabled = true;
-                        } else if (data.nextAllowedDate) {
-                            Swal.fire('ยังไม่ถึงกำหนด', 'คุณนัดได้อีกครั้งวันที่ ' + data.nextAllowedDate, 'warning');
-                            btnCheck.disabled = true;
-                        } else {
-                            btnCheck.disabled = false;
-                            document.getElementById('booking-fields').classList.remove('hidden');
-                        }
+                        if(data.isBanned) { Swal.fire('ถูกระงับ!', 'นัดใหม่ได้วันที่ '+data.banUntil, 'error'); btnCheck.disabled=true; }
+                        else if(data.nextAllowedDate) { Swal.fire('ยังไม่ถึงกำหนด', 'นัดได้วันที่ '+data.nextAllowedDate, 'warning'); btnCheck.disabled=true; }
+                        else { btnCheck.disabled=false; document.getElementById('booking-fields').classList.remove('hidden'); statusDiv.innerHTML=''; }
                     }
-                } catch(e) { statusDiv.innerHTML = 'ระบบขัดข้อง กรุณาลองใหม่'; }
-            }, 500);
-        } else {
-            statusDiv.innerHTML = ''; btnCheck.disabled = true;
-        }
+                } catch(e) {}
+            }, 600);
+        } else { statusDiv.innerHTML=''; btnCheck.disabled=true; }
     }
 
-    function fillUserData(id, fname, lname, tel) {
-        document.getElementById('inp-fname').value = fname;
-        document.getElementById('inp-lname').value = lname;
-        document.getElementById('inp-tel').value = tel;
-        let masked = fname.substring(0,2) + "*** " + (lname?lname.substring(0,2):"") + "***";
-        document.getElementById('masked-name').innerText = masked;
-        document.getElementById('masked-tel').innerText = tel.substring(0,3) + "-xxx-" + tel.substring(7);
+    function fillUserData(id, f, l, t) {
+        document.getElementById('inp-fname').value = f; document.getElementById('inp-lname').value = l; document.getElementById('inp-tel').value = t;
+        document.getElementById('masked-name').innerText = maskName(f, l);
+        document.getElementById('masked-tel').innerText = t.substring(0,3)+"-xxx-"+t.substring(7);
         document.getElementById('existing-user-display').classList.remove('hidden');
         document.getElementById('user-details-form').classList.add('hidden');
-        localStorage.setItem('sdh_patient_id', id);
-        localStorage.setItem('sdh_patient_name', fname);
-    }
-
-    function resetUserForm() {
-        localStorage.removeItem('sdh_patient_id');
-        document.getElementById('inp-idcard').value = '';
-        document.getElementById('existing-user-display').classList.add('hidden');
-        document.getElementById('user-details-form').classList.add('hidden');
-        document.getElementById('booking-fields').classList.add('hidden');
-        document.getElementById('idcard-status').innerHTML = '';
+        localStorage.setItem('sdh_patient_id', id); localStorage.setItem('sdh_patient_fname', f); localStorage.setItem('sdh_patient_lname', l);
     }
 
     function goToSummary() {
-        let f = document.getElementById('inp-fname').value;
-        let l = document.getElementById('inp-lname').value;
-        let t = document.getElementById('inp-tel').value;
-        if(!f || !t) return Swal.fire('ข้อมูลไม่ครบ', 'กรุณาระบุชื่อและเบอร์โทร', 'warning');
-        
-        bookingData.fname = f; bookingData.lname = l; bookingData.tel = t;
-        bookingData.service = document.getElementById('inp-service').value;
-        bookingData.note = document.getElementById('inp-note').value;
-        bookingData.idCard = document.getElementById('inp-idcard').value;
-
-        let html = `<b>ชื่อ:</b> ${f} ${l}<br><b>บริการ:</b> ${bookingData.service}<br><b>วัน:</b> ${bookingData.sysDate}<br><b>เวลา:</b> ${bookingData.time} น.`;
-        document.getElementById('summary-content').innerHTML = html;
+        let f = document.getElementById('inp-fname').value; let l = document.getElementById('inp-lname').value; let t = document.getElementById('inp-tel').value;
+        if(!f || !t) return Swal.fire('เตือน','ระบุชื่อและเบอร์โทร','warning');
+        bookingData.fname = f; bookingData.lname = l; bookingData.tel = t; bookingData.idCard = document.getElementById('inp-idcard').value;
+        bookingData.service = document.getElementById('inp-service').value; bookingData.note = document.getElementById('inp-note').value;
+        document.getElementById('summary-content').innerHTML = `<b>คนไข้:</b> ${f} ${l}<br><b>บริการ:</b> ${bookingData.service}<br><b>นัดวันที่:</b> ${bookingData.sysDate}<br><b>เวลา:</b> ${bookingData.time} น.`;
         switchStep('step-summary');
     }
 
     async function confirmBooking() {
         document.getElementById('btn-final-confirm').disabled = true;
-        Swal.fire({ title: 'กำลังบันทึก...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        
+        Swal.fire({title:'กำลังจอง...', didOpen:()=>Swal.showLoading()});
         try {
-            let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(bookingData) });
+            let res = await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify(bookingData)});
             let data = await res.json();
-            if(data.status === 'success') {
-                Swal.fire('สำเร็จ!', 'จองคิวเรียบร้อยแล้วครับ', 'success').then(() => { location.reload(); });
-            } else {
-                Swal.fire('ผิดพลาด', data.message || 'คิวเต็มพอดี', 'error');
-            }
-        } catch(e) { Swal.fire('ล้มเหลว', 'การเชื่อมต่อมีปัญหา', 'error'); }
-        document.getElementById('btn-final-confirm').disabled = false;
+            if(data.status==='success') Swal.fire('สำเร็จ!','จองคิวเรียบร้อยแล้วครับ','success').then(()=>location.reload());
+            else Swal.fire('ขออภัย!', data.message, 'error');
+        } catch(e) { Swal.fire('ผิดพลาด','ล้มเหลว','error'); }
     }
 
-    function resetFormUI() {
-        document.getElementById('user-details-form').classList.add('hidden');
-        document.getElementById('existing-user-display').classList.add('hidden');
-        document.getElementById('booking-fields').classList.add('hidden');
-        document.getElementById('idcard-status').innerHTML = '';
-        switchStep('step-form');
-    }
-
-    function switchStep(id) {
-        document.getElementById('step-form').classList.add('hidden');
-        document.getElementById('step-summary').classList.add('hidden');
-        document.getElementById(id).classList.remove('hidden');
-    }
-
+    function resetFormUI() { document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('booking-fields').classList.add('hidden'); switchStep('step-form'); }
+    function switchStep(id) { ['step-form','step-summary'].forEach(s=>document.getElementById(s).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
     function closeModal() { document.getElementById('bookingModal').classList.remove('show'); }
+    function resetUserForm() { localStorage.clear(); location.reload(); }
+    function logoutPatient() { resetUserForm(); }
 
-    // --- ADMIN LOGIC ---
+    // ==========================================
+    // 🛡️ ADMIN CORE LOGIC
+    // ==========================================
     let logoTaps = 0;
     function handleAdminTap() {
-        logoTaps++; setTimeout(() => logoTaps = 0, 1500);
-        if(logoTaps >= 7) {
-            let p = prompt("Admin Code:");
-            if(p === "11395") document.getElementById('adminModal').classList.add('show');
-        }
+        logoTaps++; setTimeout(()=>logoTaps=0, 1500);
+        if(logoTaps>=7) { let p = prompt("Admin Code:"); if(p==="11395") { document.getElementById('adminModal').classList.add('show'); loadAdminLogs(); } }
     }
 
-    function switchAdminTab(tab) {
-        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('tab-search').classList.add('hidden');
-        document.getElementById('tab-sync').classList.add('hidden');
-        event.target.classList.add('active');
-        document.getElementById(tab).classList.remove('hidden');
+    function switchAdminTab(t) {
+        document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));
+        ['tab-patients','tab-logs','tab-sync'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+        document.getElementById(t).classList.remove('hidden');
+        event.currentTarget.classList.add('active');
     }
 
     async function adminSearch() {
-        let q = document.getElementById('adminSearchInp').value;
-        if(!q) return;
-        document.getElementById('adminSearchResult').innerHTML = "กำลังค้นหา...";
-        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) });
+        let q = document.getElementById('adminSearchInp').value; if(!q) return;
+        let resArea = document.getElementById('adminSearchResult');
+        resArea.innerHTML = "<tr><td colspan='3' style='text-align:center;'>กำลังค้นหา...</td></tr>";
+        let res = await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_search', pass:'11395', query:q})});
         let data = await res.json();
-        if(data.status === 'success') {
+        if(data.status==='success') {
             let html = '';
             data.data.forEach(u => {
-                html += `<div class="user-result-card">
-                            <b>${u.fname} ${u.lname}</b> (ID: ${u.idCard})<br>
-                            <button class="btn btn-confirm" style="padding:5px 10px; font-size:0.8rem;" onclick="editPatient('${u.idCard}', '${u.fname}', '${u.lname}', '${u.tel}')">แก้ไขชื่อ/เบอร์</button>
-                         </div>`;
+                html += `<tr>
+                    <td><b>${u.fname}</b><br>${u.lname}</td>
+                    <td style="font-size:0.75rem;">${u.idCard}<br>${u.tel}</td>
+                    <td>
+                        <button class="btn-action btn-edit" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname}','${u.tel}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action btn-delete" onclick="deletePatientUI('${u.idCard}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
             });
-            document.getElementById('adminSearchResult').innerHTML = html || "ไม่พบข้อมูล";
+            resArea.innerHTML = html || "<tr><td colspan='3' text-align:center;>ไม่พบข้อมูล</td></tr>";
         }
     }
 
-    function editPatient(id, f, l, t) {
-        let nf = prompt("ชื่อจริงใหม่:", f);
-        let nl = prompt("นามสกุลใหม่:", l);
-        let nt = prompt("เบอร์โทรใหม่:", t);
-        if(nf && nt) {
-            fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_patient', pass: '11395', payload: { idCard: id, fname: nf, lname: nl, tel: nt } }) })
-            .then(() => { Swal.fire('สำเร็จ', 'อัปเดตข้อมูลแล้ว', 'success'); adminSearch(); });
+    function openAddPatientModal() {
+        Swal.fire({
+            title: 'เพิ่มคนไข้ใหม่',
+            html: `<input id="a-id" class="swal2-input" placeholder="เลขบัตร 13 หลัก"><input id="a-f" class="swal2-input" placeholder="ชื่อจริง"><input id="a-l" class="swal2-input" placeholder="นามสกุล"><input id="a-t" class="swal2-input" placeholder="เบอร์โทร">`,
+            confirmButtonText: 'บันทึก',
+            preConfirm: () => { return { idCard:document.getElementById('a-id').value, fname:document.getElementById('a-f').value, lname:document.getElementById('a-l').value, tel:document.getElementById('a-t').value } }
+        }).then(r => { if(r.isConfirmed) savePatient(r.value); });
+    }
+
+    function editPatientUI(id,f,l,t) {
+        Swal.fire({
+            title: 'แก้ไขข้อมูล',
+            html: `<input value="${id}" class="swal2-input" disabled><input id="e-f" class="swal2-input" value="${f}" placeholder="ชื่อ"><input id="e-l" class="swal2-input" value="${l}" placeholder="นามสกุล"><input id="e-t" class="swal2-input" value="${t}" placeholder="เบอร์โทร">`,
+            confirmButtonText: 'อัปเดต',
+            preConfirm: () => { return { idCard:id, fname:document.getElementById('e-f').value, lname:document.getElementById('e-l').value, tel:document.getElementById('e-t').value } }
+        }).then(r => { if(r.isConfirmed) savePatient(r.value); });
+    }
+
+    async function savePatient(p) {
+        Swal.fire({title:'กำลังบันทึก...'});
+        await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_manage_patient', pass:'11395', payload:p})});
+        Swal.fire('สำเร็จ!','ข้อมูลอัปเดตแล้ว','success'); adminSearch();
+    }
+
+    async function deletePatientUI(id) {
+        if(confirm("ยืนยันการลบข้อมูลคนไข้คนนี้?")) {
+            await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_delete_patient', pass:'11395', idCard:id})});
+            Swal.fire('ลบแล้ว','เรียบร้อยครับ','success'); adminSearch();
+        }
+    }
+
+    async function loadAdminLogs() {
+        let area = document.getElementById('adminLogsArea'); area.innerHTML = "<tr><td colspan='4'>กำลังโหลด...</td></tr>";
+        let res = await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_get_logs', pass:'11395'})});
+        let data = await res.json();
+        if(data.status==='success') {
+            let html = '';
+            data.data.forEach(l => {
+                let c = l.status.includes('ยกเลิก') ? 'red' : 'green';
+                html += `<tr><td><small>${l.time}</small></td><td><b>${l.name}</b><br><small>${l.service}</small></td><td>${l.bookFor}</td><td style="color:${c}; font-weight:700;">${l.status}</td></tr>`;
+            });
+            area.innerHTML = html;
         }
     }
 
     function forceSyncSystem(btn) {
-        btn.disabled = true; btn.innerText = "กำลังซิงค์...";
-        fetch(API_ENDPOINT + "?action=syncFirebase").then(() => {
-            Swal.fire('สำเร็จ', 'ซิงค์ข้อมูลลง Firebase แล้ว', 'success');
-            btn.disabled = false; btn.innerText = "เริ่มซิงค์เดี๋ยวนี้";
-        });
+        btn.disabled=true; btn.innerText="กำลังซิงค์...";
+        fetch(API_ENDPOINT+"?action=syncFirebase").then(()=>{ Swal.fire('สำเร็จ','ซิงค์ข้อมูลแล้ว','success'); btn.disabled=false; btn.innerText="เริ่มซิงค์เดี๋ยวนี้"; });
     }
 
+    async function fetchPatientHistory(id) {
+        let res = await fetch(API_ENDPOINT,{method:'POST', body:JSON.stringify({action:'get_my_history', idCard:id})});
+        let d = await res.json();
+        if(d.status==='success' && d.history) {
+            document.getElementById('pc-history-area').innerHTML = `<b>คิวล่าสุด:</b> ${d.history.service}<br>📅 ${d.history.date} | ⏰ ${d.history.time} น.`;
+            document.getElementById('btn-cancel-area').innerHTML = `<button onclick="reqCancel('${d.history.sysDate}','${d.history.time}')" style="width:100%; margin-top:10px; background:#fee2e2; color:#ef4444; border:1px solid #fca5a5; padding:8px; border-radius:10px; font-weight:700; cursor:pointer;">แจ้งยกเลิกคิวนี้</button>`;
+        } else { document.getElementById('pc-history-area').innerText = "ยังไม่มีรายการจองคิวเร็วๆ นี้"; }
+    }
+
+    function reqCancel(d, t) {
+        if(confirm("คุณต้องการยกเลิกคิวใช่หรือไม่? (ยกเลิกกระชั้นชิดอาจโดนระงับจองชั่วคราว)")) {
+            Swal.fire({title:'กำลังยกเลิก...'});
+            fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'cancel_booking', idCard:localStorage.getItem('sdh_patient_id'), sysDate:d, time:t})})
+            .then(r=>r.json()).then(res => {
+                if(res.status==='success') Swal.fire('สำเร็จ','ยกเลิกคิวแล้ว','success').then(()=>location.reload());
+                else Swal.fire('ผิดพลาด', res.message, 'error');
+            });
+        }
+    }
   </script>
 </body>
 </html>
