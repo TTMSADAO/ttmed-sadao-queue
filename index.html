@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>จองคิวออนไลน์ รพ.สะเดา V2</title>
+  <title>จองคิวออนไลน์ รพ.สะเดา V36.3</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2e7d32">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -101,6 +101,18 @@
     .form-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px var(--primary-light); }
     .form-control[readonly] { background: #e2e8f0; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
     
+    /* 🌟 NEW OTP-STYLE ID INPUT */
+    .otp-container { display: flex; gap: 5px; justify-content: space-between; margin-bottom: 5px; }
+    .otp-box { width: 100%; aspect-ratio: 1/1.2; text-align: center; font-size: 1.2rem; font-weight: 700; border: 2px solid #cbd5e1; border-radius: 8px; background: #f8fafc; color: var(--primary-dark); transition: all 0.2s; padding: 0; outline: none; font-family: 'Prompt', sans-serif; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
+    .otp-box:focus { border-color: #4ade80; background: white; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2); transform: translateY(-2px); }
+    .otp-box.filled { border-color: var(--primary); background: #f0fdf4; }
+    
+    /* 🌟 Formatting Spacing to look like Thai ID: X-XXXX-XXXXX-XX-X */
+    .otp-box:nth-child(1) { margin-right: 6px; }
+    .otp-box:nth-child(5) { margin-right: 6px; }
+    .otp-box:nth-child(10) { margin-right: 6px; }
+    .otp-box:nth-child(12) { margin-right: 6px; }
+
     .id-card-input { background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%) !important; border: 2px solid #4ade80 !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 4px 10px rgba(74,222,128,0.15) !important; color: #166534 !important; font-size: 1.3rem !important; font-weight: 700 !important; letter-spacing: 3px !important; text-align: center; transition: all 0.3s ease; }
     .id-card-input:focus { border-color: #16a34a !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 4px rgba(22,163,74,0.2) !important; }
 
@@ -124,7 +136,6 @@
     .admin-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     .admin-panel { display: none; animation: fadeIn 0.3s; } .admin-panel.active { display: block; }
     
-    /* ADMIN TABLE UI */
     .table-responsive { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid #e2e8f0; background: white; }
     .log-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     .log-table th { background: #f1f5f9; padding: 12px 10px; text-align: left; color: #475569; font-weight: 700; border-bottom: 2px solid #cbd5e1; white-space: nowrap; }
@@ -221,19 +232,13 @@
                       <input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลขบัตร">
                       <button class="btn btn-confirm" style="flex:none; padding:12px 20px;" onclick="adminSearch()"><i class="fas fa-search"></i></button>
                   </div>
-                  
                   <button class="btn" style="width:100%; margin-bottom:15px; background:#10b981; color:white; padding:12px; font-size:1rem;" onclick="adminAddPatientModal()">
-                      <i class="fas fa-user-plus"></i> เพิ่มรายชื่อคนไข้ใหม่ (Registry)
+                      <i class="fas fa-user-plus"></i> เพิ่มรายชื่อคนไข้ใหม่
                   </button>
-
                   <div class="table-responsive">
                       <table class="log-table">
-                          <thead>
-                              <tr><th>ID / ข้อมูลคนไข้</th><th style="text-align:right;">จัดการ</th></tr>
-                          </thead>
-                          <tbody id="adminSearchResult">
-                              <tr><td colspan="2" style="text-align:center; padding:30px; color:#94a3b8;"><i class="fas fa-inbox fa-2x" style="opacity:0.5; display:block; margin-bottom:10px;"></i> ค้นหาเพื่อจัดการข้อมูล</td></tr>
-                          </tbody>
+                          <thead><tr><th>ID / ข้อมูลคนไข้</th><th style="text-align:right;">จัดการ</th></tr></thead>
+                          <tbody id="adminSearchResult"><tr><td colspan="2" style="text-align:center; padding:30px; color:#94a3b8;">ค้นหาเพื่อจัดการข้อมูล</td></tr></tbody>
                       </table>
                   </div>
               </div>
@@ -243,9 +248,7 @@
                   <div class="table-responsive">
                       <table class="log-table">
                           <thead><tr><th>เวลาทำรายการ</th><th>ผู้ป่วย/บริการ</th><th>คิววันที่</th></tr></thead>
-                          <tbody id="adminLogsArea">
-                              <tr><td colspan="3" style="text-align:center; padding:20px; color:#94a3b8;">กำลังรอข้อมูล...</td></tr>
-                          </tbody>
+                          <tbody id="adminLogsArea"><tr><td colspan="3" style="text-align:center; padding:20px; color:#94a3b8;">กำลังรอข้อมูล...</td></tr></tbody>
                       </table>
                   </div>
               </div>
@@ -253,8 +256,7 @@
               <div id="tab-system" class="admin-panel">
                   <div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; margin-bottom:15px;">
                       <h4 style="margin:0 0 10px 0;"><i class="fas fa-file-csv" style="color:#0ea5e9;"></i> อัปโหลดแผนการรักษา (CSV)</h4>
-                      <p style="font-size:0.8rem; color:#64748b;">ไฟล์ต้องมี 4 คอลัมน์ เรียงตามลำดับดังนี้:<br><code>visitDate, idCard, service, planDays</code><br>(เช่น: 10/03/2026, 1909700094766, ttm, 5)</p>
-                      
+                      <p style="font-size:0.8rem; color:#64748b;">ไฟล์ต้องมี 4 คอลัมน์ เรียงตามลำดับดังนี้:<br><code>visitDate, idCard, service, planDays</code></p>
                       <div style="border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 12px; background: #f8fafc; cursor: pointer; margin-bottom: 10px;" onclick="document.getElementById('adminFileInput').click()">
                           <i class="fas fa-cloud-upload-alt" style="font-size:2rem; color:var(--primary); margin-bottom:10px;"></i>
                           <div id="adminFileName" style="font-weight:600; color:#1e293b; font-size:0.9rem;">แตะเพื่อเลือกไฟล์ .CSV</div>
@@ -263,7 +265,6 @@
                       <div id="admin-upload-status" style="text-align:center; font-size:0.85rem; margin-bottom:10px; font-weight:bold;"></div>
                       <button class="btn btn-confirm" id="btnAdminUpload" onclick="processAdminUpload()" disabled style="width:100%; padding:10px;"><i class="fas fa-save"></i> ยืนยันอัปโหลด</button>
                   </div>
-                  
                   <div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
                       <h4 style="margin:0 0 5px 0;"><i class="fas fa-bolt" style="color:#f59e0b;"></i> บังคับซิงค์ตารางเวร</h4>
                       <p style="font-size:0.8rem; color:#64748b; margin-bottom:15px;">ดึงข้อมูลจาก Sheets ไปยังระบบออนไลน์ทันที</p>
@@ -292,19 +293,26 @@
         <div class="modal-header"><i class="fas fa-edit" style="color:var(--primary);"></i> กรอกข้อมูลจองคิว</div>
 
         <div id="auth-section">
-            <div class="toggle-container">
-                <input type="checkbox" id="chk-foreigner" onchange="toggleForeignerMode()">
-                <label for="chk-foreigner" class="toggle-label">ชาวต่างชาติ / Foreigner</label>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <label class="form-label" id="lbl-idcard" style="color:var(--primary); margin:0;">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
+                <div class="toggle-container" style="margin:0; padding:5px 10px; background:#f1f5f9;">
+                    <input type="checkbox" id="chk-foreigner" onchange="toggleForeignerMode()">
+                    <label for="chk-foreigner" class="toggle-label" style="font-size:0.75rem;">ชาวต่างชาติ</label>
+                </div>
             </div>
-
-            <div class="form-group" style="margin-bottom:15px;">
-              <label class="form-label" id="lbl-idcard" style="color:var(--primary); margin-bottom:10px;">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
-              <input type="text" id="inp-idcard" class="form-control id-card-input" maxlength="13" placeholder="ระบุเลข 13 หลัก" oninput="checkIDCardInput()">
-              <div style="font-size:0.75rem; color:#64748b; margin-top:8px; text-align:center;"><i class="fas fa-shield-alt" style="color:#4caf50;"></i> ปลอดภัย 100% ตามมาตรฐาน PDPA</div>
-              <div id="idcard-status" style="font-size:0.85rem; margin-top:10px; font-weight:600; text-align:center;"></div>
+            
+            <div id="thai-id-boxes" class="otp-container">
+                <input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box"><input type="tel" maxlength="1" class="otp-box">
             </div>
+            
+            <input type="text" id="inp-idcard-foreigner" class="form-control id-card-input hidden" placeholder="Enter Passport Number" maxlength="20" oninput="checkIDCardInput()">
+            
+            <input type="hidden" id="inp-idcard">
 
-            <div id="user-details-form" class="hidden" style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:15px; animation:fadeIn 0.3s; border:1px solid #e2e8f0;">
+            <div style="font-size:0.75rem; color:#64748b; margin-top:12px; text-align:center;"><i class="fas fa-shield-alt" style="color:#4caf50;"></i> ปลอดภัย 100% ตามมาตรฐาน PDPA</div>
+            <div id="idcard-status" style="font-size:0.85rem; margin-top:10px; font-weight:600; text-align:center;"></div>
+
+            <div id="user-details-form" class="hidden" style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:15px; margin-top:15px; animation:fadeIn 0.3s; border:1px solid #e2e8f0;">
               <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                   <div style="flex: 1.2;">
                       <label class="form-label">ชื่อจริง <span style="color:red">*</span></label>
@@ -400,7 +408,7 @@
   </div>
 
   <script>
-    // 🚨🚨 URL Web App (ห้ามลืมแก้ถ้ามีลิงก์ใหม่นะครับ)
+    // 🚨🚨 URL Web App
     const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby0EQfBeg8ylgU9Q7IZDf-weHopsK4EFxXkqBUVvtDsEVKKpsIIDZ7y8fXXVWdyzKkbAw/exec"; 
     const FIREBASE_BASE_URL = "https://sadao-queue-999c3-default-rtdb.asia-southeast1.firebasedatabase.app/"; 
     const FIREBASE_DB_URL = FIREBASE_BASE_URL + "sadaoData.json"; 
@@ -426,41 +434,71 @@
     let currentUserDB = null; let selectedSlotData = null; let refreshInterval;
     let activeBookingObj = null; let isForeigner = false;
 
-    // 🛡️ PDPA Masking & Foreigner Logic
+    // 🌟 OTP ID Input Logic (UX)
+    function setupIDBoxes() {
+        const boxes = document.querySelectorAll('.otp-box');
+        boxes.forEach((box, index) => {
+            box.addEventListener('input', (e) => {
+                box.value = box.value.replace(/[^0-9]/g, '');
+                if (box.value) { box.classList.add('filled'); if (index < boxes.length - 1) boxes[index + 1].focus(); } 
+                else { box.classList.remove('filled'); }
+                updateHiddenID();
+            });
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !box.value && index > 0) { boxes[index - 1].focus(); boxes[index - 1].value = ''; boxes[index - 1].classList.remove('filled'); updateHiddenID(); }
+            });
+            box.addEventListener('paste', (e) => {
+                e.preventDefault(); const pastedData = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                if(!pastedData) return;
+                for (let i = 0; i < pastedData.length && index + i < boxes.length; i++) { boxes[index + i].value = pastedData[i]; boxes[index + i].classList.add('filled'); }
+                if (index + pastedData.length < boxes.length) boxes[index + pastedData.length].focus(); else boxes[boxes.length - 1].focus();
+                updateHiddenID();
+            });
+        });
+    }
+
+    function updateHiddenID() {
+        if(isForeigner) return;
+        const boxes = document.querySelectorAll('.otp-box');
+        let id = Array.from(boxes).map(b => b.value).join('');
+        document.getElementById('inp-idcard').value = id;
+        if (id.length === 13) { checkIDCardInput(); } 
+        else { document.getElementById('idcard-status').innerHTML = ''; document.getElementById('btn-save-info').disabled = true; document.getElementById('btn-save-info').innerHTML = 'ตรวจสอบข้อมูล'; }
+    }
+
     function toggleForeignerMode() {
         isForeigner = document.getElementById('chk-foreigner').checked;
-        let idInp = document.getElementById('inp-idcard');
+        let hiddenId = document.getElementById('inp-idcard');
+        let boxContainer = document.getElementById('thai-id-boxes');
+        let foreignInput = document.getElementById('inp-idcard-foreigner');
         let lblId = document.getElementById('lbl-idcard');
         
-        idInp.value = ""; document.getElementById('idcard-status').innerHTML = "";
+        document.getElementById('idcard-status').innerHTML = "";
         document.getElementById('user-details-form').classList.add('hidden');
         document.getElementById('existing-user-display').classList.add('hidden');
         document.getElementById('btn-save-info').disabled = true;
         
         if(isForeigner) {
             lblId.innerHTML = 'Passport / ID Number <span style="color:red">*</span>';
-            idInp.placeholder = "Enter Passport Number";
-            idInp.maxLength = 20; 
-            idInp.type = "text";
+            boxContainer.style.display = 'none';
+            foreignInput.classList.remove('hidden');
+            hiddenId.value = ""; foreignInput.value = "";
         } else {
             lblId.innerHTML = 'เลขประจำตัวประชาชน <span style="color:red">*</span>';
-            idInp.placeholder = "ระบุเลข 13 หลัก";
-            idInp.maxLength = 13;
-            idInp.type = "tel";
+            boxContainer.style.display = 'flex';
+            foreignInput.classList.add('hidden');
+            hiddenId.value = "";
+            document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); });
         }
     }
 
-    function validateNameInput(input) {
-        if(isForeigner) { input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); }
-    }
-
-    function maskString(str) {
-        if(!str) return ""; let s = str.toString().trim(); if(s.length <= 1) return s + "***"; return s.substring(0, 1) + "***";
-    }
+    function validateNameInput(input) { if(isForeigner) { input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); } }
+    function maskString(str) { if(!str) return ""; let s = str.toString().trim(); if(s.length <= 1) return s + "***"; return s.substring(0, 1) + "***"; }
     function getMaskedFullName(fname, lname) { return maskString(fname) + " " + maskString(lname); }
     function getMaskedTel(tel) { if(!tel || tel.length < 10) return tel; return tel.substring(0,3) + "-xxx-x" + tel.substring(8); }
 
     window.onload = function() {
+        setupIDBoxes();
         let savedId = localStorage.getItem('sdh_patient_id'); let savedFname = localStorage.getItem('sdh_patient_fname'); let savedLname = localStorage.getItem('sdh_patient_lname');
         if (savedId && savedFname) {
             document.getElementById('patient-card').style.display = 'block';
@@ -476,57 +514,34 @@
                 let h = data.history; 
                 let icon = h.service.includes('ฝังเข็ม') ? '<i class="fas fa-yin-yang"></i>' : (h.service.includes('อบ') ? '<i class="fas fa-hot-tub-person"></i>' : '<i class="fas fa-leaf"></i>');
                 document.getElementById('pc-history-content').innerHTML = `<div class="pc-h-icon" style="background:rgba(255,255,255,0.1); color:#38bdf8;">${icon}</div><div class="pc-h-detail"><div class="pc-h-svc" style="color:#f8fafc;">${h.service}</div><div class="pc-h-date" style="color:#94a3b8;"><i class="far fa-calendar-alt"></i> วันที่ ${h.date} | ${h.time} น.</div></div>`;
-                
-                if(h.sysDate) {
-                    activeBookingObj = { idCard: idCard, service: h.service, date: h.date, sysDate: h.sysDate, time: h.time };
-                    document.getElementById('btn-cancel-area').innerHTML = `<button class="btn-cancel-q" onclick="reqCancelBooking()"><i class="fas fa-times-circle"></i> แจ้งยกเลิกนัดหมายนี้</button>`;
-                } else {
-                    document.getElementById('btn-cancel-area').innerHTML = `<div style="text-align:right; font-size:0.8rem; color:#4ade80; margin-top:5px; font-weight:bold;"><i class="fas fa-check-circle"></i> ${h.status || 'รับบริการแล้ว'}</div>`;
-                    activeBookingObj = null;
-                }
+                if(h.sysDate) { activeBookingObj = { idCard: idCard, service: h.service, date: h.date, sysDate: h.sysDate, time: h.time }; document.getElementById('btn-cancel-area').innerHTML = `<button class="btn-cancel-q" onclick="reqCancelBooking()"><i class="fas fa-times-circle"></i> แจ้งยกเลิกนัดหมายนี้</button>`; } 
+                else { document.getElementById('btn-cancel-area').innerHTML = `<div style="text-align:right; font-size:0.8rem; color:#4ade80; margin-top:5px; font-weight:bold;"><i class="fas fa-check-circle"></i> ${h.status || 'รับบริการแล้ว'}</div>`; activeBookingObj = null; }
             } else { 
-                document.getElementById('pc-history-content').innerHTML = `<div class="pc-h-icon" style="background:rgba(255,255,255,0.05); color:#64748b;"><i class="fas fa-info-circle"></i></div><div class="pc-h-detail" style="color:#64748b; margin-top:8px;">ยังไม่มีประวัติการรับบริการในระบบ</div>`; 
-                document.getElementById('btn-cancel-area').innerHTML = '';
+                document.getElementById('pc-history-content').innerHTML = `<div class="pc-h-icon" style="background:rgba(255,255,255,0.05); color:#64748b;"><i class="fas fa-info-circle"></i></div><div class="pc-h-detail" style="color:#64748b; margin-top:8px;">ยังไม่มีประวัติการรับบริการในระบบ</div>`; document.getElementById('btn-cancel-area').innerHTML = '';
             }
         }).catch(e=>{});
     }
 
     function reqCancelBooking() {
-        if(!activeBookingObj) return;
-        let today = new Date(); today.setHours(0,0,0,0);
-        let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]);
-        let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
+        if(!activeBookingObj) return; let today = new Date(); today.setHours(0,0,0,0); let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]); let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         let warnMsg = "คุณต้องการยกเลิกคิวนี้ใช่หรือไม่?";
-        if(bDate.getTime() === today.getTime()) warnMsg = "⚠️ คำเตือน: คุณกำลังยกเลิกคิวใน 'วันเดียวกัน' กับที่นัดไว้\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 5 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?";
-        else if (diffDays === 1) warnMsg = "⚠️ คำเตือน: คุณกำลังยกเลิกคิวกระชั้นชิด (ล่วงหน้า 1 วัน)\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 2 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?";
-        
-        Swal.fire({ title: 'ยืนยันการยกเลิกนัด', text: warnMsg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยอมรับและยกเลิกคิว', cancelButtonText: 'ปิด' }).then((result) => {
-            if (result.isConfirmed) { executeCancelBooking(); }
-        });
+        if(bDate.getTime() === today.getTime()) warnMsg = "⚠️ คำเตือน: คุณกำลังยกเลิกคิวใน 'วันเดียวกัน' กับที่นัดไว้\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 5 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?"; else if (diffDays === 1) warnMsg = "⚠️ คำเตือน: คุณกำลังยกเลิกคิวกระชั้นชิด (ล่วงหน้า 1 วัน)\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 2 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?";
+        Swal.fire({ title: 'ยืนยันการยกเลิกนัด', text: warnMsg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยอมรับและยกเลิกคิว', cancelButtonText: 'ปิด' }).then((result) => { if (result.isConfirmed) { executeCancelBooking(); } });
     }
 
     function executeCancelBooking() {
         Swal.fire({ title: 'กำลังยกเลิกคิว...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
-        let bParts = activeBookingObj.sysDate.split('-'); let sheetN = parseInt(bParts[2]) + "/" + parseInt(bParts[1]);
-        let sDept = 'ttm'; if(activeBookingObj.service.includes('ฝังเข็ม')||activeBookingObj.service.includes('ครอบแก้ว')) sDept='tcm'; else if(activeBookingObj.service.includes('อบ')) sDept='steam';
-
+        let bParts = activeBookingObj.sysDate.split('-'); let sheetN = parseInt(bParts[2]) + "/" + parseInt(bParts[1]); let sDept = 'ttm'; if(activeBookingObj.service.includes('ฝังเข็ม')||activeBookingObj.service.includes('ครอบแก้ว')) sDept='tcm'; else if(activeBookingObj.service.includes('อบ')) sDept='steam';
         fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'cancel_booking', idCard: activeBookingObj.idCard, sysDate: activeBookingObj.sysDate, time: activeBookingObj.time, sheetName: sheetN, dept: sDept }) }).then(r=>r.json()).then(res => {
-            if(res.status === 'success') {
-                let msg = "ระบบได้ยกเลิกคิวให้ท่านเรียบร้อยแล้ว";
-                if(res.penaltyDays > 0) msg += `\n\nระบบระงับการจองคิวใหม่เป็นเวลา ${res.penaltyDays} วัน\n(สามารถจองใหม่ได้วันที่ ${res.banUntil})`;
-                Swal.fire('ยกเลิกสำเร็จ!', msg, 'success');
-                fetchPatientHistory(activeBookingObj.idCard); 
-                fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
-            } else { Swal.fire('ผิดพลาด', res.message, 'error'); }
+            if(res.status === 'success') { let msg = "ระบบได้ยกเลิกคิวให้ท่านเรียบร้อยแล้ว"; if(res.penaltyDays > 0) msg += `\n\nระบบระงับการจองคิวใหม่เป็นเวลา ${res.penaltyDays} วัน\n(สามารถจองใหม่ได้วันที่ ${res.banUntil})`; Swal.fire('ยกเลิกสำเร็จ!', msg, 'success'); fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); } else { Swal.fire('ผิดพลาด', res.message, 'error'); }
         }).catch(e=>{ Swal.fire('ล้มเหลว', 'การเชื่อมต่อมีปัญหา', 'error'); });
     }
 
     function logoutPatient(fromForm = false) {
         Swal.fire({ title: 'ออกจากระบบ?', text: "ต้องการเปลี่ยนผู้ใช้งานใช่หรือไม่?", icon: 'question', showCancelButton: true, confirmButtonColor: '#2e7d32', confirmButtonText: 'ใช่, ออกจากระบบ', cancelButtonText: 'ยกเลิก' }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.clear();
-                document.getElementById('patient-card').style.display = 'none'; document.getElementById('inp-idcard').value = '';
+                localStorage.clear(); document.getElementById('patient-card').style.display = 'none'; document.getElementById('inp-idcard').value = '';
+                document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); });
                 document.getElementById('auth-section').style.display = 'block'; document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('btn-save-info').disabled = true;
                 if(!fromForm) Swal.fire({ title:'ออกจากระบบแล้ว', icon:'success', timer: 1500, showConfirmButton: false});
             }
@@ -567,25 +582,10 @@
         let day = globalData[index]; let container = document.getElementById('contentArea');
         if (!day || !day.slots || day.slots.length === 0) { container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-calendar-times" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">ไม่มีรอบว่างในวันนี้</h3></div>`; return; }
         
-        // 🌟 แก้บัค: กรองเวลาที่ผ่านไปแล้วออกด้วย Frontend ทันที
-        let now = new Date();
-        let currentMins = now.getHours() * 60 + now.getMinutes();
-        let todaySysDate = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
-        let isToday = (day.sysDate === todaySysDate);
-
+        let now = new Date(); let currentMins = now.getHours() * 60 + now.getMinutes(); let todaySysDate = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0'); let isToday = (day.sysDate === todaySysDate);
         let validSlots = [];
-        day.slots.forEach(slot => {
-            if (isToday) {
-                let tP = slot.time.split(":");
-                let sM = parseInt(tP[0]) * 60 + parseInt(tP[1]);
-                if (sM <= currentMins) return; // ข้ามรอบที่เวลาผ่านไปแล้ว
-            }
-            validSlots.push(slot);
-        });
-
-        if(validSlots.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-clock" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">รอบบริการวันนี้ผ่านไปหมดแล้ว</h3></div>`; return;
-        }
+        day.slots.forEach(slot => { if (isToday) { let tP = slot.time.split(":"); let sM = parseInt(tP[0]) * 60 + parseInt(tP[1]); if (sM <= currentMins) return; } validSlots.push(slot); });
+        if(validSlots.length === 0) { container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-clock" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">รอบบริการวันนี้ผ่านไปหมดแล้ว</h3></div>`; return; }
 
         let html = `<div class="selected-date-header"><span class="header-bar"></span>${day.fullLabel}</div><div class="grid-container">`;
         let deptIcon = '<i class="fas fa-calendar-check"></i>'; if (currentApp === 'ttm') deptIcon = '<i class="fas fa-leaf"></i>'; else if (currentApp === 'tcm') deptIcon = '<i class="fas fa-yin-yang"></i>'; else if (currentApp === 'postpartum') deptIcon = '<i class="fas fa-hands-holding-child"></i>'; else if (currentApp === 'steam') deptIcon = '<i class="fas fa-hot-tub-person"></i>';
@@ -618,9 +618,15 @@
       let staffs = JSON.parse(decodeURIComponent(staffDataEncoded));
       bookingData = { dept: APP_CONFIG[currentApp].title, date: dateFull, sysDate: sysDate, time: time, appType: currentApp, sheetName: globalData[dayIndex].sheetName };
       
-      if(localStorage.getItem('sdh_patient_id')) { document.getElementById('auth-section').style.display = 'none'; document.getElementById('inp-idcard').value = localStorage.getItem('sdh_patient_id'); checkIDCardInput(); } 
-      else { 
-          document.getElementById('auth-section').style.display = 'block'; document.getElementById('inp-idcard').value = ''; document.getElementById('idcard-status').innerHTML = ''; 
+      if(localStorage.getItem('sdh_patient_id')) { 
+          document.getElementById('auth-section').style.display = 'none'; 
+          document.getElementById('inp-idcard').value = localStorage.getItem('sdh_patient_id'); 
+          checkIDCardInput(); 
+      } else { 
+          document.getElementById('auth-section').style.display = 'block'; 
+          document.getElementById('inp-idcard').value = ''; 
+          document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); }); // Reset boxes
+          document.getElementById('idcard-status').innerHTML = ''; 
           document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; 
           document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false;
           document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); 
@@ -636,13 +642,15 @@
           document.getElementById('normal-fields').classList.remove('hidden'); let sel = document.getElementById('inp-service'); sel.innerHTML = ''; SERVICE_OPTIONS[currentApp].forEach(s => { let o = document.createElement('option'); o.value=s; o.innerText=s; sel.appendChild(o); }); updatePriceDisplay();
           let cCont = document.getElementById('staff-options'); cCont.innerHTML = ''; if (staffs.length > 0 && staffs[0].row !== undefined) { document.getElementById('group-staff').style.display = 'block'; let grouped = {}; staffs.forEach(s => { let k = s.name; if(!grouped[k]) grouped[k] = Object.assign({}, s); else if(s.can2Hr) grouped[k] = Object.assign({}, s); }); let unique = Object.values(grouped); if(unique.length > 0) selectStaffNew(unique[0], STAFF_NAME_MAP[unique[0].name]||unique[0].name); unique.forEach(s => { let dName = STAFF_NAME_MAP[s.name] || s.name; let img = STAFF_IMAGES[s.name] || DEFAULT_IMG; let div = document.createElement('div'); div.className = 'select-item'; div.innerHTML = `<img src="${img}" class="select-img"><div style="font-weight:600; flex:1; color:#1e293b;">${dName} ${s.can2Hr?'<span style="color:#f59e0b;font-size:0.75rem;background:#fffbeb;padding:2px 6px;border-radius:6px;margin-left:6px;"><i class="fas fa-bolt"></i> 2Hr</span>':''}</div>`; div.onclick = () => selectStaffNew(s, dName); cCont.appendChild(div); }); } else { document.getElementById('group-staff').style.display = 'none'; document.getElementById('inp-staff-val').value = "ไม่ระบุ"; }
       }
-      switchStep('step-form'); document.getElementById('bookingModal').classList.add('show');
+      switchStep('step-form'); 
+      document.getElementById('bookingModal').classList.add('show');
+      if(!localStorage.getItem('sdh_patient_id') && !isForeigner) {
+          setTimeout(() => { document.querySelector('.otp-box').focus(); }, 300);
+      }
     }
 
-    // 🏎️ HYBRID LOOKUP (FIREBASE + MYSQL)
     async function checkIDCardInput() {
-        if(!isForeigner && document.getElementById('inp-idcard').value) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard').value.replace(/[^0-9]/g, ''); }
-        
+        if(isForeigner) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value; }
         clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let statusDiv = document.getElementById('idcard-status');
         let btnSave = document.getElementById('btn-save-info');
         if(!localStorage.getItem('sdh_patient_id')) { document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); }
