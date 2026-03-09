@@ -1,0 +1,15 @@
+{
+  "name": "จองคิวออนไลน์แพทย์แผนไทยและแพทย์แผนจีน รพ.สะเดา",
+  "short_name": "SDH Queue",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2e7d32",
+  "icons": [
+    {
+      "src": "https://img5.pic.in.th/file/secure-sv1/icon7df8c1ab00bf507e.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
