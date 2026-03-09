@@ -725,6 +725,38 @@
     // ==========================================
     // 🛡️ FULL ADMIN CONTROL CENTER
     // ==========================================
+    let logoTaps = 0; let tapTimer;
+    
+    // 🌟 แก้ไขให้รับรหัสผ่านผ่าน Swal แทน prompt (รองรับมือถือ 100%)
+    function handleAdminTap() {
+        logoTaps++; 
+        clearTimeout(tapTimer); 
+        tapTimer = setTimeout(() => { logoTaps = 0; }, 2000); 
+        
+        if (logoTaps >= 7) {
+            logoTaps = 0; 
+            Swal.fire({
+                title: '🛡️ Restricted Access',
+                input: 'password',
+                inputLabel: 'กรุณากรอกรหัสผ่านผู้ดูแลระบบ',
+                inputPlaceholder: 'Admin Code',
+                showCancelButton: true,
+                confirmButtonText: 'เข้าสู่ระบบ',
+                cancelButtonText: 'ปิด',
+                confirmButtonColor: '#2e7d32'
+            }).then((result) => {
+                if (result.value === "11395") { 
+                    document.getElementById('adminModal').classList.add('show'); 
+                    loadAdminLogs(); 
+                } else if (result.value) { 
+                    Swal.fire('ปฏิเสธการเข้าถึง', 'รหัสผ่านไม่ถูกต้อง', 'error'); 
+                }
+            });
+        }
+    }
+
+    function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active')); event.currentTarget.classList.add('active'); document.getElementById(tabId).classList.add('active'); }
+
     async function adminSearch() {
         let q = document.getElementById('adminSearchInp').value;
         if(!q) return Swal.fire('แจ้งเตือน','กรุณากรอกคำค้นหา','info');
