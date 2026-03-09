@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>จองคิวออนไลน์ รพ.สะเดา V36</title>
+  <title>จองคิวออนไลน์ รพ.สะเดา V36.1</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2e7d32">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -78,7 +78,7 @@
     .badge-2hr { background: #f59e0b; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
     .gender-tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; } .male-tag { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; } .female-tag { background: #fce7f3; color: #be185d; border: 1px solid #fbcfe8; }
 
-    /* 🌟 PERCENTAGE LOADING SCREEN */
+    /* 🌟 LOADING SCREEN */
     .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; backdrop-filter: blur(10px); }
     .loading-screen.hidden { opacity: 0; pointer-events: none; }
     .circle-wrap { position: relative; width: 120px; height: 120px; margin-bottom: 20px; }
@@ -99,8 +99,8 @@
     .form-group { margin-bottom: 16px; } .form-label { display: block; margin-bottom: 6px; font-size: 0.95rem; color: #475569; font-weight: 600; }
     .form-control { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Prompt', sans-serif; font-size: 1.05rem; background: #f8fafc; outline: none; transition: 0.2s; color: #1e293b; }
     .form-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px var(--primary-light); }
+    .form-control[readonly] { background: #e2e8f0; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
     
-    /* 🌟 ID CARD INPUT STYLE (GLOSSY) */
     .id-card-input { background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%) !important; border: 2px solid #4ade80 !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 4px 10px rgba(74,222,128,0.15) !important; color: #166534 !important; font-size: 1.3rem !important; font-weight: 700 !important; letter-spacing: 3px !important; text-align: center; transition: all 0.3s ease; }
     .id-card-input:focus { border-color: #16a34a !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 4px rgba(22,163,74,0.2) !important; }
 
@@ -115,7 +115,6 @@
     .btn-confirm:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
 
     .page-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; backdrop-filter: blur(5px); } .page-loader.hidden { opacity: 0; pointer-events: none; }
-    .spinner { border: 4px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px; }
     
     @keyframes spin { 100% { transform: rotate(360deg); } } @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -136,6 +135,11 @@
     .btn-edit { color: #0ea5e9; background: #e0f2fe; } .btn-edit:hover { background: #bae6fd; }
     .btn-delete { color: #ef4444; background: #fee2e2; } .btn-delete:hover { background: #fecaca; }
     .btn-plan { color: #8b5cf6; background: #f3e8ff; } .btn-plan:hover { background: #e9d5ff; }
+
+    /* FOREIGNER TOGGLE */
+    .toggle-container { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px; background: #f8fafc; padding: 10px; border-radius: 12px; border: 1px solid #e2e8f0; }
+    .toggle-container input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+    .toggle-label { font-size: 0.9rem; font-weight: 600; color: #475569; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -207,13 +211,14 @@
           
           <div style="padding: 20px;">
               <div class="admin-tab-container">
-                  <div class="admin-tab active" onclick="switchAdminTab('tab-db')"><i class="fas fa-users-cog"></i> จัดการคนไข้</div>
-                  <div class="admin-tab" onclick="switchAdminTab('tab-logs')"><i class="fas fa-history"></i> ประวัติ/Log</div>
+                  <div class="admin-tab active" onclick="switchAdminTab('tab-db')"><i class="fas fa-users-cog"></i> คนไข้</div>
+                  <div class="admin-tab" onclick="switchAdminTab('tab-logs')"><i class="fas fa-history"></i> ประวัติ</div>
+                  <div class="admin-tab" onclick="switchAdminTab('tab-system')"><i class="fas fa-cogs"></i> ระบบ</div>
               </div>
               
               <div id="tab-db" class="admin-panel active">
                   <div style="display:flex; gap:8px; margin-bottom:15px;">
-                      <input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลข 13 หลัก">
+                      <input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลขบัตร">
                       <button class="btn btn-confirm" style="flex:none; padding:12px 20px;" onclick="adminSearch()"><i class="fas fa-search"></i></button>
                   </div>
                   
@@ -244,6 +249,27 @@
                       </table>
                   </div>
               </div>
+
+              <div id="tab-system" class="admin-panel">
+                  <div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; margin-bottom:15px;">
+                      <h4 style="margin:0 0 10px 0;"><i class="fas fa-file-csv" style="color:#0ea5e9;"></i> อัปโหลดแผนการรักษา (CSV)</h4>
+                      <p style="font-size:0.8rem; color:#64748b;">ไฟล์ต้องมี 4 คอลัมน์ เรียงตามลำดับดังนี้:<br><code>visitDate, idCard, service, planDays</code><br>(เช่น: 10/03/2026, 1234567890123, ttm, 5)</p>
+                      
+                      <div style="border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 12px; background: #f8fafc; cursor: pointer; margin-bottom: 10px;" onclick="document.getElementById('adminFileInput').click()">
+                          <i class="fas fa-cloud-upload-alt" style="font-size:2rem; color:var(--primary); margin-bottom:10px;"></i>
+                          <div id="adminFileName" style="font-weight:600; color:#1e293b; font-size:0.9rem;">แตะเพื่อเลือกไฟล์ .CSV</div>
+                          <input type="file" id="adminFileInput" accept=".csv" style="display:none;" onchange="updateAdminFileUI(this)">
+                      </div>
+                      <div id="admin-upload-status" style="text-align:center; font-size:0.85rem; margin-bottom:10px; font-weight:bold;"></div>
+                      <button class="btn btn-confirm" id="btnAdminUpload" onclick="processAdminUpload()" disabled style="width:100%; padding:10px;"><i class="fas fa-save"></i> ยืนยันอัปโหลด</button>
+                  </div>
+                  
+                  <div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                      <h4 style="margin:0 0 5px 0;"><i class="fas fa-bolt" style="color:#f59e0b;"></i> บังคับซิงค์ตารางเวร</h4>
+                      <p style="font-size:0.8rem; color:#64748b; margin-bottom:15px;">ดึงข้อมูลจาก Sheets ไปยังระบบออนไลน์ทันที</p>
+                      <button class="btn" style="width:100%; background:#f59e0b; color:white; padding:10px;" onclick="forceSyncSystem(this)">เริ่มซิงค์เดี๋ยวนี้</button>
+                  </div>
+              </div>
           </div>
       </div>
   </div>
@@ -266,9 +292,14 @@
         <div class="modal-header"><i class="fas fa-edit" style="color:var(--primary);"></i> กรอกข้อมูลจองคิว</div>
 
         <div id="auth-section">
+            <div class="toggle-container">
+                <input type="checkbox" id="chk-foreigner" onchange="toggleForeignerMode()">
+                <label for="chk-foreigner" class="toggle-label">ชาวต่างชาติ / Foreigner</label>
+            </div>
+
             <div class="form-group" style="margin-bottom:15px;">
-              <label class="form-label" style="color:var(--primary); margin-bottom:10px;">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
-              <input type="tel" id="inp-idcard" class="form-control id-card-input" maxlength="13" placeholder="ระบุเลข 13 หลัก" oninput="this.value = this.value.replace(/[^0-9]/g, ''); checkIDCardInput();">
+              <label class="form-label" id="lbl-idcard" style="color:var(--primary); margin-bottom:10px;">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
+              <input type="text" id="inp-idcard" class="form-control id-card-input" maxlength="13" placeholder="ระบุเลข 13 หลัก" oninput="checkIDCardInput()">
               <div style="font-size:0.75rem; color:#64748b; margin-top:8px; text-align:center;"><i class="fas fa-shield-alt" style="color:#4caf50;"></i> ปลอดภัย 100% ตามมาตรฐาน PDPA</div>
               <div id="idcard-status" style="font-size:0.85rem; margin-top:10px; font-weight:600; text-align:center;"></div>
             </div>
@@ -277,17 +308,18 @@
               <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                   <div style="flex: 1.2;">
                       <label class="form-label">ชื่อจริง <span style="color:red">*</span></label>
-                      <input type="text" id="inp-fname" class="form-control" placeholder="ชื่อ (ไม่ต้องมีคำนำหน้า)">
+                      <input type="text" id="inp-fname" class="form-control" placeholder="ชื่อ (ไม่ต้องมีคำนำหน้า)" oninput="validateNameInput(this)">
                   </div>
                   <div style="flex: 0.8;">
                       <label class="form-label">นามสกุล</label>
-                      <input type="text" id="inp-lname" class="form-control" placeholder="(ถ้ามี)">
+                      <input type="text" id="inp-lname" class="form-control" placeholder="นามสกุล" oninput="validateNameInput(this)">
                   </div>
               </div>
               <div class="form-group" style="margin-bottom:0;">
                   <label class="form-label">เบอร์โทรศัพท์ <span style="color:red">*</span></label>
                   <input type="tel" id="inp-tel" class="form-control" placeholder="08x-xxx-xxxx" maxlength="10">
               </div>
+              <div id="name-lock-warning" style="display:none; font-size:0.75rem; color:#eab308; margin-top:8px;"><i class="fas fa-lock"></i> พบประวัติในระบบ ชื่อ-สกุล ไม่สามารถแก้ไขได้</div>
             </div>
         </div>
 
@@ -368,7 +400,7 @@
   </div>
 
   <script>
-    // 🚨🚨 URL Web App ของคุณยังเหมือนเดิมนะครับ ไม่ต้องเปลี่ยน
+    // 🚨🚨 URL Web App (ห้ามลืมแก้ถ้ามีลิงก์ใหม่นะครับ)
     const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby0EQfBeg8ylgU9Q7IZDf-weHopsK4EFxXkqBUVvtDsEVKKpsIIDZ7y8fXXVWdyzKkbAw/exec"; 
     const FIREBASE_BASE_URL = "https://sadao-queue-999c3-default-rtdb.asia-southeast1.firebasedatabase.app/"; 
     const FIREBASE_DB_URL = FIREBASE_BASE_URL + "sadaoData.json"; 
@@ -392,29 +424,44 @@
     
     let currentApp = ''; let globalData = []; let bookingData = {}; let selectedIndex = 0; let typingTimer;
     let currentUserDB = null; let selectedSlotData = null; let refreshInterval;
-    let activeBookingObj = null; 
+    let activeBookingObj = null; let isForeigner = false;
 
-    // 🛡️ PDPA Masking Function
+    // 🛡️ PDPA Masking & Foreigner Logic
+    function toggleForeignerMode() {
+        isForeigner = document.getElementById('chk-foreigner').checked;
+        let idInp = document.getElementById('inp-idcard');
+        let lblId = document.getElementById('lbl-idcard');
+        
+        idInp.value = ""; document.getElementById('idcard-status').innerHTML = "";
+        document.getElementById('user-details-form').classList.add('hidden');
+        document.getElementById('existing-user-display').classList.add('hidden');
+        document.getElementById('btn-save-info').disabled = true;
+        
+        if(isForeigner) {
+            lblId.innerHTML = 'Passport / ID Number <span style="color:red">*</span>';
+            idInp.placeholder = "Enter Passport Number";
+            idInp.maxLength = 20; 
+            idInp.type = "text";
+        } else {
+            lblId.innerHTML = 'เลขประจำตัวประชาชน <span style="color:red">*</span>';
+            idInp.placeholder = "ระบุเลข 13 หลัก";
+            idInp.maxLength = 13;
+            idInp.type = "tel";
+        }
+    }
+
+    function validateNameInput(input) {
+        if(isForeigner) { input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); }
+    }
+
     function maskString(str) {
-        if(!str) return "";
-        let s = str.toString().trim();
-        if(s.length <= 1) return s + "***";
-        return s.substring(0, 1) + "***";
+        if(!str) return ""; let s = str.toString().trim(); if(s.length <= 1) return s + "***"; return s.substring(0, 1) + "***";
     }
-
-    function getMaskedFullName(fname, lname) {
-        return maskString(fname) + " " + maskString(lname);
-    }
-
-    function getMaskedTel(tel) {
-        if(!tel || tel.length < 10) return tel;
-        return tel.substring(0,3) + "-xxx-x" + tel.substring(8);
-    }
+    function getMaskedFullName(fname, lname) { return maskString(fname) + " " + maskString(lname); }
+    function getMaskedTel(tel) { if(!tel || tel.length < 10) return tel; return tel.substring(0,3) + "-xxx-x" + tel.substring(8); }
 
     window.onload = function() {
-        let savedId = localStorage.getItem('sdh_patient_id'); 
-        let savedFname = localStorage.getItem('sdh_patient_fname');
-        let savedLname = localStorage.getItem('sdh_patient_lname');
+        let savedId = localStorage.getItem('sdh_patient_id'); let savedFname = localStorage.getItem('sdh_patient_fname'); let savedLname = localStorage.getItem('sdh_patient_lname');
         if (savedId && savedFname) {
             document.getElementById('patient-card').style.display = 'block';
             document.getElementById('pc-name-display').innerHTML = getMaskedFullName(savedFname, savedLname);
@@ -464,9 +511,7 @@
         let bParts = activeBookingObj.sysDate.split('-'); let sheetN = parseInt(bParts[2]) + "/" + parseInt(bParts[1]);
         let sDept = 'ttm'; if(activeBookingObj.service.includes('ฝังเข็ม')||activeBookingObj.service.includes('ครอบแก้ว')) sDept='tcm'; else if(activeBookingObj.service.includes('อบ')) sDept='steam';
 
-        let payload = { action: 'cancel_booking', idCard: activeBookingObj.idCard, sysDate: activeBookingObj.sysDate, time: activeBookingObj.time, sheetName: sheetN, dept: sDept };
-        
-        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(r=>r.json()).then(res => {
+        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'cancel_booking', idCard: activeBookingObj.idCard, sysDate: activeBookingObj.sysDate, time: activeBookingObj.time, sheetName: sheetN, dept: sDept }) }).then(r=>r.json()).then(res => {
             if(res.status === 'success') {
                 let msg = "ระบบได้ยกเลิกคิวให้ท่านเรียบร้อยแล้ว";
                 if(res.penaltyDays > 0) msg += `\n\nระบบระงับการจองคิวใหม่เป็นเวลา ${res.penaltyDays} วัน\n(สามารถจองใหม่ได้วันที่ ${res.banUntil})`;
@@ -480,7 +525,7 @@
     function logoutPatient(fromForm = false) {
         Swal.fire({ title: 'ออกจากระบบ?', text: "ต้องการเปลี่ยนผู้ใช้งานใช่หรือไม่?", icon: 'question', showCancelButton: true, confirmButtonColor: '#2e7d32', confirmButtonText: 'ใช่, ออกจากระบบ', cancelButtonText: 'ยกเลิก' }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.removeItem('sdh_patient_id'); localStorage.removeItem('sdh_patient_fname'); localStorage.removeItem('sdh_patient_lname'); localStorage.removeItem('sdh_patient_tel');
+                localStorage.clear();
                 document.getElementById('patient-card').style.display = 'none'; document.getElementById('inp-idcard').value = '';
                 document.getElementById('auth-section').style.display = 'block'; document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('btn-save-info').disabled = true;
                 if(!fromForm) Swal.fire({ title:'ออกจากระบบแล้ว', icon:'success', timer: 1500, showConfirmButton: false});
@@ -552,7 +597,14 @@
       let staffs = JSON.parse(decodeURIComponent(staffDataEncoded));
       bookingData = { dept: APP_CONFIG[currentApp].title, date: dateFull, sysDate: sysDate, time: time, appType: currentApp, sheetName: globalData[dayIndex].sheetName };
       
-      if(localStorage.getItem('sdh_patient_id')) { document.getElementById('auth-section').style.display = 'none'; document.getElementById('inp-idcard').value = localStorage.getItem('sdh_patient_id'); checkIDCardInput(); } else { document.getElementById('auth-section').style.display = 'block'; document.getElementById('inp-idcard').value = ''; document.getElementById('idcard-status').innerHTML = ''; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('btn-save-info').disabled = true; document.getElementById('btn-save-info').innerHTML = 'ตรวจสอบข้อมูล'; currentUserDB = null; }
+      if(localStorage.getItem('sdh_patient_id')) { document.getElementById('auth-section').style.display = 'none'; document.getElementById('inp-idcard').value = localStorage.getItem('sdh_patient_id'); checkIDCardInput(); } 
+      else { 
+          document.getElementById('auth-section').style.display = 'block'; document.getElementById('inp-idcard').value = ''; document.getElementById('idcard-status').innerHTML = ''; 
+          document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; 
+          document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false;
+          document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); 
+          document.getElementById('btn-save-info').disabled = true; document.getElementById('btn-save-info').innerHTML = 'ตรวจสอบข้อมูล'; currentUserDB = null; 
+      }
       
       document.getElementById('inp-note').value = ''; document.getElementById('inp-2hr').checked = false;
       ['normal-fields', 'postpartum-fields', 'steam-fields'].forEach(id => document.getElementById(id).classList.add('hidden'));
@@ -568,47 +620,43 @@
 
     // 🏎️ HYBRID LOOKUP (FIREBASE + MYSQL)
     async function checkIDCardInput() {
+        if(!isForeigner && document.getElementById('inp-idcard').value) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard').value.replace(/[^0-9]/g, ''); }
+        
         clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let statusDiv = document.getElementById('idcard-status');
         let btnSave = document.getElementById('btn-save-info');
         if(!localStorage.getItem('sdh_patient_id')) { document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); }
         btnSave.disabled = true;
         
-        if (id.length === 13) { 
+        let isValidID = isForeigner ? id.length >= 6 : id.length === 13;
+
+        if (isValidID) { 
             btnSave.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังตรวจสอบ...';
             if(!localStorage.getItem('sdh_patient_id')) statusDiv.innerHTML = '<span style="color:#f59e0b;"><i class="fas fa-spinner fa-spin"></i> ตรวจสอบข้อมูล...</span>'; 
             
-            // 1. FAST CHECK (Firebase)
-            try {
-                let fastRes = await fetch(FIREBASE_BASE_URL + "patientRegistry/" + id + ".json");
-                let fastUser = await fastRes.json();
-                if(fastUser && !localStorage.getItem('sdh_patient_id')) {
-                    statusDiv.innerHTML = '<span style="color:#2e7d32;">✅ พบข้อมูล (Fast Mode) กำลังเช็คสิทธิ์...</span>';
-                    fillUserDataUI(id, fastUser.fname, fastUser.lname, fastUser.tel);
-                }
+            try { let fastRes = await fetch(FIREBASE_BASE_URL + "patientRegistry/" + id + ".json"); let fastUser = await fastRes.json();
+                if(fastUser && !localStorage.getItem('sdh_patient_id')) { statusDiv.innerHTML = '<span style="color:#2e7d32;">✅ พบข้อมูล (Fast Mode) กำลังเช็คสิทธิ์...</span>'; fillUserDataUI(id, fastUser.fname, fastUser.lname, fastUser.tel); }
             } catch(e) {}
 
-            // 2. FULL CHECK (MySQL)
             typingTimer = setTimeout(async () => { 
                 try {
                     let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) });
-                    let data = await res.json();
-                    btnSave.innerHTML = 'ตรวจสอบข้อมูล'; 
+                    let data = await res.json(); btnSave.innerHTML = 'ตรวจสอบข้อมูล'; 
 
                     if (data.status === 'success') {
                         if (data.user) {
-                            currentUserDB = data.user; 
-                            fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel);
-                            statusDiv.innerHTML = '';
+                            currentUserDB = data.user; fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); statusDiv.innerHTML = '';
+                            document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('name-lock-warning').style.display = 'block';
                         } else {
                             currentUserDB = null; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = '';
-                            document.getElementById('user-details-form').classList.remove('hidden'); statusDiv.innerHTML = '<span style="color:#0288d1;">ผู้ป่วยใหม่ กรุณากรอกข้อมูล</span>';
+                            document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none';
+                            document.getElementById('user-details-form').classList.remove('hidden'); statusDiv.innerHTML = '<span style="color:#0288d1;">ผู้รับบริการใหม่ กรุณากรอกข้อมูล</span>';
                         }
                         
                         if (data.isBanned) {
                             let bHtml = `<div style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem; font-weight:bold;"><i class="fas fa-ban"></i> บัญชีถูกระงับชั่วคราว</span><br><span style="color:#b91c1c; font-size:0.9rem;">เนื่องจากยกเลิกคิวกระชั้นชิด<br>สามารถจองใหม่ได้ตั้งแต่วันที่: <b>${data.banUntil}</b></span></div>`;
                             if(localStorage.getItem('sdh_patient_id')) document.getElementById('existing-user-display').innerHTML += bHtml; else statusDiv.innerHTML += bHtml;
                             btnSave.disabled = true;
-                        } else if (data.nextAllowedDate && new Date(data.nextAllowedDate) > new Date(new Date().setHours(0,0,0,0))) {
+                        } else if (data.nextAllowedDate && new Date(data.nextAllowedDate) > new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}).split(',')[0])) {
                             let wHtml = `<div style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem;"><i class="fas fa-history"></i> ยังไม่ถึงกำหนดรับบริการ</span><br><span style="color:#b91c1c;">สามารถจองครั้งถัดไปได้ในวันที่:<br><b>${data.nextAllowedDate}</b></span></div>`;
                             if(localStorage.getItem('sdh_patient_id')) document.getElementById('existing-user-display').innerHTML += wHtml; else statusDiv.innerHTML += wHtml;
                             btnSave.disabled = true;
@@ -616,19 +664,14 @@
                     }
                 } catch(e) { statusDiv.innerHTML = '<span style="color:red;">ระบบขัดข้อง กรุณากรอกเอง</span>'; document.getElementById('user-details-form').classList.remove('hidden'); btnSave.disabled = false; btnSave.innerHTML = 'ตรวจสอบข้อมูล'; }
             }, 600); 
-        } else { 
-            statusDiv.innerHTML = ''; btnSave.innerHTML = 'ตรวจสอบข้อมูล'; 
-        }
+        } else { statusDiv.innerHTML = ''; btnSave.innerHTML = 'ตรวจสอบข้อมูล'; }
     }
 
     function fillUserDataUI(id, fname, lname, tel) {
-        document.getElementById('inp-fname').value = fname;
-        document.getElementById('inp-lname').value = lname || "";
-        document.getElementById('inp-tel').value = tel;
+        document.getElementById('inp-fname').value = fname; document.getElementById('inp-lname').value = lname || ""; document.getElementById('inp-tel').value = tel;
         document.getElementById('masked-name').innerHTML = `<i class="fas fa-user"></i> ${getMaskedFullName(fname, lname)}`; 
         document.getElementById('masked-tel').innerHTML = `<i class="fas fa-phone"></i> ${getMaskedTel(tel)}`;
-        document.getElementById('existing-user-display').classList.remove('hidden');
-        document.getElementById('user-details-form').classList.add('hidden');
+        document.getElementById('existing-user-display').classList.remove('hidden'); document.getElementById('user-details-form').classList.add('hidden');
         localStorage.setItem('sdh_patient_id', id); localStorage.setItem('sdh_patient_fname', fname); localStorage.setItem('sdh_patient_lname', lname || ""); localStorage.setItem('sdh_patient_tel', tel);
     }
 
@@ -639,7 +682,7 @@
                 if(result.value.replace(/[-\s]/g, "") === currentUserDB.tel.replace(/[-\s]/g, "")) {
                     Swal.fire('สำเร็จ', 'กรุณาระบุเบอร์ใหม่ในช่องด้านล่าง', 'success');
                     document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('user-details-form').classList.remove('hidden');
-                    document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('inp-tel').value = ""; document.getElementById('inp-tel').focus();
+                    document.getElementById('inp-tel').value = ""; document.getElementById('inp-tel').focus();
                 } else { Swal.fire('ผิดพลาด', 'เบอร์โทรเดิมไม่ถูกต้อง', 'error'); }
             }
         });
@@ -647,12 +690,11 @@
 
     function goToSummary() {
       let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value; let l = document.getElementById('inp-lname').value; let tel = document.getElementById('inp-tel').value;
-      if(id.length !== 13 || !f || !tel) return Swal.fire('แจ้งเตือน','กรุณากรอกข้อมูลสำคัญให้ครบถ้วน (ชื่อและเบอร์โทร)','warning');
+      if(!id || !f || !tel) return Swal.fire('แจ้งเตือน','กรุณากรอกข้อมูลสำคัญให้ครบถ้วน (ชื่อและเบอร์โทร)','warning');
       bookingData.idCard = id; bookingData.fname = f; bookingData.lname = l; bookingData.name = f + " " + l; bookingData.tel = tel; bookingData.note = document.getElementById('inp-note').value; bookingData.extraInfo = "";
       
       if (currentApp === 'postpartum') bookingData.extraInfo = `วันคลอด: ${document.getElementById('inp-birth-date').value} (${document.getElementById('inp-delivery-type').value})`; else if (currentApp === 'steam') bookingData.extraInfo = `เพศ: ${document.getElementById('inp-gender').value}`; else { bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = document.getElementById('inp-staff-val').value; bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; }
       
-      // PDPA: Mask name in Summary to prepare for Line Notify Copy
       let mName = getMaskedFullName(f, l);
       let html = `<b><i class="fas fa-user"></i></b> ${mName}<br><b><i class="fas fa-phone"></i></b> ${getMaskedTel(tel)}<br><hr style="border:0;border-top:1px dashed #cbd5e1;margin:10px 0;"><b>บริการ:</b> ${bookingData.service}<br><b>เวลา:</b> ${bookingData.date} [${bookingData.time} น.]`;
       if(currentApp === 'ttm' || currentApp === 'tcm') html += `<br><b>ผู้ให้บริการ:</b> ${bookingData.staff}`;
@@ -666,29 +708,16 @@
     const loadTips = [ { icon: 'fa-clock', title: 'มาก่อนเวลา 15 นาที', text: 'หากไม่มาติดต่อภายในเวลาที่กำหนด<br>ถือว่าท่านสละสิทธิ์' }, { icon: 'fa-id-card', title: 'สิ่งที่ต้องเตรียม', text: '1. บัตรประจำตัวประชาชนตัวจริง<br>2. หน้ากากอนามัย (สวมตลอดเวลา)' }, { icon: 'fa-calendar-times', title: 'เลื่อน/ยกเลิกนัด', text: 'ล่วงหน้าอย่างน้อย 2 วัน<br>หากไม่ปฏิบัติตามแนวทาง<br>ขอสงวนสิทธิ์ไม่รับนัดครั้งถัดไป' } ];
 
     function showPercentageLoader() {
-        document.getElementById('saveLoader').classList.remove('hidden');
-        currentPercent = 0; let tipIdx = 0;
+        document.getElementById('saveLoader').classList.remove('hidden'); currentPercent = 0; let tipIdx = 0;
         const circle = document.getElementById('progress-circle'); const txt = document.getElementById('progress-text');
-        
         document.getElementById('tip-title').innerHTML = `<i class="fas ${loadTips[0].icon}"></i> ${loadTips[0].title}`; document.getElementById('tip-text').innerHTML = loadTips[0].text;
         tipsInterval = setInterval(() => { tipIdx = (tipIdx + 1) % loadTips.length; document.getElementById('tip-title').innerHTML = `<i class="fas ${loadTips[tipIdx].icon}"></i> ${loadTips[tipIdx].title}`; document.getElementById('tip-text').innerHTML = loadTips[tipIdx].text; }, 4000);
-
-        loadInterval = setInterval(() => {
-            currentPercent += (100 / 1200); 
-            if(currentPercent >= 99) currentPercent = 99; 
-            let offset = 326 - (currentPercent / 100) * 326; circle.style.strokeDashoffset = offset; txt.innerText = Math.floor(currentPercent) + "%";
-        }, 100);
+        loadInterval = setInterval(() => { currentPercent += (100 / 1200); if(currentPercent >= 99) currentPercent = 99; let offset = 326 - (currentPercent / 100) * 326; circle.style.strokeDashoffset = offset; txt.innerText = Math.floor(currentPercent) + "%"; }, 100);
     }
-
-    function finishPercentageLoader(callback) {
-        clearInterval(loadInterval); clearInterval(tipsInterval);
-        document.getElementById('progress-circle').style.strokeDashoffset = 0; document.getElementById('progress-text').innerText = "100%";
-        setTimeout(() => { document.getElementById('saveLoader').classList.add('hidden'); if(callback) callback(); }, 500);
-    }
+    function finishPercentageLoader(callback) { clearInterval(loadInterval); clearInterval(tipsInterval); document.getElementById('progress-circle').style.strokeDashoffset = 0; document.getElementById('progress-text').innerText = "100%"; setTimeout(() => { document.getElementById('saveLoader').classList.add('hidden'); if(callback) callback(); }, 500); }
 
     function confirmBooking() {
       document.getElementById('btn-final-confirm').disabled = true; showPercentageLoader();
-      
       let payload = { appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, fname: bookingData.fname, lname: bookingData.lname, tel: bookingData.tel, service: bookingData.service, note: bookingData.note, time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, is2Hr: bookingData.is2Hr };
       if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: bookingData.fname, tel: bookingData.tel}]; }
       
@@ -696,7 +725,6 @@
           finishPercentageLoader(() => {
               if(res.status === 'success') { 
                   localStorage.setItem('sdh_patient_id', bookingData.idCard); localStorage.setItem('sdh_patient_fname', bookingData.fname); localStorage.setItem('sdh_patient_lname', bookingData.lname);
-                  
                   Swal.fire({ title: 'จองคิวสำเร็จ!', html: '<p>กรุณากดปุ่มด้านล่างเพื่อรับการยืนยันทาง LINE</p>', icon: 'success', confirmButtonText: '<i class="fab fa-line"></i> ส่งข้อมูลเข้า LINE', confirmButtonColor: '#00c300', allowOutsideClick: false }).then((r) => {
                       if(r.isConfirmed) {
                           let mName = getMaskedFullName(bookingData.fname, bookingData.lname);
@@ -705,7 +733,6 @@
                           window.location.href = `https://line.me/R/oaMessage/@649dqeft/?${encodeURIComponent(msg)}`;
                       }
                   });
-
                   closeModal(); fetchPatientHistory(bookingData.idCard); document.getElementById('patient-card').style.display = 'block'; document.getElementById('pc-name-display').innerText = getMaskedFullName(bookingData.fname, bookingData.lname);
                   fetchData(true); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:currentApp})}); 
               }
@@ -714,9 +741,7 @@
                   document.getElementById('duplicate-msg').innerHTML = dupMsg; closeModal(); document.getElementById('duplicateModal').classList.add('show'); document.getElementById('btn-final-confirm').disabled = false; fetchData(true);
               } else { Swal.fire('เกิดข้อผิดพลาด', res.message || 'คิวไม่ว่างแล้ว', 'error'); document.getElementById('btn-final-confirm').disabled = false; fetchData(true); }
           });
-      }).catch(e=>{ 
-          finishPercentageLoader(() => { Swal.fire('ล้มเหลว', 'การเชื่อมต่อมีปัญหา กรุณาลองใหม่', 'error'); document.getElementById('btn-final-confirm').disabled = false; });
-      });
+      }).catch(e=>{ finishPercentageLoader(() => { Swal.fire('ล้มเหลว', 'การเชื่อมต่อมีปัญหา กรุณาลองใหม่', 'error'); document.getElementById('btn-final-confirm').disabled = false; }); });
     }
 
     function closeModal() { document.getElementById('bookingModal').classList.remove('show'); }
@@ -726,49 +751,24 @@
     // 🛡️ FULL ADMIN CONTROL CENTER
     // ==========================================
     let logoTaps = 0; let tapTimer;
-    
-    // 🌟 แก้ไขให้รับรหัสผ่านผ่าน Swal แทน prompt (รองรับมือถือ 100%)
     function handleAdminTap() {
-        logoTaps++; 
-        clearTimeout(tapTimer); 
-        tapTimer = setTimeout(() => { logoTaps = 0; }, 2000); 
-        
+        logoTaps++; clearTimeout(tapTimer); tapTimer = setTimeout(() => { logoTaps = 0; }, 2000); 
         if (logoTaps >= 7) {
             logoTaps = 0; 
-            Swal.fire({
-                title: '🛡️ Restricted Access',
-                input: 'password',
-                inputLabel: 'กรุณากรอกรหัสผ่านผู้ดูแลระบบ',
-                inputPlaceholder: 'Admin Code',
-                showCancelButton: true,
-                confirmButtonText: 'เข้าสู่ระบบ',
-                cancelButtonText: 'ปิด',
-                confirmButtonColor: '#2e7d32'
-            }).then((result) => {
-                if (result.value === "11395") { 
-                    document.getElementById('adminModal').classList.add('show'); 
-                    loadAdminLogs(); 
-                } else if (result.value) { 
-                    Swal.fire('ปฏิเสธการเข้าถึง', 'รหัสผ่านไม่ถูกต้อง', 'error'); 
-                }
-            });
+            Swal.fire({ title: '🛡️ Restricted Access', input: 'password', inputLabel: 'กรุณากรอกรหัสผ่านผู้ดูแลระบบ', inputPlaceholder: 'Admin Code', showCancelButton: true, confirmButtonText: 'เข้าสู่ระบบ', cancelButtonText: 'ปิด', confirmButtonColor: '#2e7d32'
+            }).then((result) => { if (result.value === "11395") { document.getElementById('adminModal').classList.add('show'); loadAdminLogs(); } else if (result.value) { Swal.fire('ปฏิเสธการเข้าถึง', 'รหัสผ่านไม่ถูกต้อง', 'error'); } });
         }
     }
 
     function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active')); event.currentTarget.classList.add('active'); document.getElementById(tabId).classList.add('active'); }
 
     async function adminSearch() {
-        let q = document.getElementById('adminSearchInp').value;
-        if(!q) return Swal.fire('แจ้งเตือน','กรุณากรอกคำค้นหา','info');
-        let resArea = document.getElementById('adminSearchResult');
-        resArea.innerHTML = "<tr><td colspan='2' style='text-align:center;'><i class='fas fa-spinner fa-spin'></i> กำลังค้นหา...</td></tr>";
-        
-        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) });
-        let data = await res.json();
+        let q = document.getElementById('adminSearchInp').value; if(!q) return Swal.fire('แจ้งเตือน','กรุณากรอกคำค้นหา','info');
+        let resArea = document.getElementById('adminSearchResult'); resArea.innerHTML = "<tr><td colspan='2' style='text-align:center;'><i class='fas fa-spinner fa-spin'></i> กำลังค้นหา...</td></tr>";
+        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) }); let data = await res.json();
         
         if(data.status === 'success') {
-            let html = '';
-            if(data.data.length === 0) { resArea.innerHTML = "<tr><td colspan='2' style='text-align:center; color:red;'>ไม่พบข้อมูล</td></tr>"; return; }
+            let html = ''; if(data.data.length === 0) { resArea.innerHTML = "<tr><td colspan='2' style='text-align:center; color:red;'>ไม่พบข้อมูล</td></tr>"; return; }
             data.data.forEach(u => {
                 let plansHtml = ''; 
                 if(u.plans.length > 0) { u.plans.forEach(p => { 
@@ -777,101 +777,51 @@
                 }); }
 
                 html += `<tr>
-                    <td>
-                        <div style="font-weight:700; color:var(--primary-dark); font-size:1.05rem;">${u.fname} ${u.lname||''}</div>
-                        <div style="font-family:monospace; color:#64748b;">${u.idCard}</div>
-                        <div style="font-size:0.8rem; color:#64748b;">📞 ${u.tel}</div>
-                        <div style="margin-top:5px;">${plansHtml}</div>
-                    </td>
-                    <td style="text-align:right; vertical-align:top;">
-                        <button class="btn-icon btn-edit" title="แก้ไขข้อมูล" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button>
-                        <button class="btn-icon btn-plan" title="ตั้งค่าวันนัด" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button>
-                        <button class="btn-icon btn-delete" title="ลบข้อมูล" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button>
-                    </td>
+                    <td><div style="font-weight:700; color:var(--primary-dark); font-size:1.05rem;">${u.fname} ${u.lname||''}</div><div style="font-family:monospace; color:#64748b;">${u.idCard}</div><div style="font-size:0.8rem; color:#64748b;">📞 ${u.tel}</div><div style="margin-top:5px;">${plansHtml}</div></td>
+                    <td style="text-align:right; vertical-align:top;"><button class="btn-icon btn-edit" title="แก้ไขข้อมูล" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-plan" title="ตั้งค่าวันนัด" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button><button class="btn-icon btn-delete" title="ลบข้อมูล" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>`;
-            });
-            resArea.innerHTML = html;
+            }); resArea.innerHTML = html;
         }
     }
 
     function openAddPatientModal() {
-        Swal.fire({
-            title: 'ลงทะเบียนคนไข้ใหม่',
-            html: `
-                <div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">เลขบัตรประชาชน (13 หลัก) *</div><input id="swal-id" class="form-control" style="margin-bottom:10px;" maxlength="13" type="tel">
-                <div style="display:flex; gap:10px;"><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">ชื่อจริง *</div><input id="swal-fname" class="form-control" style="margin-bottom:10px;"></div><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">นามสกุล</div><input id="swal-lname" class="form-control" style="margin-bottom:10px;"></div></div>
-                <div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">เบอร์โทรศัพท์ *</div><input id="swal-tel" class="form-control" maxlength="10" type="tel">
-            `,
-            showCancelButton: true, confirmButtonText: 'บันทึกข้อมูล', confirmButtonColor: '#10b981', cancelButtonText: 'ยกเลิก',
-            preConfirm: () => { return { idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-fname').value, lname: document.getElementById('swal-lname').value, tel: document.getElementById('swal-tel').value } }
-        }).then((res) => { if(res.isConfirmed) savePatientData(res.value); });
+        Swal.fire({ title: 'ลงทะเบียนคนไข้ใหม่', html: `<div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">ID/Passport (ยาวสุด 20 หลัก) *</div><input id="swal-id" class="form-control" style="margin-bottom:10px;" maxlength="20"><div style="display:flex; gap:10px;"><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">ชื่อจริง *</div><input id="swal-fname" class="form-control" style="margin-bottom:10px;"></div><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">นามสกุล</div><input id="swal-lname" class="form-control" style="margin-bottom:10px;"></div></div><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">เบอร์โทรศัพท์ *</div><input id="swal-tel" class="form-control" maxlength="10" type="tel">`, showCancelButton: true, confirmButtonText: 'บันทึกข้อมูล', confirmButtonColor: '#10b981', cancelButtonText: 'ยกเลิก', preConfirm: () => { return { idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-fname').value, lname: document.getElementById('swal-lname').value, tel: document.getElementById('swal-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); });
     }
 
     function editPatientUI(id, f, l, t) {
-        Swal.fire({
-            title: 'แก้ไขข้อมูลคนไข้',
-            html: `
-                <div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px; color:#ef4444;">เลขบัตรประชาชน (แก้ไขได้)</div><input id="swal-id" class="form-control" style="margin-bottom:10px; border-color:#fca5a5;" value="${id}" maxlength="13" type="tel">
-                <div style="display:flex; gap:10px;"><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">ชื่อจริง *</div><input id="swal-fname" class="form-control" style="margin-bottom:10px;" value="${f}"></div><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">นามสกุล</div><input id="swal-lname" class="form-control" style="margin-bottom:10px;" value="${l}"></div></div>
-                <div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">เบอร์โทรศัพท์ *</div><input id="swal-tel" class="form-control" value="${t}" maxlength="10" type="tel">
-            `,
-            showCancelButton: true, confirmButtonText: 'อัปเดตข้อมูล', confirmButtonColor: '#0ea5e9', cancelButtonText: 'ยกเลิก',
-            preConfirm: () => { return { oldId: id, idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-fname').value, lname: document.getElementById('swal-lname').value, tel: document.getElementById('swal-tel').value } }
-        }).then((res) => { if(res.isConfirmed) savePatientData(res.value); });
+        Swal.fire({ title: 'แก้ไขข้อมูลคนไข้', html: `<div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px; color:#ef4444;">ID/Passport (แก้ไขได้)</div><input id="swal-id" class="form-control" style="margin-bottom:10px; border-color:#fca5a5;" value="${id}" maxlength="20"><div style="display:flex; gap:10px;"><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">ชื่อจริง *</div><input id="swal-fname" class="form-control" style="margin-bottom:10px;" value="${f}"></div><div style="flex:1;"><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">นามสกุล</div><input id="swal-lname" class="form-control" style="margin-bottom:10px;" value="${l}"></div></div><div style="text-align:left; font-size:0.85rem; font-weight:700; margin-bottom:5px;">เบอร์โทรศัพท์ *</div><input id="swal-tel" class="form-control" value="${t}" maxlength="10" type="tel">`, showCancelButton: true, confirmButtonText: 'อัปเดตข้อมูล', confirmButtonColor: '#0ea5e9', cancelButtonText: 'ยกเลิก', preConfirm: () => { return { oldId: id, idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-fname').value, lname: document.getElementById('swal-lname').value, tel: document.getElementById('swal-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); });
     }
 
     async function savePatientData(payload) {
         if(!payload.idCard || !payload.fname || !payload.tel) return Swal.fire('ผิดพลาด','กรุณากรอกข้อมูลสำคัญ (ID, ชื่อ, เบอร์) ให้ครบ','error');
         Swal.fire({title:'กำลังบันทึก...', allowOutsideClick:false, didOpen:()=>Swal.showLoading()});
-        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_patient', pass: '11395', payload: payload }) });
-        let data = await res.json();
-        if(data.status === 'success') { Swal.fire('สำเร็จ!','บันทึกข้อมูลเรียบร้อย','success'); document.getElementById('adminSearchInp').value = payload.idCard; adminSearch(); }
-        else { Swal.fire('ล้มเหลว', data.message, 'error'); }
+        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_patient', pass: '11395', payload: payload }) }); let data = await res.json();
+        if(data.status === 'success') { Swal.fire('สำเร็จ!','บันทึกข้อมูลเรียบร้อย','success'); document.getElementById('adminSearchInp').value = payload.idCard; adminSearch(); } else { Swal.fire('ล้มเหลว', data.message, 'error'); }
     }
 
-    function deletePatientConfirm(id) {
-        Swal.fire({ title: 'ยืนยันการลบ?', text: "ประวัติและข้อมูลทั้งหมดของคนไข้รหัสนี้จะถูกลบถาวร!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'ใช่, ลบเลย', cancelButtonText: 'ยกเลิก'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_delete_patient', pass: '11395', idCard: id }) });
-                let data = await res.json();
-                if(data.status === 'success') { Swal.fire('ลบแล้ว!','ลบข้อมูลเรียบร้อย','success'); adminSearch(); }
-            }
-        });
-    }
+    function deletePatientConfirm(id) { Swal.fire({ title: 'ยืนยันการลบ?', text: "ประวัติและข้อมูลทั้งหมดของคนไข้รหัสนี้จะถูกลบถาวร!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'ใช่, ลบเลย', cancelButtonText: 'ยกเลิก' }).then(async (result) => { if (result.isConfirmed) { let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_delete_patient', pass: '11395', idCard: id }) }); let data = await res.json(); if(data.status === 'success') { Swal.fire('ลบแล้ว!','ลบข้อมูลเรียบร้อย','success'); adminSearch(); } } }); }
 
-    function openPlanModal(id) {
-        Swal.fire({
-            title: 'ตั้งค่าวันนัด / แบน',
-            html: `
-                <select id="swal-svc" class="form-control" style="margin-bottom:10px;"><option value="ttm">แผนไทย</option><option value="tcm">แผนจีน</option><option value="steam">อบไอน้ำ</option><option value="postpartum">หลังคลอด</option><option value="BANNED">ระงับการจอง (แบน)</option></select>
-                <input type="number" id="swal-days" class="form-control" placeholder="จำนวนวันนับจากวันนี้">
-            `,
-            showCancelButton: true, confirmButtonText: 'บันทึก',
-            preConfirm: () => { adminManagePlan(id, document.getElementById('swal-svc').value, document.getElementById('swal-days').value); }
-        });
-    }
+    function openPlanModal(id) { Swal.fire({ title: 'ตั้งค่าวันนัด / แบน', html: `<select id="swal-svc" class="form-control" style="margin-bottom:10px;"><option value="ttm">แผนไทย</option><option value="tcm">แผนจีน</option><option value="steam">อบไอน้ำ</option><option value="postpartum">หลังคลอด</option><option value="BANNED">ระงับการจอง (แบน)</option></select><input type="number" id="swal-days" class="form-control" placeholder="จำนวนวันนับจากวันนี้">`, showCancelButton: true, confirmButtonText: 'บันทึก', preConfirm: () => { adminManagePlan(id, document.getElementById('swal-svc').value, document.getElementById('swal-days').value); } }); }
 
-    async function adminManagePlan(id, svc, days) {
-        if(days !== "CLEAR" && !days) return Swal.fire('ผิดพลาด','กรุณาระบุจำนวนวัน','error');
-        let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_plan', pass: '11395', idCard: id, service: svc, days: days }) });
-        let data = await res.json();
-        if(data.status === 'success') { Swal.fire('สำเร็จ','อัปเดต Plan เรียบร้อย','success'); adminSearch(); }
-    }
+    async function adminManagePlan(id, svc, days) { if(days !== "CLEAR" && !days) return Swal.fire('ผิดพลาด','กรุณาระบุจำนวนวัน','error'); let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_plan', pass: '11395', idCard: id, service: svc, days: days }) }); let data = await res.json(); if(data.status === 'success') { Swal.fire('สำเร็จ','อัปเดต Plan เรียบร้อย','success'); adminSearch(); } }
 
-    async function loadAdminLogs() {
-        let area = document.getElementById('adminLogsArea'); area.innerHTML = "<tr><td colspan='3' style='text-align:center;'>กำลังโหลด...</td></tr>";
-        let res = await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_get_logs', pass:'11395'})});
-        let data = await res.json();
-        if(data.status==='success') {
-            let html = '';
-            data.data.forEach(l => {
-                let c = l.status.includes('ยกเลิก') ? '#ef4444' : '#10b981';
-                html += `<tr><td><div style="font-size:0.75rem; color:#64748b;">${l.createdAt}</div></td><td><b>${l.name}</b><br><span style="font-size:0.75rem;">${l.service}</span></td><td><div style="font-weight:700; color:#1e293b;">${l.bookFor} น.</div><div style="font-size:0.7rem; color:${c}; font-weight:700;">${l.status}</div></td></tr>`;
-            });
-            area.innerHTML = html;
-        }
+    async function loadAdminLogs() { let area = document.getElementById('adminLogsArea'); area.innerHTML = "<tr><td colspan='3' style='text-align:center;'>กำลังโหลด...</td></tr>"; let res = await fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'admin_get_logs', pass:'11395'})}); let data = await res.json(); if(data.status==='success') { let html = ''; data.data.forEach(l => { let c = l.status.includes('ยกเลิก') ? '#ef4444' : '#10b981'; html += `<tr><td><div style="font-size:0.75rem; color:#64748b;">${l.createdAt}</div></td><td><b>${l.name}</b><br><span style="font-size:0.75rem;">${l.service}</span></td><td><div style="font-weight:700; color:#1e293b;">${l.bookFor} น.</div><div style="font-size:0.7rem; color:${c}; font-weight:700;">${l.status}</div></td></tr>`; }); area.innerHTML = html; } }
+
+    // --- CSV UPLOAD LOGIC ---
+    function updateAdminFileUI(input) { if(input.files.length > 0) { document.getElementById('adminFileName').innerText = input.files[0].name; document.getElementById('adminFileName').style.color = "var(--primary)"; document.getElementById('btnAdminUpload').disabled = false; } }
+    function processAdminUpload() {
+        const fileInp = document.getElementById('adminFileInput'); const status = document.getElementById('admin-upload-status'); const btn = document.getElementById('btnAdminUpload');
+        if(fileInp.files.length === 0) return Swal.fire('แจ้งเตือน', 'กรุณาเลือกไฟล์ก่อนครับ', 'warning');
+        const reader = new FileReader(); status.innerHTML = '<span style="color:#f59e0b;"><i class="fas fa-spinner fa-spin"></i> กำลังอ่านไฟล์...</span>'; btn.disabled = true;
+        reader.onload = async function(e) {
+            const rows = e.target.result.split('\n').slice(1); const payload = [];
+            rows.forEach(row => { const cols = row.split(','); if(cols.length >= 4) { payload.push({ visitDate: cols[0].trim(), idCard: cols[1].trim(), service: cols[2].trim(), planDays: cols[3].trim() }); } });
+            if(payload.length === 0) { status.innerHTML = '<span style="color:red;">❌ ไม่พบข้อมูลในไฟล์</span>'; btn.disabled = false; return; }
+            status.innerHTML = `<span style="color:#0288d1;"><i class="fas fa-cloud-upload-alt"></i> ส่ง ${payload.length} รายการ เข้าระบบ...</span>`;
+            try { const response = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_batch_upload', pass: '11395', payload: payload }) }); const resData = await response.json(); if(resData.status === 'success') { status.innerHTML = `<span style="color:green;">✅ อัปเดตข้อมูล ${resData.count} รายการ สำเร็จ</span>`; fileInp.value = ''; document.getElementById('adminFileName').innerText = "แตะเพื่อเลือกไฟล์ใหม่"; } else { status.innerHTML = `<span style="color:red;">❌ ผิดพลาด: ${resData.message}</span>`; } } catch (err) { status.innerHTML = `<span style="color:red;">❌ การเชื่อมต่อล้มเหลว</span>`; } btn.disabled = false;
+        }; reader.readAsText(fileInp.files[0]);
     }
+    function forceSyncSystem(btn) { Swal.fire({ title: 'ยืนยันการซิงค์', text: "บังคับซิงค์ข้อมูลจาก Sheets ไปยัง Firebase ทันที?", icon: 'warning', showCancelButton: true, confirmButtonText: 'ยืนยัน', cancelButtonText: 'ยกเลิก' }).then((result) => { if (result.isConfirmed) { const orgHtml = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังซิงค์...'; btn.disabled = true; fetch(API_ENDPOINT + "?action=syncFirebase", { method: 'GET' }).then(r => r.json()).then(res => { if(res.status === 'success') Swal.fire('สำเร็จ', 'ซิงค์ข้อมูลลงระบบ Real-time สำเร็จ!', 'success'); else Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการซิงค์', 'error'); btn.innerHTML = orgHtml; btn.disabled = false; }).catch(e => { Swal.fire('ล้มเหลว', 'การเชื่อมต่อล้มเหลว', 'error'); btn.innerHTML = orgHtml; btn.disabled = false; }); } }); }
   </script>
 </body>
 </html>
