@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>จองคิวออนไลน์ รพ.สะเดา V36.1</title>
+  <title>จองคิวออนไลน์ รพ.สะเดา V36.2</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2e7d32">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -78,7 +78,7 @@
     .badge-2hr { background: #f59e0b; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
     .gender-tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; } .male-tag { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; } .female-tag { background: #fce7f3; color: #be185d; border: 1px solid #fbcfe8; }
 
-    /* 🌟 LOADING SCREEN */
+    /* 🌟 PERCENTAGE LOADING SCREEN */
     .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; backdrop-filter: blur(10px); }
     .loading-screen.hidden { opacity: 0; pointer-events: none; }
     .circle-wrap { position: relative; width: 120px; height: 120px; margin-bottom: 20px; }
@@ -253,7 +253,7 @@
               <div id="tab-system" class="admin-panel">
                   <div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; margin-bottom:15px;">
                       <h4 style="margin:0 0 10px 0;"><i class="fas fa-file-csv" style="color:#0ea5e9;"></i> อัปโหลดแผนการรักษา (CSV)</h4>
-                      <p style="font-size:0.8rem; color:#64748b;">ไฟล์ต้องมี 4 คอลัมน์ เรียงตามลำดับดังนี้:<br><code>visitDate, idCard, service, planDays</code><br>(เช่น: 10/03/2026, 1234567890123, ttm, 5)</p>
+                      <p style="font-size:0.8rem; color:#64748b;">ไฟล์ต้องมี 4 คอลัมน์ เรียงตามลำดับดังนี้:<br><code>visitDate, idCard, service, planDays</code><br>(เช่น: 10/03/2026, 1909700094766, ttm, 5)</p>
                       
                       <div style="border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 12px; background: #f8fafc; cursor: pointer; margin-bottom: 10px;" onclick="document.getElementById('adminFileInput').click()">
                           <i class="fas fa-cloud-upload-alt" style="font-size:2rem; color:var(--primary); margin-bottom:10px;"></i>
@@ -566,10 +566,31 @@
     function renderSlots(index) {
         let day = globalData[index]; let container = document.getElementById('contentArea');
         if (!day || !day.slots || day.slots.length === 0) { container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-calendar-times" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">ไม่มีรอบว่างในวันนี้</h3></div>`; return; }
+        
+        // 🌟 แก้บัค: กรองเวลาที่ผ่านไปแล้วออกด้วย Frontend ทันที
+        let now = new Date();
+        let currentMins = now.getHours() * 60 + now.getMinutes();
+        let todaySysDate = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
+        let isToday = (day.sysDate === todaySysDate);
+
+        let validSlots = [];
+        day.slots.forEach(slot => {
+            if (isToday) {
+                let tP = slot.time.split(":");
+                let sM = parseInt(tP[0]) * 60 + parseInt(tP[1]);
+                if (sM <= currentMins) return; // ข้ามรอบที่เวลาผ่านไปแล้ว
+            }
+            validSlots.push(slot);
+        });
+
+        if(validSlots.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-clock" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">รอบบริการวันนี้ผ่านไปหมดแล้ว</h3></div>`; return;
+        }
+
         let html = `<div class="selected-date-header"><span class="header-bar"></span>${day.fullLabel}</div><div class="grid-container">`;
         let deptIcon = '<i class="fas fa-calendar-check"></i>'; if (currentApp === 'ttm') deptIcon = '<i class="fas fa-leaf"></i>'; else if (currentApp === 'tcm') deptIcon = '<i class="fas fa-yin-yang"></i>'; else if (currentApp === 'postpartum') deptIcon = '<i class="fas fa-hands-holding-child"></i>'; else if (currentApp === 'steam') deptIcon = '<i class="fas fa-hot-tub-person"></i>';
 
-        day.slots.forEach((slot, i) => {
+        validSlots.forEach((slot, i) => {
             let isFull = slot.val.includes('เต็ม') || slot.val.includes('งด'); let count = slot.count || 0; let slotGender = slot.gender || ""; let gClass = "";
             if (currentApp === 'tcm') gClass = "theme-tcm"; if (currentApp === 'postpartum') gClass = "theme-postpartum";
             if (currentApp === 'steam' && slotGender !== "" && !isFull) { if (slotGender === "ชาย" || slotGender === "ช") gClass = "slot-male"; else if (slotGender === "หญิง" || slotGender === "ญ") gClass = "slot-female"; }
@@ -668,10 +689,13 @@
     }
 
     function fillUserDataUI(id, fname, lname, tel) {
-        document.getElementById('inp-fname').value = fname; document.getElementById('inp-lname').value = lname || ""; document.getElementById('inp-tel').value = tel;
+        document.getElementById('inp-fname').value = fname;
+        document.getElementById('inp-lname').value = lname || "";
+        document.getElementById('inp-tel').value = tel;
         document.getElementById('masked-name').innerHTML = `<i class="fas fa-user"></i> ${getMaskedFullName(fname, lname)}`; 
         document.getElementById('masked-tel').innerHTML = `<i class="fas fa-phone"></i> ${getMaskedTel(tel)}`;
-        document.getElementById('existing-user-display').classList.remove('hidden'); document.getElementById('user-details-form').classList.add('hidden');
+        document.getElementById('existing-user-display').classList.remove('hidden');
+        document.getElementById('user-details-form').classList.add('hidden');
         localStorage.setItem('sdh_patient_id', id); localStorage.setItem('sdh_patient_fname', fname); localStorage.setItem('sdh_patient_lname', lname || ""); localStorage.setItem('sdh_patient_tel', tel);
     }
 
@@ -689,9 +713,9 @@
     }
 
     function goToSummary() {
-      let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value; let l = document.getElementById('inp-lname').value; let tel = document.getElementById('inp-tel').value;
+      let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value.trim(); let l = document.getElementById('inp-lname').value.trim(); let tel = document.getElementById('inp-tel').value;
       if(!id || !f || !tel) return Swal.fire('แจ้งเตือน','กรุณากรอกข้อมูลสำคัญให้ครบถ้วน (ชื่อและเบอร์โทร)','warning');
-      bookingData.idCard = id; bookingData.fname = f; bookingData.lname = l; bookingData.name = f + " " + l; bookingData.tel = tel; bookingData.note = document.getElementById('inp-note').value; bookingData.extraInfo = "";
+      bookingData.idCard = id; bookingData.fname = f; bookingData.lname = l; bookingData.tel = tel; bookingData.note = document.getElementById('inp-note').value; bookingData.extraInfo = "";
       
       if (currentApp === 'postpartum') bookingData.extraInfo = `วันคลอด: ${document.getElementById('inp-birth-date').value} (${document.getElementById('inp-delivery-type').value})`; else if (currentApp === 'steam') bookingData.extraInfo = `เพศ: ${document.getElementById('inp-gender').value}`; else { bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = document.getElementById('inp-staff-val').value; bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; }
       
@@ -718,8 +742,10 @@
 
     function confirmBooking() {
       document.getElementById('btn-final-confirm').disabled = true; showPercentageLoader();
-      let payload = { appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, fname: bookingData.fname, lname: bookingData.lname, tel: bookingData.tel, service: bookingData.service, note: bookingData.note, time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, is2Hr: bookingData.is2Hr };
-      if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: bookingData.fname, tel: bookingData.tel}]; }
+      let fNameCombined = (bookingData.fname + " " + (bookingData.lname || "")).trim();
+      let payload = { appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, fname: bookingData.fname, lname: bookingData.lname, fullName: fNameCombined, tel: bookingData.tel, service: bookingData.service, note: bookingData.note, time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, is2Hr: bookingData.is2Hr };
+      
+      if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: fNameCombined, tel: bookingData.tel}]; }
       
       fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(r=>r.json()).then(res => {
           finishPercentageLoader(() => {
