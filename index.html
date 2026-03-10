@@ -332,7 +332,7 @@
 
         <div class="form-group" id="group-note" style="margin-top:15px;">
           <label class="form-label" id="t-note">หมายเหตุ (ถ้ามี)</label>
-          <input type="text" id="inp-note" class="form-control" placeholder="ระบุโรคประจำตัว / อาการปวด">
+          <input type="text" id="inp-note" class="form-control" placeholder="มีไข้/ กระดูกแตกหัก / ประจำเดือน">
         </div>
 
         <div class="btn-group">
@@ -451,7 +451,7 @@
         let btnSave = document.getElementById('btn-save-info'); if(!btnSave.disabled) btnSave.innerText = _t('btn_check');
         document.getElementById('inp-fname').placeholder = currentLang === 'en' ? "First Name" : "ชื่อ";
         document.getElementById('inp-lname').placeholder = currentLang === 'en' ? "Last Name" : "นามสกุล";
-        document.getElementById('inp-note').placeholder = currentLang === 'en' ? "Symptoms / Requests" : "ระบุโรคประจำตัว / อาการปวด";
+        document.getElementById('inp-note').placeholder = currentLang === 'en' ? "Symptoms / Requests" : "มีไข้/ กระดูกแตกหัก / ประจำเดือน";
         
         if(currentApp) { document.getElementById('app-title').innerText = _t('app_' + currentApp); }
         toggleForeignerMode();
