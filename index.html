@@ -995,19 +995,31 @@
         let orig = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังซิงค์ข้อมูล...'; btn.disabled = true; 
         fetch(API_ENDPOINT + "?action=syncFirebase").then(()=>{ Swal.fire('Success', 'ซิงค์ข้อมูลสำเร็จ', 'success'); btn.innerHTML = orig; btn.disabled = false; }).catch(e=>{ Swal.fire('Error', 'เชื่อมต่อล้มเหลว', 'error'); btn.innerHTML = orig; btn.disabled = false; }); 
     }
-    // 🔥 ฟังก์ชันสำหรับกดขยายภาพประกาศ (Lightbox) 🔥
+    // 🔥 ฟังก์ชันสำหรับกดขยายภาพประกาศ (รองรับการกางนิ้วซูม Pinch-to-Zoom) 🔥
     function viewFullImage() {
+        // 1. ปลดล็อกระบบซูมของมือถือชั่วคราว ให้กางนิ้วซูมได้สูงสุด 5 เท่า
+        let metaViewport = document.querySelector('meta[name=viewport]');
+        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+
         Swal.fire({
             imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png',
             imageAlt: 'ประกาศสำคัญ',
-            width: '95%', // ให้ภาพขยายเกือบเต็มจอมือถือ
-            padding: '10px',
-            showConfirmButton: false, // ซ่อนปุ่ม OK
-            showCloseButton: true, // โชว์ปุ่มกากบาท (X) มุมขวาบน
-            backdrop: 'rgba(0,0,0,0.9)', // ฉากหลังสีดำทึบ 90% ดูล้ำๆ
+            width: '100%', 
+            background: 'transparent', // ให้พื้นหลังป๊อปอัปใส โชว์แต่รูป
+            padding: '0',
+            showConfirmButton: false, 
+            showCloseButton: true, 
+            backdrop: 'rgba(0,0,0,0.95)', // ฉากหลังสีดำทึบ 95% ดูพรีเมียม
             didOpen: () => {
-                // บังคับให้ป๊อปอัปขยายภาพ อยู่หน้าสุด (ซ้อนทับ Modal ประกาศเดิม)
                 document.querySelector('.swal2-container').style.zIndex = '20000';
+                let img = document.querySelector('.swal2-image');
+                img.style.margin = '0 auto';
+                img.style.objectFit = 'contain';
+                img.style.maxHeight = '85vh'; // กันรูปยาวทะลุจอมือถือ
+            },
+            willClose: () => {
+                // 2. เมื่อกดปิดภาพ ให้บังคับหน้าจอกลับมาขนาดปกติ และล็อกการซูม (UI แอปจะได้ไม่พัง)
+                metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
             }
         });
     }
