@@ -592,8 +592,7 @@
         if(!str) return ""; 
         let s = str.toString().trim(); 
         if(s.length <= 2) return s.substring(0, 1) + "***"; 
-        if(s.length <= 4) return s.substring(0, 2) + "***"; 
-        return s.substring(0, 3) + "***"; 
+        return s.substring(0, 2) + "***"; 
     }
     function getMaskedFullName(fname, lname) { return maskString(fname) + " " + maskString(lname); }
     function getMaskedTel(tel) { if(!tel || tel.length < 10) return tel; return tel.substring(0,3) + "-xxx-x" + tel.substring(8); }
