@@ -490,7 +490,7 @@
         } catch(e) { console.error("Language UI Error:", e); }
     }
 
-    const SERVICE_PRICES = { ttm: { "นวดและประคบเพื่อการรักษา": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป" }, tcm: { "ฝังเข็มเพื่อการรักษา": "สิทธิข้าราชการเบิกได้ / อื่นๆ 150-200บ.", "ครอบแก้ว": "150 บาท", "ฝังเข็มใบหน้า": "300 บาท", "เม็ดผักกาดแปะหู": "50 บาท", "ปรึกษาแพทย์แผนจีน": "ฟรี" } };
+    const SERVICE_PRICES = { ttm: { "นวดและประคบเพื่อการรักษา": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป" }, tcm: { "ฝังเข็มเพื่อการรักษา": "สิทธิเบิกได้ / อื่นๆ 150-200บ.", "ครอบแก้ว": "150 บาท", "ฝังเข็มใบหน้า": "300 บาท", "เม็ดผักกาดแปะหู": "50 บาท", "ปรึกษาแพทย์แผนจีน": "ฟรี" } };
     const SERVICE_PRICES_EN = { ttm: { "นวดและประคบเพื่อการรักษา": "Fee calculated in next step", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step" }, tcm: { "ฝังเข็มเพื่อการรักษา": "200 THB", "ครอบแก้ว": "150 THB", "ฝังเข็มใบหน้า": "300 THB", "เม็ดผักกาดแปะหู": "50 THB", "ปรึกษาแพทย์แผนจีน": "Free" } };
     const APP_CONFIG = { ttm: { title: "แพทย์แผนไทย", logo: "https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png", color: "#2e7d32" }, tcm: { title: "แพทย์แผนจีน", logo: "https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png", color: "#c62828" }, postpartum: { title: "บริการหลังคลอด", logo: "https://img2.pic.in.th/pic/eb06897c542c79b64690c8e794fa84a4.png", color: "#ec4899" }, steam: { title: "อบไอน้ำสมุนไพร", logo: "https://img2.pic.in.th/pic/-3b445847427fcbfd.png", color: "#0288d1" } };
     const SERVICE_OPTIONS = { ttm: ["นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)"], tcm: ["ฝังเข็มเพื่อการรักษา", "ครอบแก้ว", "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน"] };
@@ -916,7 +916,7 @@
                         <i class="fas fa-id-card" style="color:#f59e0b;"></i> สิทธิบัตรทอง (UC)
                     </div>
                     <div class="right-option" onclick="selectRight('2')" id="opt-right-2">
-                        <i class="fas fa-id-badge" style="color:#3b82f6;"></i> สิทธิเบิกตรงข้าราชการ/รัฐวิสาหกิจ
+                        <i class="fas fa-id-badge" style="color:#3b82f6;"></i> สิทธิเบิกตรงข้าราชการ
                     </div>
                     <div class="right-option" onclick="selectRight('3')" id="opt-right-3">
                         <i class="fas fa-wallet" style="color:#10b981;"></i> สิทธิประกันสังคม/ชำระเงินเอง
@@ -953,7 +953,7 @@
         if (currentApp === 'ttm' && ttmRight) {
             let breakdownLines = []; let total = 0; let rightName = "";
             if (ttmRight === '1') rightName = "สิทธิบัตรทอง (UC)";
-            if (ttmRight === '2') rightName = "สิทธิเบิกตรงข้าราชการ/รัฐวิสาหกิจ";
+            if (ttmRight === '2') rightName = "สิทธิเบิกตรงข้าราชการ";
             if (ttmRight === '3') rightName = "สิทธิประกันสังคม/ชำระเงินเอง";
 
             let baseFee = 0;
