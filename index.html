@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
   <title>Sadao Hospital Queue</title>
   <link rel="icon" type="image/png" href="https://img2.pic.in.th/0031fa6940ff58a50b9.png">
   <link rel="manifest" href="manifest.json">
@@ -568,7 +568,6 @@
 
     function validateNameInput(input) { if(isForeigner) { input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); } }
     
-    // 🔥 Smart Masking
     function maskString(str) { 
         if(!str) return ""; let s = str.toString().trim(); 
         if(s.length <= 2) return s.substring(0, 1) + "***"; 
@@ -723,7 +722,6 @@
         if(typeof updateSteamAddonUI === "function") { try { updateSteamAddonUI(); } catch(err) { console.error("Addon err:", err); } }
     }
     
-    // 🔥 SMART PRICING ENGINE 🔥
     function updatePriceDisplay() { 
         let svc = document.getElementById('inp-service').value; let price = "-"; 
         
@@ -856,7 +854,7 @@
       if(!activeProfileId && !isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 300); }
     }
 
-    // 🔥 แก้บัคปุ่มค้าง (catch error ปลดล็อกปุ่ม) 🔥
+    // 🔥 แก้บัคปุ่มค้างตอนกดจอง 🔥
     async function checkIDCardInput() {
         if(isForeigner) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value; }
         clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let statusDiv = document.getElementById('idcard-status'); let btnSave = document.getElementById('btn-save-info');
@@ -1007,7 +1005,7 @@
     async function adminManagePlan(id, svc, days) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_plan', pass: '11395', idCard: id, service: svc, days: days }) }); adminSearch(); }
     function setAdminSort(type) { currentAdminSort = type; if(type === 'created') { document.getElementById('btnSortCreated').className = 'btn btn-confirm'; document.getElementById('btnSortAppoint').className = 'btn btn-cancel'; } else { document.getElementById('btnSortCreated').className = 'btn btn-cancel'; document.getElementById('btnSortAppoint').className = 'btn btn-confirm'; } loadAdminLogs(); }
     
-    // 🔥 แก้ไขปุ่มตารางนัดค้าง (เอา Cache ออก) 🔥
+    // 🔥 แก้บัคตารางนัดแอดมิน 🔥
     function adminGetLogs(filterDate, sortType) {
         let area = document.getElementById('adminLogsArea'); 
         area.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px;'><i class='fas fa-spinner fa-spin' style='font-size:2rem; color:var(--primary);'></i><br><br>กำลังดึงข้อมูล...</td></tr>"; 
@@ -1049,7 +1047,7 @@
         fetch(API_ENDPOINT + "?action=syncFirebase").then(()=>{ Swal.fire('Success', 'ซิงค์ข้อมูลสำเร็จ', 'success'); btn.innerHTML = orig; btn.disabled = false; }).catch(e=>{ Swal.fire('Error', 'เชื่อมต่อล้มเหลว', 'error'); btn.innerHTML = orig; btn.disabled = false; }); 
     }
 
-    // 🔥 ฟังก์ชันซูมประกาศแบบ Lightbox 🔥
+    // 🔥 ฟังก์ชันซูมประกาศ 🔥
     function viewFullImage() {
         let metaViewport = document.querySelector('meta[name=viewport]');
         metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
