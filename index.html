@@ -854,7 +854,6 @@
       if(!activeProfileId && !isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 300); }
     }
 
-    // 🔥 แก้บัคปุ่มค้างตอนกดจอง 🔥
     async function checkIDCardInput() {
         if(isForeigner) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value; }
         clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let statusDiv = document.getElementById('idcard-status'); let btnSave = document.getElementById('btn-save-info');
@@ -1005,23 +1004,18 @@
     async function adminManagePlan(id, svc, days) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_plan', pass: '11395', idCard: id, service: svc, days: days }) }); adminSearch(); }
     function setAdminSort(type) { currentAdminSort = type; if(type === 'created') { document.getElementById('btnSortCreated').className = 'btn btn-confirm'; document.getElementById('btnSortAppoint').className = 'btn btn-cancel'; } else { document.getElementById('btnSortCreated').className = 'btn btn-cancel'; document.getElementById('btnSortAppoint').className = 'btn btn-confirm'; } loadAdminLogs(); }
     
-    // 🔥 แก้บัคตารางนัดแอดมิน 🔥
     function adminGetLogs(filterDate, sortType) {
         let area = document.getElementById('adminLogsArea'); 
         area.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px;'><i class='fas fa-spinner fa-spin' style='font-size:2rem; color:var(--primary);'></i><br><br>กำลังดึงข้อมูล...</td></tr>"; 
         let fDate = document.getElementById('adminLogDateFilter').value; 
         
-        fetch(API_ENDPOINT, {
-            method: 'POST', 
-            body: JSON.stringify({action: 'admin_get_logs', pass: '11395', filterDate: fDate, sortType: currentAdminSort})
-        })
+        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({action: 'admin_get_logs', pass: '11395', filterDate: fDate, sortType: currentAdminSort}) })
         .then(res => res.json())
         .then(data => { 
             if(data.status === 'success') { 
                 let html = ''; 
-                if(data.data.length === 0) {
-                    html = "<tr><td colspan='4' style='text-align:center; padding:20px; color:#64748b;'>ไม่พบประวัติการจอง</td></tr>";
-                } else {
+                if(data.data.length === 0) { html = "<tr><td colspan='4' style='text-align:center; padding:20px; color:#64748b;'>ไม่พบประวัติการจอง</td></tr>"; } 
+                else {
                     data.data.forEach(l => { 
                         let c = l.status.includes('ยกเลิก') ? '#ef4444' : '#10b981'; 
                         if(l.status.includes('เลยกำหนด')) c = '#f59e0b'; 
@@ -1030,12 +1024,8 @@
                     }); 
                 }
                 area.innerHTML = html; 
-            } else {
-                area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>โหลดข้อมูลล้มเหลว</td></tr>";
-            }
-        }).catch(e => {
-            area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ</td></tr>";
-        }); 
+            } else { area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>โหลดข้อมูลล้มเหลว</td></tr>"; }
+        }).catch(e => { area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ</td></tr>"; }); 
     }
     
     function adminCancelQueue(idCard, sysDate, time, dept) { Swal.fire({ title: 'Cancel Queue?', html: `Ban duration for this account:<br><select id="swal-ban-days" class="form-control" style="margin-top:10px;"><option value="0">No Ban</option><option value="2">Ban 2 days</option><option value="5">Ban 5 days</option></select>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Cancel Booking', confirmButtonColor: '#ef4444' }).then(async (result) => { if (result.isConfirmed) { let bDays = document.getElementById('swal-ban-days').value; Swal.fire({title:'Processing...', didOpen:()=>{Swal.showLoading()}}); await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_cancel_booking', pass: '11395', idCard: idCard, sysDate: sysDate, time: time, dept: dept, banDays: bDays }) }); Swal.fire('Success', 'Cancelled', 'success'); loadAdminLogs(); } }); }
@@ -1047,7 +1037,6 @@
         fetch(API_ENDPOINT + "?action=syncFirebase").then(()=>{ Swal.fire('Success', 'ซิงค์ข้อมูลสำเร็จ', 'success'); btn.innerHTML = orig; btn.disabled = false; }).catch(e=>{ Swal.fire('Error', 'เชื่อมต่อล้มเหลว', 'error'); btn.innerHTML = orig; btn.disabled = false; }); 
     }
 
-    // 🔥 ฟังก์ชันซูมประกาศ 🔥
     function viewFullImage() {
         let metaViewport = document.querySelector('meta[name=viewport]');
         metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
