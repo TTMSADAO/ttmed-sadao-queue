@@ -919,7 +919,7 @@
                         <i class="fas fa-id-badge" style="color:#3b82f6;"></i> สิทธิเบิกตรงข้าราชการ
                     </div>
                     <div class="right-option" onclick="selectRight('3')" id="opt-right-3">
-                        <i class="fas fa-wallet" style="color:#10b981;"></i> สิทธิประกันสังคม/ชำระเงินเอง
+                        <i class="fas fa-wallet" style="color:#10b981;"></i> เบิกต้นสังกัด/สิทธิประกันสังคม/ชำระเงินเอง
                     </div>
                 </div>
                 <input type="hidden" id="selected-right-val" value="">
@@ -954,7 +954,7 @@
             let breakdownLines = []; let total = 0; let rightName = "";
             if (ttmRight === '1') rightName = "สิทธิบัตรทอง (UC)";
             if (ttmRight === '2') rightName = "สิทธิเบิกตรงข้าราชการ";
-            if (ttmRight === '3') rightName = "สิทธิประกันสังคม/ชำระเงินเอง";
+            if (ttmRight === '3') rightName = "เบิกต้นสังกัด/สิทธิประกันสังคม/ชำระเงินเอง";
 
             let baseFee = 0;
             if (bookingData.service.includes("นวดและประคบ")) {
