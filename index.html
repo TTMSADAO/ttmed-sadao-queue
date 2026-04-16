@@ -140,6 +140,43 @@
     .right-option:hover { border-color: #cbd5e1; background: #f1f5f9; }
     .right-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15); transform: translateY(-2px); }
     .right-option i { font-size: 1.3rem; }
+    
+    /* 🔥 3D REALISTIC BILL STYLES 🔥 */
+    .receipt-3d {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+        border: 1px solid #f1f5f9;
+        margin-top: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+    .receipt-3d::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 6px;
+        background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, #4ade80 10px, #4ade80 20px);
+    }
+    .total-box-3d {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 15px 20px;
+        box-shadow: inset 4px 4px 8px #e2e8f0, inset -4px -4px 8px #ffffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        border: 1px solid #f1f5f9;
+    }
+    .price-red {
+        color: #dc2626;
+        text-shadow: 1px 1px 0px rgba(220, 38, 38, 0.2);
+    }
+    .price-green {
+        color: #16a34a;
+        text-shadow: 1px 1px 0px rgba(22, 163, 74, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -307,8 +344,7 @@
       </div>
 
       <div id="step-summary" class="hidden">
-        <div style="font-size:1.25rem; font-weight:700; margin-bottom:20px; color:#1e293b; display:flex; align-items:center; gap:10px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;"><i class="fas fa-clipboard-check" style="color:var(--primary);"></i> <span id="t-sum-title">ยืนยันการนัดหมาย</span></div>
-        <div style="background:#f8fafc; padding:15px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:20px; line-height:1.6; font-size:0.95rem;" id="summary-content"></div>
+        <div id="summary-content"></div>
         <div class="btn-group">
           <button class="btn btn-cancel" onclick="switchStep('step-form')" id="btn-edit-sum">แก้ไข</button>
           <button class="btn btn-confirm" id="btn-final-confirm" onclick="confirmBooking()">ยืนยันจองคิว</button>
@@ -566,13 +602,13 @@
         } catch(e) { console.error("Language UI Error:", e); }
     }
 
-    const SERVICE_PRICES = { ttm: { "นวดและประคบเพื่อการรักษา": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป" }, tcm: { "ฝังเข็มเพื่อการรักษา": "สิทธิข้าราชการเบิกได้ / อื่นๆ 150-200บ.", "ครอบแก้ว": "150 บาท", "ฝังเข็มใบหน้า": "300 บาท", "เม็ดผักกาดแปะหู": "50 บาท", "ปรึกษาแพทย์แผนจีน": "ฟรี" } };
-    const SERVICE_PRICES_EN = { ttm: { "นวดและประคบเพื่อการรักษา": "Fee calculated in next step", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step" }, tcm: { "ฝังเข็มเพื่อการรักษา": "200 THB", "ครอบแก้ว": "150 THB", "ฝังเข็มใบหน้า": "300 THB", "เม็ดผักกาดแปะหู": "50 THB", "ปรึกษาแพทย์แผนจีน": "Free" } };
+    const SERVICE_PRICES = { ttm: { "นวดและประคบเพื่อการรักษา": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป" }, tcm: { "ฝังเข็มเพื่อการรักษา": "เช็คสิทธิ ในหน้าถัดไป", "ครอบแก้ว": "150 บาท", "ฝังเข็มใบหน้า": "300 บาท", "เม็ดผักกาดแปะหู": "50 บาท", "ปรึกษาแพทย์แผนจีน": "ฟรี" } };
+    const SERVICE_PRICES_EN = { ttm: { "นวดและประคบเพื่อการรักษา": "Fee calculated in next step", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step" }, tcm: { "ฝังเข็มเพื่อการรักษา": "Fee calculated in next step", "ครอบแก้ว": "150 THB", "ฝังเข็มใบหน้า": "300 THB", "เม็ดผักกาดแปะหู": "50 THB", "ปรึกษาแพทย์แผนจีน": "Free" } };
     const APP_CONFIG = { ttm: { title: "แพทย์แผนไทย", logo: "https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png", color: "#2e7d32" }, tcm: { title: "แพทย์แผนจีน", logo: "https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png", color: "#c62828" }, postpartum: { title: "บริการหลังคลอด", logo: "https://img2.pic.in.th/pic/eb06897c542c79b64690c8e794fa84a4.png", color: "#ec4899" }, steam: { title: "อบไอน้ำสมุนไพร", logo: "https://img2.pic.in.th/pic/-3b445847427fcbfd.png", color: "#0288d1" } };
     const SERVICE_OPTIONS = { ttm: ["นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)"], tcm: ["ฝังเข็มเพื่อการรักษา", "ครอบแก้ว", "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน"] };
     
     const STAFF_IMAGES = { "รจนา M": "https://img1.pic.in.th/images/29cf568d9d3f548b07.png", "อรรถพล B": "https://img2.pic.in.th/3002857ed55bcb783e.png", "ศินารัตน์ C": "https://img2.pic.in.th/35b2f9d14beddf4380.png", "จุฑามาศ F": "https://img1.pic.in.th/images/3160d8e760be1bc51e.png", "รัตน์ชนก KW": "https://img2.pic.in.th/323086fe6798ca5dce.png", "นิกษ์นิภา T": "https://img2.pic.in.th/33bea174c8b0315ff4.png", "ณิชาภัทร W": "https://img1.pic.in.th/images/3438c14aad54d74a1a.png", "จินดา J": "https://img2.pic.in.th/-2569d4d2a9b79e0efa9e.png" };
-    const STAFF_NAME_MAP = { "จินดา J": "จินดา (เจี๊ยบ)", "รจนา M": "รจนา (แหม่ม)", "อรรถพล B": "อรรถพล (บ่าว)", "ศินารัตน์ C": "ศินารัตน์ (ซี)", "จุฑามาศ F": "จุฑามาศ (ฝน)", "รัตน์ชนก KW": "รัตน์ชนก (กวาง)", "นิกษ์นิภา T": "นิกษ์นิภา (การ์ตูน)", "ณิชาภัทร W": "ณิชาภัทร (วาวา)" };
+    const STAFF_NAME_MAP = { "จินดา J": "จินดา (เจี๊ยบ)", "รจนา M": "รจนา (แหม่ม)", "อรรถพล B": "อรรถพล (บ่าว)", "ศินารัตน์ C": "ศินารัตน์ (ซี)", "จุฑามาศ F": "จุฑามาศ (ฝน)", "รัตน์ชนก KW": "รัตน์ชนก (กวาง)", "นิกษ์นิภา T": "Niknipha (Kartoon)", "ณิชาภัทร W": "ณิชาภัทร (วาวา)" };
     const STAFF_EN_NAMES = { "จินดา J": "Jinda (Jeab)", "รจนา M": "Rotjana (Maam)", "อรรถพล B": "Attapon (Bao)", "ศินารัตน์ C": "Sinarat (C)", "จุฑามาศ F": "Jutamat (Fon)", "รัตน์ชนก KW": "Ratchanok (Kwang)", "นิกษ์นิภา T": "Niknipha (Kartoon)", "ณิชาภัทร W": "Nichapat (Wawa)" };
     const DEFAULT_IMG = "https://img2.pic.in.th/pic/1c189d2a727f532d391a5ab0604ccd2f.png"; const DAY_COLORS = ["#ef4444", "#eab308", "#ec4899", "#22c55e", "#f97316", "#3b82f6", "#a855f7"];
 
@@ -617,8 +653,45 @@
     }
 
     function selectUser(id) { activeProfileId = id; saveProfilesToStorage(); renderMultiUserCard(); }
+    
+    function switchUser() { activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
+    
     function removeUser(id) { savedProfiles = savedProfiles.filter(p => p.id !== id); if(activeProfileId === id) activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
     
+    function logoutPatient(fromModal) {
+        activeProfileId = null; 
+        saveProfilesToStorage(); 
+        
+        if(fromModal) {
+            document.getElementById('existing-user-display').classList.add('hidden');
+            document.getElementById('auth-section').style.display = 'block';
+            
+            document.getElementById('inp-idcard').value = '';
+            document.getElementById('inp-idcard-foreigner').value = '';
+            document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
+            
+            document.getElementById('idcard-status').innerHTML = '';
+            document.getElementById('inp-fname').value = '';
+            document.getElementById('inp-lname').value = '';
+            document.getElementById('inp-tel').value = '';
+            document.getElementById('inp-fname').readOnly = false;
+            document.getElementById('inp-lname').readOnly = false;
+            
+            document.getElementById('name-lock-warning').style.display = 'none';
+            document.getElementById('user-details-form').classList.add('hidden');
+            
+            let btnSave = document.getElementById('btn-save-info');
+            btnSave.disabled = true;
+            btnSave.innerHTML = _t('btn_check');
+            
+            currentUserDB = null;
+            
+            if(!isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 100); }
+        }
+        
+        renderMultiUserCard();
+    }
+
     function showAddUserForm() { 
         Swal.fire({
             title: _t('btn_add_user'),
@@ -828,6 +901,12 @@
             if (svc.includes('นวดและประคบ')) { price = currentLang === 'en' ? "Fee calculated in next step" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; } 
             else if (svc.includes('นวดตัวส่งเสริม')) { price = currentLang === 'en' ? "Base: 250 THB (+50 THB for compress)" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; } 
             else if (svc.includes('นวดเท้า')) { price = currentLang === 'en' ? "Base: 250 THB" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; }
+        } else if (currentApp === 'tcm') {
+            if (svc.includes('ฝังเข็มเพื่อการรักษา')) { price = currentLang === 'en' ? "Fee calculated in next step" : "เช็คสิทธิ ในหน้าถัดไป"; }
+            else {
+                if (currentLang === 'en') { price = SERVICE_PRICES_EN[currentApp][svc] || "-"; } 
+                else { price = SERVICE_PRICES[currentApp][svc] || "-"; }
+            }
         } else {
             if (currentLang === 'en') { if (SERVICE_PRICES_EN[currentApp] && SERVICE_PRICES_EN[currentApp][svc]) price = SERVICE_PRICES_EN[currentApp][svc]; } 
             else { if (SERVICE_PRICES[currentApp] && SERVICE_PRICES[currentApp][svc]) price = SERVICE_PRICES[currentApp][svc]; }
@@ -981,11 +1060,17 @@
           if(bookingData.addSteam) { let gObj = document.getElementById('inp-addon-gender'); bookingData.steamGender = gObj ? gObj.value : "หญิง"; }
       }
       
-      if (currentApp === 'ttm') { promptTTMRightSelection(); } 
+      if (currentApp === 'ttm' || currentApp === 'tcm') { 
+          if(currentApp === 'tcm' && !bookingData.service.includes("ฝังเข็มเพื่อการรักษา")) {
+              buildSummaryAndShow(null);
+          } else {
+              promptRightSelection(); 
+          }
+      } 
       else { buildSummaryAndShow(null); }
     }
 
-    function promptTTMRightSelection() {
+    function promptRightSelection() {
         Swal.fire({
             title: _t('right_title'),
             html: `
@@ -1008,67 +1093,130 @@
                 if(!val) { Swal.showValidationMessage(_t('warn_select_right')); return false; }
                 return val;
             }
-        }).then((result) => { if(result.isConfirmed) { calculateTTMAnimation(result.value); } });
+        }).then((result) => { if(result.isConfirmed) { calculateAnimation(result.value); } });
     }
 
-    function calculateTTMAnimation(rightVal) {
+    function calculateAnimation(rightVal) {
         Swal.fire({
             title: _t('calc_title'), html: `<div style="font-size:3.5rem; color:var(--primary); margin:20px 0;"><i class="fas fa-calculator fa-beat-fade"></i></div><div style="font-size:0.95rem; font-weight:bold; color:#64748b;">${_t('calc_sub')}</div>`,
             showConfirmButton: false, allowOutsideClick: false, timer: 1500
         }).then(() => { buildSummaryAndShow(rightVal); });
     }
 
-    function buildSummaryAndShow(ttmRight) {
+    // 🔥 สร้างหน้าสรุปบิลแบบ 3D Realistic 🔥
+    function buildSummaryAndShow(rightVal) {
         let f = bookingData.fname; let l = bookingData.lname; let tel = bookingData.tel;
         let baseStaffName = bookingData.staff; let displayStaff = currentLang === 'en' ? (STAFF_EN_NAMES[baseStaffName] || baseStaffName) : (STAFF_NAME_MAP[baseStaffName] || baseStaffName);
         let mName = getMaskedFullName(f, l); 
         
-        let html = `<b><i class="fas fa-user"></i></b> ${mName}<br><b><i class="fas fa-phone"></i></b> ${getMaskedTel(tel)}<br><hr style="border:0;border-top:1px dashed #cbd5e1;margin:10px 0;"><b>${currentLang==='en'?'Service':'บริการ'}:</b> ${_t(bookingData.service)}<br><b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} [${bookingData.time}]`;
-        if(currentApp === 'ttm' || currentApp === 'tcm') html += `<br><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> ${displayStaff}`;
+        let infoHtml = `
+            <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+                <div style="width:50px; height:50px; border-radius:15px; background:linear-gradient(135deg, var(--primary-light), #bbf7d0); display:flex; justify-content:center; align-items:center; font-size:1.5rem; color:var(--primary); box-shadow: 2px 4px 10px rgba(0,0,0,0.1);"><i class="fas fa-user-circle"></i></div>
+                <div>
+                    <div style="font-weight:800; font-size:1.1rem; color:#1e293b;">${mName}</div>
+                    <div style="color:#64748b; font-size:0.9rem;"><i class="fas fa-phone-alt"></i> ${getMaskedTel(tel)}</div>
+                </div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:15px; border:1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="margin-bottom:6px;"><b>${currentLang==='en'?'Service':'บริการ'}:</b> <span style="color:var(--primary-dark); font-weight:600;">${_t(bookingData.service)}</span></div>
+                <div style="margin-bottom:6px;"><b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} <span style="background:var(--primary); color:white; padding:2px 8px; border-radius:8px; font-size:0.85rem;">${bookingData.time}</span></div>
+                ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> ${displayStaff}</div>` : ''}
+            </div>
+        `;
         
-        if (currentApp === 'ttm' && ttmRight) {
+        let billHtml = "";
+        
+        if ((currentApp === 'ttm' || currentApp === 'tcm') && rightVal) {
             let breakdownLines = []; let total = 0; let rightName = "";
-            if (ttmRight === '1') rightName = _t('right_uc');
-            if (ttmRight === '2') rightName = _t('right_gov');
-            if (ttmRight === '3') rightName = _t('right_ss');
+            if (rightVal === '1') rightName = _t('right_uc');
+            if (rightVal === '2') rightName = _t('right_gov');
+            if (rightVal === '3') rightName = _t('right_ss');
 
-            let baseFee = 0;
-            if (bookingData.service.includes("นวดและประคบ") || bookingData.service.includes("Massage and Compress")) {
-                if (ttmRight === '1') baseFee = bookingData.isOOH ? 250 : 100;
-                if (ttmRight === '2') baseFee = 0;
-                if (ttmRight === '3') baseFee = 250;
-            } else { baseFee = 250; } 
-            breakdownLines.push(`• ${_t('bill_base')} ${baseFee} ${_t('baht')}`);
-            total += baseFee;
+            if (currentApp === 'ttm') {
+                let baseFee = 0;
+                if (bookingData.service.includes("นวดและประคบ") || bookingData.service.includes("Massage and Compress")) {
+                    if (rightVal === '1') baseFee = bookingData.isOOH ? 250 : 100;
+                    if (rightVal === '2') baseFee = 0;
+                    if (rightVal === '3') baseFee = 250;
+                } else { baseFee = 250; } 
+                breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                total += baseFee;
 
-            if (bookingData.isOOH) { breakdownLines.push(`• ${_t('bill_ooh')} 60 ${_t('baht')}`); total += 60; }
-            if (bookingData.is2Hr) { breakdownLines.push(`• ${_t('bill_2hr')} 250 ${_t('baht')}`); total += 250; }
-            if (bookingData.addSteam) {
-                let steamFee = 0; if (ttmRight === '3') steamFee = 100;
-                breakdownLines.push(`• ${_t('bill_steam')} ${steamFee} ${_t('baht')}`); total += steamFee;
+                if (bookingData.isOOH) { breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
+                if (bookingData.is2Hr) { breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${_t('bill_2hr')}</span><b>250 ${_t('baht')}</b></div>`); total += 250; }
+                if (bookingData.addSteam) {
+                    let steamFee = 0; if (rightVal === '3') steamFee = 100;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#0288d1; margin-bottom:4px;"><span>${_t('bill_steam')}</span><b>${steamFee} ${_t('baht')}</b></div>`); total += steamFee;
+                }
+            } else if (currentApp === 'tcm') {
+                let baseFee = 0;
+                let svcName = bookingData.service;
+                
+                if (svcName.includes("ฝังเข็มเพื่อการรักษา") || svcName.includes("Acupuncture Therapy")) {
+                    baseFee = (rightVal === '2') ? 0 : 200;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                    total += baseFee;
+                } else if (svcName.includes("ครอบแก้ว") || svcName.includes("Cupping")) {
+                    baseFee = 150;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                    total += baseFee;
+                } else if (svcName.includes("ฝังเข็มใบหน้า") || svcName.includes("Facial")) {
+                    baseFee = 300;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                    total += baseFee;
+                } else if (svcName.includes("เม็ดผักกาด") || svcName.includes("Auricular")) {
+                    baseFee = 50;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                    total += baseFee;
+                } else {
+                    baseFee = 0;
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
+                }
+
+                if (bookingData.is2Hr) {
+                    let cupFee = 150;
+                    let cupText = currentLang === 'en' ? "Cupping Therapy:" : "บริการครอบแก้ว (ต่อเนื่อง):";
+                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${cupText}</span><b>${cupFee} ${_t('baht')}</b></div>`);
+                    total += cupFee;
+                }
             }
 
-            bookingData.ttmRightName = rightName; bookingData.totalFee = total; bookingData.breakdownLines = breakdownLines;
+            bookingData.rightName = rightName; bookingData.totalFee = total; bookingData.breakdownLines = breakdownLines;
 
-            html += `<div style="background:#fff; border:1px solid #e2e8f0; padding:15px; border-radius:12px; margin-top:15px;">
-                        <div style="font-weight:700; color:#1e293b; margin-bottom:8px; border-bottom:1px solid #f1f5f9; padding-bottom:5px;">
-                            <i class="fas fa-file-invoice-dollar" style="color:var(--primary);"></i> ${_t('bill_title')}
+            // 🔥 สีของตัวเลขรวม 🔥
+            let totalColorClass = total > 0 ? "price-red" : "price-green";
+
+            billHtml = `<div class="receipt-3d">
+                        <div style="font-weight:800; color:#1e293b; margin-bottom:12px; border-bottom:2px dashed #cbd5e1; padding-bottom:10px; display:flex; align-items:center; gap:8px;">
+                            <i class="fas fa-file-invoice-dollar" style="color:var(--primary); font-size:1.5rem;"></i>
+                            <span style="font-size:1.1rem;">${_t('bill_title')}</span>
                         </div>
-                        <div style="font-size:0.85rem; color:var(--primary-dark); font-weight:700; margin-bottom:8px;">${_t('bill_right')} ${rightName}</div>
-                        <div style="font-size:0.85rem; color:#475569; line-height:1.6; margin-bottom:10px;">${breakdownLines.join('<br>')}</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; padding:10px; border-radius:8px; font-weight:700; color:var(--primary-dark);">
-                            <span>${_t('bill_total')}</span><span style="font-size:1.15rem;">${total} ${_t('baht')}</span>
+                        <div style="font-size:0.85rem; color:var(--primary-dark); font-weight:700; margin-bottom:12px; background:#e8f5e9; padding:8px 12px; border-radius:8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                            ${_t('bill_right')} ${rightName}
+                        </div>
+                        <div style="font-size:0.9rem; color:#475569; line-height:1.4;">
+                            ${breakdownLines.join('')}
+                        </div>
+                        <div class="total-box-3d">
+                            <span style="font-weight:800; color:#475569; font-size:1rem;">${_t('bill_total')}</span>
+                            <span class="${totalColorClass}" style="font-size:1.6rem; font-weight:800;">${total} ${_t('baht')}</span>
                         </div>
                     </div>`;
         } else {
-            if(bookingData.is2Hr && currentApp !== 'postpartum') html += `<br><b style="color:#b45309;"><i class="fas fa-clock"></i> ${currentLang==='en'?'2 Hours Session':'2 ชั่วโมงต่อเนื่อง'}</b>`;
-            if(bookingData.addSteam) { html += `<br><b style="color:#0288d1;"><i class="fas fa-hot-tub-person"></i> + อบไอน้ำต่อเนื่อง (${bookingData.steamTime} น.) เพศ${bookingData.steamGender}</b>`; }
+            let extraText = "";
+            if(bookingData.is2Hr && currentApp !== 'postpartum') extraText += `<div style="color:#b45309; font-weight:bold; margin-top:10px; font-size:0.95rem;"><i class="fas fa-clock"></i> ${currentLang==='en'?'2 Hours Session':'2 ชั่วโมงต่อเนื่อง'}</div>`;
+            if(bookingData.addSteam) { extraText += `<div style="color:#0288d1; font-weight:bold; margin-top:10px; font-size:0.95rem;"><i class="fas fa-hot-tub-person"></i> + อบไอน้ำต่อเนื่อง (${bookingData.steamTime} น.) เพศ${bookingData.steamGender}</div>`; }
+            
+            if(extraText !== "") {
+                billHtml = `<div class="receipt-3d" style="padding:15px;">${extraText}</div>`;
+            }
         }
         
-        if(bookingData.extraInfo) html += `<br><span style="color:#0ea5e9;"><i class="fas fa-info-circle"></i> ${bookingData.extraInfo}</span>`;
-        if(bookingData.note) html += `<br><b>${currentLang==='en'?'Note':'หมายเหตุ'}:</b> <span style="color:#ef4444;">${bookingData.note}</span>`;
+        let noteHtml = "";
+        if(bookingData.extraInfo) noteHtml += `<div style="margin-top:15px; color:#0ea5e9; font-size:0.9rem;"><i class="fas fa-info-circle"></i> ${bookingData.extraInfo}</div>`;
+        if(bookingData.note) noteHtml += `<div style="margin-top:10px; font-size:0.9rem;"><b>${currentLang==='en'?'Note':'หมายเหตุ'}:</b> <span style="color:#ef4444;">${bookingData.note}</span></div>`;
         
-        document.getElementById('summary-content').innerHTML = html; switchStep('step-summary');
+        document.getElementById('summary-content').innerHTML = infoHtml + billHtml + noteHtml; switchStep('step-summary');
     }
 
     let loadInterval; let tipsInterval; let currentPercent = 0;
@@ -1107,9 +1255,13 @@
                             if(currentApp === 'ttm' || currentApp === 'tcm') { let sName = currentLang === 'en' ? (STAFF_EN_NAMES[bookingData.staff] || bookingData.staff) : (STAFF_NAME_MAP[bookingData.staff] || bookingData.staff); msg += currentLang === 'en' ? `Provider: ${sName}\n` : `ผู้ให้บริการ: ${sName}\n`; }
                             msg += currentLang === 'en' ? `Service: ${_t(bookingData.service)}\nDate: ${bookingData.date}\nTime: ${bookingData.time}` : `บริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}\nเวลา: ${bookingData.time} น.`;
                             
-                            if (currentApp === 'ttm' && bookingData.ttmRightName) {
-                                msg += currentLang === 'en' ? `\n\n💳 Treatment Right: ${bookingData.ttmRightName}\n------------------------\nFee Breakdown:\n` : `\n\n💳 สิทธิการรักษา: ${bookingData.ttmRightName}\n------------------------\nรายละเอียดค่าบริการ:\n`;
-                                msg += bookingData.breakdownLines.join('\n') + `\n`;
+                            if ((currentApp === 'ttm' || currentApp === 'tcm') && bookingData.rightName) {
+                                msg += currentLang === 'en' ? `\n\n💳 Treatment Right: ${bookingData.rightName}\n------------------------\nFee Breakdown:\n` : `\n\n💳 สิทธิการรักษา: ${bookingData.rightName}\n------------------------\nรายละเอียดค่าบริการ:\n`;
+                                
+                                // Clean up HTML tags for LINE
+                                let cleanBreakdown = bookingData.breakdownLines.map(line => line.replace(/<[^>]*>?/gm, '')).join('\n');
+                                msg += cleanBreakdown + `\n`;
+                                
                                 msg += currentLang === 'en' ? `💰 Total Estimated Amount: ${bookingData.totalFee} THB\n------------------------` : `💰 ยอดชำระโดยประมาณ: ${bookingData.totalFee} บาท\n------------------------`;
                             } else {
                                 let lineNoteExtra = "";
@@ -1151,7 +1303,7 @@
     }
 
     function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active')); event.currentTarget.classList.add('active'); document.getElementById(tabId).classList.add('active'); }
-    async function adminSearch() { let q = document.getElementById('adminSearchInp').value; if(!q) return; let resArea = document.getElementById('adminSearchResult'); resArea.innerHTML = "<tr><td colspan='2' style='text-align:center;'><i class='fas fa-spinner fa-spin'></i> Loading...</td></tr>"; let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) }); let data = await res.json(); if(data.status === 'success') { let html = ''; if(data.data.length === 0) { resArea.innerHTML = "<tr><td colspan='2' style='text-align:center; color:red;'>No data</td></tr>"; return; } data.data.forEach(u => { let plansHtml = ''; if(u.plans.length > 0) { u.plans.forEach(p => { if(p.service === 'BANNED') plansHtml += `<div style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:0.75 margin-top:4px;"><i class="fas fa-ban"></i> BANNED ${p.date} <button onclick="adminManagePlan('${u.idCard}', 'BANNED', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; float:right;">[X]</button></div>`; else plansHtml += `<div class="plan-tag">${p.service}: ${p.date} <button onclick="adminManagePlan('${u.idCard}', '${p.service}', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">[X]</button></div>`; }); } html += `<tr><td><div style="font-weight:700; color:var(--primary-dark); font-size:1.05rem;">${u.fname} ${u.lname||''}</div><div style="font-family:monospace; color:#64748b;">${u.idCard}</div><div style="font-size:0.8rem; color:#64748b;">📞 ${u.tel}</div><div style="margin-top:5px;">${plansHtml}</div></td><td style="text-align:right; vertical-align:top;"><button class="btn-icon btn-telebook" onclick="adminTeleBook('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-calendar-check"></i> Book</button><br><br><button class="btn-icon btn-edit" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-plan" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button><button class="btn-icon btn-delete" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button></td></tr>`; }); resArea.innerHTML = html; } }
+    async function adminSearch() { let q = document.getElementById('adminSearchInp').value; if(!q) return; let resArea = document.getElementById('adminSearchResult'); resArea.innerHTML = "<tr><td colspan='2' style='text-align:center;'><i class='fas fa-spinner fa-spin'></i> Loading...</td></tr>"; let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) }); let data = await res.json(); if(data.status === 'success') { let html = ''; if(data.data.length === 0) { resArea.innerHTML = "<tr><td colspan='2' style='text-align:center; color:red;'>No data</td></tr>"; return; } data.data.forEach(u => { let plansHtml = ''; if(u.plans.length > 0) { u.plans.forEach(p => { if(p.service === 'BANNED') plansHtml += `<div style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:0.75rem; margin-top:4px;"><i class="fas fa-ban"></i> BANNED ${p.date} <button onclick="adminManagePlan('${u.idCard}', 'BANNED', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; float:right;">[X]</button></div>`; else plansHtml += `<div class="plan-tag">${p.service}: ${p.date} <button onclick="adminManagePlan('${u.idCard}', '${p.service}', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">[X]</button></div>`; }); } html += `<tr><td><div style="font-weight:700; color:var(--primary-dark); font-size:1.05rem;">${u.fname} ${u.lname||''}</div><div style="font-family:monospace; color:#64748b;">${u.idCard}</div><div style="font-size:0.8rem; color:#64748b;">📞 ${u.tel}</div><div style="margin-top:5px;">${plansHtml}</div></td><td style="text-align:right; vertical-align:top;"><button class="btn-icon btn-telebook" onclick="adminTeleBook('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-calendar-check"></i> Book</button><br><br><button class="btn-icon btn-edit" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-plan" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button><button class="btn-icon btn-delete" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button></td></tr>`; }); resArea.innerHTML = html; } }
     function adminTeleBook(id, fname, lname, tel) { addOrUpdateProfile(id, fname, lname, tel); document.getElementById('adminModal').classList.remove('show'); Swal.fire({ title: 'Tele-Booking Mode', html: `Login as <b>${fname} ${lname}</b>`, icon: 'info' }).then(() => { renderMultiUserCard(); }); }
     function openAddPatientModalAdmin() { Swal.fire({ title: 'New Patient', html: `<input id="swal-id" class="form-control" style="margin-bottom:10px;" placeholder="ID/Passport" maxlength="20"><div style="display:flex; gap:10px;"><input id="swal-add-fname" class="form-control" placeholder="First Name"><input id="swal-add-lname" class="form-control" placeholder="Last Name"></div><input id="swal-add-tel" class="form-control" style="margin-top:10px;" placeholder="Phone" maxlength="10" type="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'')">`, showCancelButton: true, confirmButtonText: 'Save', preConfirm: () => { return { idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-add-fname').value, lname: document.getElementById('swal-add-lname').value, tel: document.getElementById('swal-add-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); }); }
     function editPatientUI(id, f, l, t) { Swal.fire({ title: 'Edit Patient', html: `<input id="swal-id" class="form-control" style="margin-bottom:10px;" value="${id}"><div style="display:flex; gap:10px;"><input id="swal-add-fname" class="form-control" value="${f}"><input id="swal-add-lname" class="form-control" value="${l}"></div><input id="swal-add-tel" class="form-control" style="margin-top:10px;" value="${t}" type="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'')">`, showCancelButton: true, confirmButtonText: 'Update', preConfirm: () => { return { oldId: id, idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-add-fname').value, lname: document.getElementById('swal-add-lname').value, tel: document.getElementById('swal-add-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); }); }
