@@ -135,48 +135,51 @@
     .btn-icon { background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; transition: 0.2s; font-size: 1rem; }
     .btn-edit { color: #0ea5e9; background: #e0f2fe; } .btn-delete { color: #ef4444; background: #fee2e2; } .btn-plan { color: #8b5cf6; background: #f3e8ff; } .btn-telebook { color: #16a34a; background: #dcfce7; font-size:0.8rem; font-weight:bold; padding:4px 8px;}
 
-    /* RIGHT SELECTION STYLES */
-    .right-option { padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; background: #f8fafc; display: flex; align-items: center; gap: 12px; font-weight: 600; color: #475569; font-size: 0.95rem; }
-    .right-option:hover { border-color: #cbd5e1; background: #f1f5f9; }
-    .right-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15); transform: translateY(-2px); }
-    .right-option i { font-size: 1.3rem; }
+    /* 🏷️ RIGHT SELECTION STYLES */
+    .right-option { padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); background: #f8fafc; display: flex; flex-direction: column; gap: 2px; }
+    .right-option:hover { border-color: #cbd5e1; background: #f1f5f9; transform: scale(1.02); }
+    .right-option.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15); transform: translateY(-2px); }
+    .right-title-row { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #1e293b; font-size: 0.95rem; }
+    .right-desc { font-size: 0.75rem; color: #64748b; margin-left: 28px; line-height: 1.3; font-weight: 400; }
     
     /* 🔥 3D REALISTIC BILL STYLES 🔥 */
-    .receipt-3d {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
-        border: 1px solid #f1f5f9;
-        margin-top: 15px;
-        position: relative;
-        overflow: hidden;
+    .receipt-3d { background: #ffffff; border-radius: 20px; padding: 20px; box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff; border: 1px solid #f1f5f9; margin-top: 15px; position: relative; overflow: hidden; }
+    .receipt-3d::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, #4ade80 10px, #4ade80 20px); }
+    .total-box-3d { background: #f8fafc; border-radius: 16px; padding: 15px 20px; box-shadow: inset 4px 4px 8px #e2e8f0, inset -4px -4px 8px #ffffff; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border: 1px solid #f1f5f9; }
+    .price-red { color: #dc2626; text-shadow: 1px 1px 0px rgba(220, 38, 38, 0.2); }
+    .price-green { color: #16a34a; text-shadow: 1px 1px 0px rgba(22, 163, 74, 0.2); }
+
+    /* 📔 SMART PATIENT BOOK STYLES (3D DROPDOWN) */
+    .smart-book-wrapper { position: relative; margin-top: 15px; margin-bottom: 5px; }
+    .smart-book-divider { display: flex; align-items: center; text-align: center; margin: 15px 0; color: #94a3b8; font-size: 0.8rem; font-weight: 600; }
+    .smart-book-divider::before, .smart-book-divider::after { content: ''; flex: 1; border-bottom: 1px dashed #cbd5e1; }
+    .smart-book-divider:not(:empty)::before { margin-right: .5em; }
+    .smart-book-divider:not(:empty)::after { margin-left: .5em; }
+    
+    .smart-select-3d {
+        background: linear-gradient(145deg, #ffffff, #f1f5f9);
+        border: 1px solid #e2e8f0; border-radius: 16px; padding: 12px 18px;
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.04), -4px -4px 10px #ffffff;
+        display: flex; justify-content: space-between; align-items: center;
+        cursor: pointer; font-weight: 700; color: var(--primary-dark); transition: all 0.2s ease;
     }
-    .receipt-3d::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; height: 6px;
-        background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, #4ade80 10px, #4ade80 20px);
+    .smart-select-3d:active { box-shadow: inset 4px 4px 10px rgba(0,0,0,0.04), inset -4px -4px 10px #ffffff; transform: translateY(1px); }
+    .smart-select-3d i.fa-chevron-down { transition: transform 0.3s; color: #94a3b8; }
+    .smart-select-3d.open i.fa-chevron-down { transform: rotate(180deg); }
+    
+    .smart-items-container {
+        position: absolute; width: 100%; background: #ffffff; border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 8px; overflow: hidden; z-index: 50; display: none; border: 1px solid #e2e8f0;
     }
-    .total-box-3d {
-        background: #f8fafc;
-        border-radius: 16px;
-        padding: 15px 20px;
-        box-shadow: inset 4px 4px 8px #e2e8f0, inset -4px -4px 8px #ffffff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-        border: 1px solid #f1f5f9;
+    .smart-items-container.show { display: block; animation: fadeIn 0.2s; }
+    .smart-item {
+        padding: 14px 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s;
     }
-    .price-red {
-        color: #dc2626;
-        text-shadow: 1px 1px 0px rgba(220, 38, 38, 0.2);
-    }
-    .price-green {
-        color: #16a34a;
-        text-shadow: 1px 1px 0px rgba(22, 163, 74, 0.2);
-    }
+    .smart-item:hover { background: #f0fdf4; }
+    .smart-item:last-child { border-bottom: none; }
+    .smart-item-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .smart-item-label { font-weight: 700; color: #1e293b; font-size: 1rem; line-height: 1.2; }
+    .smart-item-mask { font-size: 0.8rem; color: #64748b; font-weight: 400; }
   </style>
 </head>
 <body>
@@ -244,7 +247,7 @@
             <i class="fas fa-edit" style="color:var(--primary);"></i> <span id="t-fill-info">กรอกข้อมูลจองคิว</span>
         </div>
 
-        <div id="auth-section">
+        <div id="auth-section" style="display: block;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <label class="form-label" id="lbl-idcard" style="color:var(--primary); margin:0;">เลขประจำตัวประชาชน <span style="color:red">*</span></label>
                 <div class="toggle-container" style="margin:0; padding:5px 10px; background:#f1f5f9;">
@@ -262,6 +265,15 @@
             <div id="idcard-status" style="font-size:0.85rem; margin-top:10px; font-weight:600; text-align:center;"></div>
         </div>
 
+        <div id="existing-user-display" class="hidden" style="background:var(--primary-light); padding:15px; border-radius:16px; margin-bottom:15px; border:1px solid #a5d6a7;">
+            <div style="color:var(--primary-dark); font-weight:700; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
+                <span id="t-user-info-title"><i class="fas fa-user-check"></i> ข้อมูลผู้รับบริการ</span>
+            </div>
+            <div id="masked-name" style="margin-bottom:8px;"></div>
+            <div id="masked-tel" style="font-size:0.95rem; color:#475569;"></div>
+            <button type="button" class="btn-cancel" style="padding:8px; font-size:0.85rem; margin-top:12px; width:100%; border:1px solid #cbd5e1; background:white; color:#475569; border-radius:10px; font-weight:600;" onclick="verifyAndEditPhone()"><i class="fas fa-mobile-alt"></i> <span id="t-change-phone">เปลี่ยนเบอร์โทรติดต่อ</span></button>
+        </div>
+
         <div id="user-details-form" class="hidden" style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:15px; margin-top:15px; border:1px solid #e2e8f0;">
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <div style="flex: 1.2;"><label class="form-label" id="t-fname">ชื่อจริง <span style="color:red">*</span></label><input type="text" id="inp-fname" class="form-control" placeholder="ชื่อ" oninput="validateNameInput(this)"></div>
@@ -271,16 +283,21 @@
             <div id="name-lock-warning" style="display:none; font-size:0.75rem; color:#eab308; margin-top:8px;"><i class="fas fa-lock"></i> <span id="t-lock-warn">พบประวัติในระบบ ชื่อ-สกุล ไม่สามารถแก้ไขได้</span></div>
         </div>
 
-        <div id="existing-user-display" class="hidden" style="background:var(--primary-light); padding:15px; border-radius:16px; margin-bottom:15px; border:1px solid #a5d6a7;">
-            <div style="color:var(--primary-dark); font-weight:700; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
-                <span id="t-user-info-title"><i class="fas fa-user-check"></i> ข้อมูลผู้รับบริการ</span>
-                <button onclick="logoutPatient(true)" style="background:none; border:none; color:#ef4444; font-size:0.8rem; cursor:pointer; font-family:'Prompt'; text-decoration:underline;" id="t-not-me">ไม่ใช่ฉัน?</button>
+        <div id="smart-book-area" class="hidden">
+            <div class="smart-book-divider" id="t-or">หรือจองให้คนอื่น</div>
+            <div class="smart-book-wrapper">
+                <div class="smart-select-3d" id="smart-trigger" onclick="toggleSmartBook()">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="fas fa-address-book" style="font-size:1.2rem;"></i>
+                        <span id="t-smart-book">เลือกจากรายชื่อที่บันทึกไว้</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="smart-items-container" id="smart-options">
+                    </div>
             </div>
-            <div id="masked-name" style="font-size:1.1rem; color:#1e293b; margin-bottom:4px; font-weight:700;"></div>
-            <div id="masked-tel" style="font-size:0.95rem; color:#475569;"></div>
-            <button type="button" class="btn-cancel" style="padding:8px; font-size:0.85rem; margin-top:12px; width:100%; border:1px solid #cbd5e1; background:white; color:#475569; border-radius:10px; font-weight:600;" onclick="verifyAndEditPhone()"><i class="fas fa-mobile-alt"></i> <span id="t-change-phone">เปลี่ยนเบอร์โทรติดต่อ</span></button>
         </div>
-        
+
         <div id="normal-fields" class="hidden" style="margin-top:15px;">
             <div class="form-group">
               <label class="form-label" id="t-sel-svc">เลือกบริการ</label>
@@ -329,7 +346,6 @@
 
         <div id="steam-fields" class="hidden" style="margin-top:15px;">
            <div class="form-group"><label class="form-label" id="t-gender">เพศ (สำหรับล็อกรอบ)</label><select id="inp-gender" class="form-control"><option value="หญิง" id="t-g-f">หญิง</option><option value="ชาย" id="t-g-m">ชาย</option></select></div>
-           <div id="steam-price-tag" style="margin-top:10px; background:#eff6ff; color:#0369a1; padding:10px 15px; border-radius:10px; font-size:0.85rem; border:1px solid #bfdbfe; line-height:1.5;"><div style="display:flex; gap:8px; align-items:flex-start;"><i class="fas fa-circle-info" style="margin-top:2px;"></i><div id="t-steam-price">อัตราค่าบริการ: 100 บาท/ครั้ง</div></div></div>
         </div>
 
         <div class="form-group" id="group-note" style="margin-top:15px;">
@@ -411,7 +427,9 @@
   </div>
 
   <script>
-    // 🌟 GLOBAL VARIABLES 
+    // ==========================================
+    // 🌟 CONSTANTS & GLOBALS
+    // ==========================================
     const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby0EQfBeg8ylgU9Q7IZDf-weHopsK4EFxXkqBUVvtDsEVKKpsIIDZ7y8fXXVWdyzKkbAw/exec"; 
     const FIREBASE_BASE_URL = "https://sadao-queue-999c3-default-rtdb.asia-southeast1.firebasedatabase.app/"; 
     
@@ -423,6 +441,9 @@
     let bookingData = {}; let selectedIndex = 0; let typingTimer;
     let currentUserDB = null; let selectedSlotData = null; let refreshInterval; let activeBookingObj = null; let isForeigner = false;
     
+    // ==========================================
+    // 🌟 PROFILES (LOCAL STORAGE)
+    // ==========================================
     let savedProfiles = [];
     try { savedProfiles = JSON.parse(localStorage.getItem('sdh_saved_profiles') || '[]'); } catch(e) { savedProfiles = []; }
     let activeProfileId = localStorage.getItem('sdh_active_profile_id');
@@ -430,7 +451,7 @@
 
     if(!activeProfileId && localStorage.getItem('sdh_patient_id')) {
         let oldId = localStorage.getItem('sdh_patient_id'); let oldF = localStorage.getItem('sdh_patient_fname'); let oldL = localStorage.getItem('sdh_patient_lname') || ""; let oldT = localStorage.getItem('sdh_patient_tel');
-        if(oldF) { savedProfiles.push({ id: oldId, fname: oldF, lname: oldL, tel: oldT }); activeProfileId = oldId; saveProfilesToStorage(); }
+        if(oldF) { savedProfiles.push({ id: oldId, fname: oldF, lname: oldL, tel: oldT, label: "" }); activeProfileId = oldId; saveProfilesToStorage(); }
         localStorage.removeItem('sdh_patient_id'); localStorage.removeItem('sdh_patient_fname'); localStorage.removeItem('sdh_patient_lname'); localStorage.removeItem('sdh_patient_tel');
     }
 
@@ -440,68 +461,34 @@
         else { localStorage.removeItem('sdh_active_profile_id'); }
     }
     
-    function addOrUpdateProfile(id, fname, lname, tel) { 
+    function addOrUpdateProfile(id, fname, lname, tel, label) { 
         let idx = savedProfiles.findIndex(p => p.id === id); 
-        if(idx > -1) { savedProfiles[idx] = { id, fname, lname, tel }; } else { savedProfiles.push({ id, fname, lname, tel }); } 
+        let safeLabel = (label !== undefined && label !== null) ? label : (idx > -1 ? savedProfiles[idx].label : "");
+        if(idx > -1) { savedProfiles[idx] = { id, fname, lname, tel, label: safeLabel }; } 
+        else { savedProfiles.push({ id, fname, lname, tel, label: safeLabel }); } 
         activeProfileId = id; saveProfilesToStorage(); 
     }
 
-    // 🔥 ฟังก์ชันสลับผู้ใช้งาน (Not me?) 🔥
     function switchUser() { activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
-    
-    function logoutPatient(fromModal) {
-        activeProfileId = null; 
-        saveProfilesToStorage(); 
-        
-        if(fromModal) {
-            document.getElementById('existing-user-display').classList.add('hidden');
-            document.getElementById('auth-section').style.display = 'block';
-            
-            document.getElementById('inp-idcard').value = '';
-            document.getElementById('inp-idcard-foreigner').value = '';
-            document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
-            
-            document.getElementById('idcard-status').innerHTML = '';
-            document.getElementById('inp-fname').value = '';
-            document.getElementById('inp-lname').value = '';
-            document.getElementById('inp-tel').value = '';
-            document.getElementById('inp-fname').readOnly = false;
-            document.getElementById('inp-lname').readOnly = false;
-            
-            document.getElementById('name-lock-warning').style.display = 'none';
-            document.getElementById('user-details-form').classList.add('hidden');
-            
-            let btnSave = document.getElementById('btn-save-info');
-            btnSave.disabled = true;
-            btnSave.innerHTML = _t('btn_check');
-            
-            currentUserDB = null;
-            
-            if(!isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 100); }
-        }
-        
-        renderMultiUserCard();
-    }
+    function removeUser(id) { savedProfiles = savedProfiles.filter(p => p.id !== id); if(activeProfileId === id) activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
 
-    // 🌟 TRANSLATIONS 
+    // ==========================================
+    // 🌟 I18N (TRANSLATIONS)
+    // ==========================================
     const I18N = {
         th: {
-            lang_toggle: "EN", app_ttm: "แพทย์แผนไทย", desc_ttm: "นวดรักษา, ประคบ, นวดส่งเสริมฯ", app_tcm: "แพทย์แผนจีน", desc_tcm: "ฝังเข็ม, ครอบแก้ว, ฝังเข็มใบหน้า", app_postpartum: "บริการหลังคลอด", desc_post: "หลังคลอดธรรมชาติ 7 วัน / ผ่า 1 เดือน", app_steam: "อบไอน้ำสมุนไพร", desc_steam: "ช่วยการไหลเวียนโลหิต ภูมิแพ้", h1: "โรงพยาบาลสะเดา", h2: "กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก", online: "เปิดให้บริการออนไลน์ 24 ชม.", greeting: "ข้อมูลผู้รับบริการ", change_user: "สลับผู้ใช้", history_title: "คิวที่กำลังจะมาถึง / ล่าสุด", syncing: "กำลังซิงค์ข้อมูล...", fill_info: "กรอกข้อมูลจองคิว", id_card: "เลขประจำตัวประชาชน", foreigner: "ชาวต่างชาติ", pdpa: "ปลอดภัย 100% ตามมาตรฐาน PDPA", fname: "ชื่อจริง", lname: "นามสกุล", phone: "เบอร์โทรศัพท์", lock_warn: "พบประวัติในระบบ ชื่อ-สกุล ไม่สามารถแก้ไขได้", user_info_title: "ข้อมูลผู้รับบริการ", not_me: "ไม่ใช่ฉัน?", change_phone: "เปลี่ยนเบอร์โทรติดต่อ", sel_svc: "เลือกบริการ", price_title: "อัตราค่าบริการ/สิทธิ:", prov_text_ttm: "ผู้ให้บริการ (ผู้ช่วยแพทย์แผนไทย)", prov_text_tcm: "ผู้ให้บริการ (แพทย์แผนจีน)", not_spec: "ไม่ระบุ", birthdate: "วันคลอด", del_type: "ประเภทการคลอด", hosp: "โรงพยาบาลที่คลอด", gender: "เพศ (สำหรับล็อกรอบ)", note: "หมายเหตุ (ถ้ามี)", btn_cancel: "ยกเลิก", btn_check: "ตรวจสอบข้อมูล", sum_title: "ยืนยันการนัดหมาย", btn_edit: "แก้ไข", btn_confirm: "ยืนยันจองคิว", saving: "ระบบรับข้อมูลแล้ว", saving_sub: "กรุณารอสักครู่ เพื่อยืนยันข้อมูล...", loading: "กำลังโหลด...", steam_price: "อัตราค่าบริการ: 100 บาท/ครั้ง", opt_sel: "-- เลือก --", opt_nat: "คลอดธรรมชาติ", opt_csec: "ผ่าคลอด", g_f: "หญิง", g_m: "ชาย", mu_title: "ผู้ใช้งานที่บันทึกไว้", btn_add_user: "ลงทะเบียนผู้รับบริการใหม่", act_user: "ใช้งานในชื่อ", aps_hist: "คิวล่าสุดของคุณ", cancel_q: "แจ้งยกเลิกนัดหมายนี้", addon_title: "🌿 รับบริการอบไอน้ำสมุนไพรต่อเนื่อง", addon_gender: "ระบุเพศเพื่อเข้าห้องอบ", no_profile: "ยังไม่มีประวัติในเครื่องนี้", btn_ack: "รับทราบและดำเนินการต่อ",
-            
-            right_title: "💳 เลือกสิทธิการรักษา", right_uc: "สิทธิบัตรทอง (UC)", right_gov: "สิทธิเบิกตรงข้าราชการ", right_ss: "สิทธิประกันสังคม/เบิกต้นสังกัด/ชำระเงินเอง", btn_confirm_right: "ยืนยันสิทธิและประมวลผล", warn_select_right: "กรุณาเลือกสิทธิการรักษาก่อนครับ", calc_title: "กำลังคำนวณค่าบริการ...", calc_sub: "ระบบกำลังประมวลผลตามสิทธิของคุณ...", bill_title: "สรุปค่าบริการ (โดยประมาณ)", bill_right: "💳 สิทธิ:", bill_base: "ค่าบริการพื้นฐาน:", bill_ooh: "ค่าบริการนอกเวลา/วันหยุด:", bill_2hr: "บริการต่อเนื่องชั่วโมงที่ 2:", bill_steam: "บริการอบไอน้ำสมุนไพร:", bill_total: "ยอดชำระสุทธิ:", baht: "บาท", opt_2hr_ttm: "จองต่อเนื่อง 2 ชั่วโมง", opt_2hr_tcm: "จองต่อเนื่อง ฝังเข็ม + ครอบแก้ว", note_2hr_ttm: "*ชั่วโมงที่ 2 ชำระเพิ่ม 250 บาท", note_2hr_tcm: "*ระบบจะลงคิว 2 ชม. ให้ทันที", plh_fname: "ชื่อ", plh_lname: "นามสกุล", plh_note: "มีไข้ / กระดูกแตกหัก / ประจำเดือน", plh_passport: "กรอกหมายเลข Passport", err_req_fields: "กรุณากรอกข้อมูลให้ครบถ้วน", warn_title: "แจ้งเตือน",
-            
-            swal_success: "สำเร็จ!", swal_error: "ผิดพลาด", swal_saved: "บันทึกข้อมูลเรียบร้อยแล้ว", swal_cancelled: "ระบบได้ยกเลิกคิวให้ท่านเรียบร้อยแล้ว", swal_cancel_title: "ยืนยันการยกเลิกนัด", swal_cancel_warn1: "⚠️ คำเตือน: คุณกำลังยกเลิกคิวใน 'วันเดียวกัน' กับที่นัดไว้\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 5 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?", swal_cancel_warn2: "⚠️ คำเตือน: คุณกำลังยกเลิกคิวกระชั้นชิด (ล่วงหน้า 1 วัน)\nระบบจะระงับการจองคิวครั้งถัดไปเป็นเวลา 2 วัน\n\nต้องการยกเลิกยืนยันใช่หรือไม่?", swal_cancel_warn3: "คุณต้องการยกเลิกคิวนี้ใช่หรือไม่?", btn_yes_cancel: "ยอมรับและยกเลิกคิว", btn_close: "ปิด", swal_book_success: "จองคิวสำเร็จ!", swal_line_notify: "<p>กรุณากดปุ่มด้านล่างเพื่อรับการยืนยันทาง LINE</p>", swal_processing: "กำลังประมวลผล...", swal_sys_err: "⚠️ ระบบขัดข้อง (กรุณาลองใหม่)", swal_record_found: "พบข้อมูลประวัติ", swal_new_patient: "ผู้รับบริการใหม่ กรุณากรอกข้อมูล",
-            
-            "นวดและประคบเพื่อการรักษา": "นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)", "ฝังเข็มเพื่อการรักษา": "ฝังเข็มเพื่อการรักษา", "ครอบแก้ว": "ครอบแก้ว", "ฝังเข็มใบหน้า": "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู": "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน": "ปรึกษาแพทย์แผนจีน"
+            lang_toggle: "EN", app_ttm: "แพทย์แผนไทย", desc_ttm: "นวดรักษา, ประคบ, นวดส่งเสริมฯ", app_tcm: "แพทย์แผนจีน", desc_tcm: "ฝังเข็ม, ครอบแก้ว, ฝังเข็มใบหน้า", app_postpartum: "บริการหลังคลอด", desc_post: "หลังคลอดธรรมชาติ 7 วัน / ผ่า 1 เดือน", app_steam: "อบไอน้ำสมุนไพร", desc_steam: "ช่วยการไหลเวียนโลหิต ภูมิแพ้", h1: "โรงพยาบาลสะเดา", h2: "กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก", online: "เปิดให้บริการออนไลน์ 24 ชม.", greeting: "ข้อมูลผู้รับบริการ", change_user: "สลับผู้ใช้", history_title: "คิวที่กำลังจะมาถึง / ล่าสุด", syncing: "กำลังซิงค์ข้อมูล...", fill_info: "กรอกข้อมูลจองคิว", id_card: "เลขประจำตัวประชาชน", foreigner: "ชาวต่างชาติ", pdpa: "ปลอดภัย 100% ตามมาตรฐาน PDPA", fname: "ชื่อจริง", lname: "นามสกุล", phone: "เบอร์โทรศัพท์", lock_warn: "พบประวัติในระบบ ชื่อ-สกุล ไม่สามารถแก้ไขได้", user_info_title: "ข้อมูลผู้รับบริการ", change_phone: "เปลี่ยนเบอร์โทรติดต่อ", sel_svc: "เลือกบริการ", price_title: "อัตราค่าบริการ/สิทธิ:", prov_text_ttm: "ผู้ให้บริการ (ผู้ช่วยแพทย์แผนไทย)", prov_text_tcm: "ผู้ให้บริการ (แพทย์แผนจีน)", not_spec: "ไม่ระบุ", birthdate: "วันคลอด", del_type: "ประเภทการคลอด", hosp: "โรงพยาบาลที่คลอด", gender: "เพศ (สำหรับล็อกรอบ)", note: "หมายเหตุ (ถ้ามี)", btn_cancel: "ยกเลิก", btn_check: "ตรวจสอบข้อมูล", sum_title: "ยืนยันการนัดหมาย", btn_edit: "แก้ไข", btn_confirm: "ยืนยันจองคิว", saving: "ระบบรับข้อมูลแล้ว", saving_sub: "กรุณารอสักครู่ เพื่อยืนยันข้อมูล...", loading: "กำลังโหลด...", opt_sel: "-- เลือก --", opt_nat: "คลอดธรรมชาติ", opt_csec: "ผ่าคลอด", g_f: "หญิง", g_m: "ชาย", mu_title: "ผู้ใช้งานที่บันทึกไว้", btn_add_user: "ลงทะเบียนผู้รับบริการใหม่", act_user: "ใช้งานในชื่อ", aps_hist: "คิวล่าสุดของคุณ", cancel_q: "แจ้งยกเลิกนัดหมายนี้", addon_title: "🌿 รับบริการอบไอน้ำสมุนไพรต่อเนื่อง", addon_gender: "ระบุเพศเพื่อเข้าห้องอบ", no_profile: "ยังไม่มีประวัติในเครื่องนี้", btn_ack: "รับทราบและดำเนินการต่อ",
+            right_title: "💳 เลือกสิทธิการรักษา", right_uc30: "สิทธิบัตรทอง (ร่วมจ่าย 30 บาท)", right_desc30: "(ช่วงอายุ 12-59 ปี)", right_uc_free: "สิทธิบัตรทอง (ยกเว้นร่วมจ่าย)", right_desc_free: "(ผู้สูงอายุ ผู้มีรายได้น้อย อสม. ฯลฯ)", right_gov: "สิทธิเบิกตรงข้าราชการ / อปท.", right_desc_gov: "(ไม่ต้องสำรองจ่าย)", right_enterprise: "สิทธิรัฐวิสาหกิจ", right_desc_enterprise: "(สำรองจ่ายเบิกต้นสังกัด)", right_ss: "สิทธิประกันสังคม / ชำระเงินเอง", right_desc_ss: "(สำรองจ่าย/เงินสด)", btn_confirm_right: "ยืนยันสิทธิและประมวลผล", warn_select_right: "กรุณาเลือกสิทธิการรักษาก่อนครับ", calc_title: "กำลังคำนวณค่าบริการ...", calc_sub: "ระบบกำลังประมวลผลตามสิทธิของคุณ...", bill_title: "สรุปค่าบริการ (โดยประมาณ)", bill_right: "💳 สิทธิ:", bill_base: "ค่าบริการพื้นฐาน:", bill_ooh: "ค่าบริการนอกเวลา/วันหยุด:", bill_2hr: "บริการต่อเนื่องชั่วโมงที่ 2:", bill_steam: "บริการอบไอน้ำสมุนไพร:", bill_total: "ยอดชำระสุทธิ:", baht: "บาท", opt_2hr_ttm: "จองต่อเนื่อง 2 ชั่วโมง", opt_2hr_tcm: "จองต่อเนื่อง ฝังเข็ม + ครอบแก้ว", note_2hr_ttm: "*ชั่วโมงที่ 2 ชำระเพิ่ม 250 บาท", note_2hr_tcm: "*ระบบจะลงคิว 2 ชม. ให้ทันที", plh_fname: "ชื่อ", plh_lname: "นามสกุล", plh_note: "มีไข้ / กระดูกแตกหัก / ประจำเดือน", plh_passport: "กรอกหมายเลข Passport", err_req_fields: "กรุณากรอกข้อมูลให้ครบถ้วน", warn_title: "แจ้งเตือน", swal_success: "สำเร็จ!", swal_error: "ผิดพลาด", swal_saved: "บันทึกข้อมูลเรียบร้อยแล้ว", swal_cancelled: "ระบบได้ยกเลิกคิวให้ท่านเรียบร้อยแล้ว", swal_cancel_title: "ยืนยันการยกเลิกนัด", swal_cancel_warn1: "⚠️ คำเตือน: ยกเลิกวันเดียวกัน ระบบระงับสิทธิ 5 วัน", swal_cancel_warn2: "⚠️ คำเตือน: ยกเลิกกระชั้นชิด ระบบระงับสิทธิ 2 วัน", swal_cancel_warn3: "คุณต้องการยกเลิกคิวนี้ใช่หรือไม่?", btn_yes_cancel: "ยอมรับและยกเลิกคิว", btn_close: "ปิด", swal_book_success: "จองคิวสำเร็จ!", swal_line_notify: "<p>กรุณากดปุ่มด้านล่างเพื่อรับการยืนยันทาง LINE</p>", swal_processing: "กำลังประมวลผล...", swal_sys_err: "⚠️ ระบบขัดข้อง (กรุณาลองใหม่)", swal_record_found: "พบข้อมูลประวัติ", swal_new_patient: "ผู้รับบริการใหม่ กรุณากรอกข้อมูล",
+            bill_enterprise_note: "*(โปรดขอใบเสร็จและใบรับรองแพทย์เพื่อเบิกต้นสังกัด)",
+            "นวดและประคบเพื่อการรักษา": "นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)", "ฝังเข็มเพื่อการรักษา": "ฝังเข็มเพื่อการรักษา", "ครอบแก้ว": "ครอบแก้ว", "ฝังเข็มใบหน้า": "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู": "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน": "ปรึกษาแพทย์แผนจีน",
+            plh_label: "สรรพนาม (เช่น ตัวฉัน, พ่อ, แม่)", sb_title: "เลือกจากรายชื่อที่บันทึกไว้", sb_or: "หรือจองให้คนอื่น", edit_label: "แก้ไขสรรพนาม", plh_label_eg: "เช่น คุณแม่, ตัวฉัน, ลูกชาย", btn_book_other: "จองให้บุคคลอื่น (กรอกใหม่)"
         },
         en: {
-            lang_toggle: "TH", app_ttm: "Thai Traditional Med.", desc_ttm: "Massage, Compress, Wellness", app_tcm: "Chinese Medicine", desc_tcm: "Acupuncture, Cupping, Facial", app_postpartum: "Postpartum Care", desc_post: "Normal delivery 7 days / C-Section 1 mo.", app_steam: "Herbal Steam", desc_steam: "Blood circulation, Allergy relief", h1: "Sadao Hospital", h2: "Thai Traditional & Alternative Medicine", online: "Online Booking 24/7", greeting: "Patient Information", change_user: "Switch User", history_title: "Upcoming / Recent Appointments", syncing: "Syncing data...", fill_info: "Booking Details", id_card: "Passport / ID Number", foreigner: "Foreigner", pdpa: "100% Secured by PDPA standard", fname: "First Name", lname: "Last Name", phone: "Phone Number", lock_warn: "Profile found. Name cannot be changed.", user_info_title: "Patient Details", not_me: "Not me?", change_phone: "Change Phone Number", sel_svc: "Select Service", price_title: "Estimated Fee:", prov_text_ttm: "Provider (TTM Assistant)", prov_text_tcm: "Provider (TCM Doctor)", not_spec: "Not Specified", birthdate: "Date of Birth (Baby)", del_type: "Delivery Type", hosp: "Hospital", gender: "Gender (For Room Allocation)", note: "Note (Optional)", btn_cancel: "Cancel", btn_check: "Check Info", sum_title: "Confirm Appointment", btn_edit: "Edit", btn_confirm: "Confirm Booking", saving: "Data Received", saving_sub: "Processing confirmation...", loading: "Loading...", steam_price: "Service Fee: 100 THB/Session", opt_sel: "-- Select --", opt_nat: "Normal Delivery", opt_csec: "C-Section", g_f: "Female", g_m: "Male", mu_title: "Saved Profiles", btn_add_user: "Add New Patient", act_user: "Active Profile", aps_hist: "Your Recent Appointment", cancel_q: "Cancel Appointment", addon_title: "🌿 Add Continuous Steam Therapy", addon_gender: "Select gender for steam room", no_profile: "No profiles saved", btn_ack: "Acknowledge & Continue",
-            
-            right_title: "💳 Select Treatment Right", right_uc: "Universal Coverage (UC)", right_gov: "Government", right_ss: "Social Security / Self-Pay", btn_confirm_right: "Confirm & Calculate", warn_select_right: "Please select your treatment right.", calc_title: "Calculating Fee...", calc_sub: "Processing based on your selected right...", bill_title: "Estimated Service Fee", bill_right: "💳 Right:", bill_base: "Base Service Fee:", bill_ooh: "Out-of-Hours Fee:", bill_2hr: "2nd Hour Session:", bill_steam: "Herbal Steam Therapy:", bill_total: "Total Estimated Amount:", baht: "THB", opt_2hr_ttm: "Cont. 2 Hrs Session", opt_2hr_tcm: "Cont. Acu + Cupping", note_2hr_ttm: "*Extra 250 THB for 2nd hour", note_2hr_tcm: "*Auto 2-hour slot", plh_fname: "First Name", plh_lname: "Last Name", plh_note: "Fever / Fracture / Menstruation", plh_passport: "Enter Passport Number", err_req_fields: "Please fill all required fields", warn_title: "Warning",
-            
-            swal_success: "Success!", swal_error: "Error", swal_saved: "Appointment saved.", swal_cancelled: "Appointment cancelled successfully.", swal_cancel_title: "Cancel Appointment?", swal_cancel_warn1: "⚠️ Warning: Same-day cancellation will suspend your booking rights for 5 days.\n\nProceed?", swal_cancel_warn2: "⚠️ Warning: Late cancellation will suspend your booking rights for 2 days.\n\nProceed?", swal_cancel_warn3: "Do you want to cancel this appointment?", btn_yes_cancel: "Yes, Cancel", btn_close: "Close", swal_book_success: "Booking Successful!", swal_line_notify: "<p>Click below to notify via LINE</p>", swal_processing: "Processing...", swal_sys_err: "⚠️ System error. Please try again.", swal_record_found: "Record found!", swal_new_patient: "New Patient: Please fill out details",
-            
-            "นวดและประคบเพื่อการรักษา": "Massage and Compress Therapy", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Relaxing Body Massage (Self-pay)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Foot Reflexology (Self-pay)", "ฝังเข็มเพื่อการรักษา": "Acupuncture Therapy", "ครอบแก้ว": "Cupping Therapy", "ฝังเข็มใบหน้า": "Facial Acupuncture", "เม็ดผักกาดแปะหู": "Auricular Seed Therapy", "ปรึกษาแพทย์แผนจีน": "TCM Consultation"
+            lang_toggle: "TH", app_ttm: "Thai Traditional Med.", desc_ttm: "Massage, Compress, Wellness", app_tcm: "Chinese Medicine", desc_tcm: "Acupuncture, Cupping, Facial", app_postpartum: "Postpartum Care", desc_post: "Normal delivery 7 days / C-Section 1 mo.", app_steam: "Herbal Steam", desc_steam: "Blood circulation, Allergy relief", h1: "Sadao Hospital", h2: "Thai Traditional & Alternative Medicine", online: "Online Booking 24/7", greeting: "Patient Information", change_user: "Switch User", history_title: "Upcoming / Recent Appointments", syncing: "Syncing data...", fill_info: "Booking Details", id_card: "Passport / ID Number", foreigner: "Foreigner", pdpa: "100% Secured by PDPA standard", fname: "First Name", lname: "Last Name", phone: "Phone Number", lock_warn: "Profile found. Name cannot be changed.", user_info_title: "Patient Details", change_phone: "Change Phone Number", sel_svc: "Select Service", price_title: "Estimated Fee:", prov_text_ttm: "Provider (TTM Assistant)", prov_text_tcm: "Provider (TCM Doctor)", not_spec: "Not Specified", birthdate: "Date of Birth (Baby)", del_type: "Delivery Type", hosp: "Hospital", gender: "Gender (For Room Allocation)", note: "Note (Optional)", btn_cancel: "Cancel", btn_check: "Check Info", sum_title: "Confirm Appointment", btn_edit: "Edit", btn_confirm: "Confirm Booking", saving: "Data Received", saving_sub: "Processing confirmation...", loading: "Loading...", opt_sel: "-- Select --", opt_nat: "Normal Delivery", opt_csec: "C-Section", g_f: "Female", g_m: "Male", mu_title: "Saved Profiles", btn_add_user: "Add New Patient", act_user: "Active Profile", aps_hist: "Your Recent Appointment", cancel_q: "Cancel Appointment", addon_title: "🌿 Add Continuous Steam Therapy", addon_gender: "Select gender for steam room", no_profile: "No profiles saved", btn_ack: "Acknowledge & Continue",
+            right_title: "💳 Select Treatment Right", right_uc30: "Universal Coverage (Co-pay 30 THB)", right_desc30: "(Age 12-59 years old)", right_uc_free: "Universal Coverage (Exempt)", right_desc_free: "(Elderly, Low-income, VHV, etc.)", right_gov: "Civil Servant / LGO", right_desc_gov: "(Direct Billing)", right_enterprise: "State Enterprise", right_desc_enterprise: "(Pay and Claim back)", right_ss: "Social Security / Self-Pay", right_desc_ss: "(Cash Payment)", btn_confirm_right: "Confirm & Calculate", warn_select_right: "Please select your treatment right.", calc_title: "Calculating Fee...", calc_sub: "Processing based on your selected right...", bill_title: "Estimated Service Fee", bill_right: "💳 Right:", bill_base: "Base Service Fee:", bill_ooh: "Out-of-Hours Fee:", bill_2hr: "2nd Hour Session:", bill_steam: "Herbal Steam Therapy:", bill_total: "Total Estimated Amount:", baht: "THB", opt_2hr_ttm: "Cont. 2 Hrs Session", opt_2hr_tcm: "Cont. Acu + Cupping", note_2hr_ttm: "*Extra 250 THB for 2nd hour", note_2hr_tcm: "*Auto 2-hour slot", plh_fname: "First Name", plh_lname: "Last Name", plh_note: "Fever / Fracture / Menstruation", plh_passport: "Enter Passport Number", err_req_fields: "Please fill all required fields", warn_title: "Warning", swal_success: "Success!", swal_error: "Error", swal_saved: "Appointment saved.", swal_cancelled: "Appointment cancelled.", swal_cancel_title: "Cancel Appointment?", swal_cancel_warn1: "⚠️ Warning: Same-day cancel, 5 days ban.", swal_cancel_warn2: "⚠️ Warning: Late cancel, 2 days ban.", swal_cancel_warn3: "Do you want to cancel this appointment?", btn_yes_cancel: "Yes, Cancel", btn_close: "Close", swal_book_success: "Booking Successful!", swal_line_notify: "<p>Click below to notify via LINE</p>", swal_processing: "Processing...", swal_sys_err: "⚠️ System error. Please try again.", swal_record_found: "Record found!", swal_new_patient: "New Patient: Please fill out details",
+            bill_enterprise_note: "*(Please claim the receipt and certificate at your office)",
+            "นวดและประคบเพื่อการรักษา": "Massage and Compress Therapy", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Relaxing Body Massage (Self-pay)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Foot Reflexology (Self-pay)", "ฝังเข็มเพื่อการรักษา": "Acupuncture Therapy", "ครอบแก้ว": "Cupping Therapy", "ฝังเข็มใบหน้า": "Facial Acupuncture", "เม็ดผักกาดแปะหู": "Auricular Seed Therapy", "ปรึกษาแพทย์แผนจีน": "TCM Consultation",
+            plh_label: "Label (e.g. Me, Mom, Son)", sb_title: "Select from saved profiles", sb_or: "OR BOOK FOR OTHERS", edit_label: "Edit Label", plh_label_eg: "e.g. Mom, Me, Son", btn_book_other: "Book for someone else (New)"
         }
     };
 
@@ -526,92 +513,65 @@
             document.getElementById('t-menu-tcm').innerText = _t('app_tcm'); document.getElementById('t-desc-tcm').innerText = _t('desc_tcm');
             document.getElementById('t-menu-post').innerText = _t('app_postpartum'); document.getElementById('t-desc-post').innerText = _t('desc_post');
             document.getElementById('t-menu-steam').innerText = _t('app_steam'); document.getElementById('t-desc-steam').innerText = _t('desc_steam');
-            
             document.getElementById('t-fill-info').innerText = _t('fill_info'); document.getElementById('t-foreigner-chk').innerText = _t('foreigner');
             document.getElementById('t-pdpa').innerHTML = `<i class="fas fa-shield-alt" style="color:#4caf50;"></i> ${_t('pdpa')}`;
             document.getElementById('t-fname').innerHTML = `${_t('fname')} <span style="color:red">*</span>`; document.getElementById('t-lname').innerText = _t('lname');
             document.getElementById('t-phone').innerHTML = `${_t('phone')} <span style="color:red">*</span>`; document.getElementById('t-lock-warn').innerText = _t('lock_warn');
             document.getElementById('t-user-info-title').innerHTML = `<i class="fas fa-user-check"></i> ${_t('user_info_title')}`;
-            document.getElementById('t-not-me').innerText = _t('not_me'); document.getElementById('t-change-phone').innerText = _t('change_phone');
-            document.getElementById('t-sel-svc').innerText = _t('sel_svc'); document.getElementById('t-price-title').innerText = _t('price_title');
-            
+            document.getElementById('t-change-phone').innerText = _t('change_phone');
+            document.getElementById('t-sel-svc').innerText = _t('sel_svc'); 
             if(document.getElementById('t-birthdate')) document.getElementById('t-birthdate').innerText = _t('birthdate'); 
             if(document.getElementById('t-del-type')) document.getElementById('t-del-type').innerText = _t('del_type');
             if(document.getElementById('t-hosp')) document.getElementById('t-hosp').innerText = _t('hosp'); 
             if(document.getElementById('t-addon-title')) document.getElementById('t-addon-title').innerHTML = _t('addon_title'); 
             if(document.getElementById('t-addon-gender')) document.getElementById('t-addon-gender').innerText = _t('addon_gender'); 
-            
             document.getElementById('t-gender').innerText = _t('gender'); document.getElementById('t-note').innerText = _t('note');
             document.getElementById('btn-cancel-modal').innerText = _t('btn_cancel'); document.getElementById('t-sum-title').innerText = _t('sum_title');
             document.getElementById('btn-edit-sum').innerText = _t('btn_edit'); document.getElementById('btn-final-confirm').innerText = _t('btn_confirm');
             document.getElementById('t-saving').innerText = _t('saving'); document.getElementById('t-saving-sub').innerText = _t('saving_sub'); 
-            document.getElementById('t-loading').innerText = _t('loading'); document.getElementById('t-steam-price').innerText = _t('steam_price');
-            
+            document.getElementById('t-loading').innerText = _t('loading'); 
             if(document.getElementById('t-opt-sel')) document.getElementById('t-opt-sel').innerText = _t('opt_sel'); 
             if(document.getElementById('t-opt-nat')) document.getElementById('t-opt-nat').innerText = _t('opt_nat'); 
             if(document.getElementById('t-opt-csec')) document.getElementById('t-opt-csec').innerText = _t('opt_csec');
-            
-            document.getElementById('t-g-f').innerText = _t('g_f'); document.getElementById('t-g-m').innerText = _t('g_m');
-            
+            if(document.getElementById('t-g-f')) document.getElementById('t-g-f').innerText = _t('g_f'); 
+            if(document.getElementById('t-g-m')) document.getElementById('t-g-m').innerText = _t('g_m');
             if(document.getElementById('t-mu-title')) document.getElementById('t-mu-title').innerText = _t('mu_title');
             if(document.getElementById('t-btn-add-user')) document.getElementById('t-btn-add-user').innerText = _t('btn_add_user');
             if(document.getElementById('t-act-user')) document.getElementById('t-act-user').innerText = _t('act_user'); 
             if(document.getElementById('t-switch-user')) document.getElementById('t-switch-user').innerText = _t('change_user');
             if(document.getElementById('t-aps-hist')) document.getElementById('t-aps-hist').innerText = _t('aps_hist');
+            
+            if(document.getElementById('t-or')) document.getElementById('t-or').innerText = _t('sb_or');
+            if(document.getElementById('t-smart-book')) document.getElementById('t-smart-book').innerText = _t('sb_title');
 
             let btnSave = document.getElementById('btn-save-info'); if(!btnSave.disabled) btnSave.innerText = _t('btn_check');
             document.getElementById('inp-fname').placeholder = _t('plh_fname');
             document.getElementById('inp-lname').placeholder = _t('plh_lname');
             document.getElementById('inp-note').placeholder = _t('plh_note');
             document.getElementById('inp-idcard-foreigner').placeholder = _t('plh_passport');
-            
             let sel = document.getElementById('inp-service');
-            if (sel && sel.options.length > 0 && currentApp) {
-                let currentVal = sel.value;
-                sel.innerHTML = '';
-                SERVICE_OPTIONS[currentApp].forEach(s => {
-                    let o = document.createElement('option');
-                    o.value = s; 
-                    o.innerText = _t(s); 
-                    sel.appendChild(o);
-                });
-                sel.value = currentVal;
-            }
-
+            if (sel && sel.options.length > 0 && currentApp) { let cur = sel.value; sel.innerHTML = ''; SERVICE_OPTIONS[currentApp].forEach(s => { let o = document.createElement('option'); o.value = s; o.innerText = _t(s); sel.appendChild(o); }); sel.value = cur; }
             let staffNode = document.getElementById('staff-display-name');
-            let currentStaffVal = document.getElementById('inp-staff-val') ? document.getElementById('inp-staff-val').value : "ไม่ระบุ";
-            if(staffNode) {
-                if(currentStaffVal === "ไม่ระบุ") {
-                    staffNode.innerText = _t('not_spec');
-                } else {
-                    staffNode.innerText = currentLang === 'en' ? (STAFF_EN_NAMES[currentStaffVal] || currentStaffVal) : (STAFF_NAME_MAP[currentStaffVal] || currentStaffVal);
-                }
-            }
-            
-            if(currentApp) { document.getElementById('app-title').innerText = _t('app_' + currentApp); }
-            if(document.getElementById('t-ack-btn')) document.getElementById('t-ack-btn').innerText = _t('btn_ack');
-
-            let lText = document.getElementById('lbl-2hr-text'); 
-            let nText = document.getElementById('note-2hr-text');
-            if (lText && currentApp) {
-                 if (currentApp === 'tcm') { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_tcm')}`; nText.innerText = _t('note_2hr_tcm'); } 
-                 else { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_ttm')}`; nText.innerText = _t('note_2hr_ttm'); }
-            }
-
+            let staffVal = document.getElementById('inp-staff-val') ? document.getElementById('inp-staff-val').value : "ไม่ระบุ";
+            if(staffNode) { if(staffVal === "ไม่ระบุ") staffNode.innerText = _t('not_spec'); else staffNode.innerText = currentLang === 'en' ? (STAFF_EN_NAMES[staffVal] || staffVal) : (STAFF_NAME_MAP[staffVal] || staffVal); }
+            if(currentApp) document.getElementById('app-title').innerText = _t('app_' + currentApp);
+            let lText = document.getElementById('lbl-2hr-text'); let nText = document.getElementById('note-2hr-text');
+            if (lText && currentApp) { if (currentApp === 'tcm') { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_tcm')}`; nText.innerText = _t('note_2hr_tcm'); } else { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_ttm')}`; nText.innerText = _t('note_2hr_ttm'); } }
             toggleForeignerMode();
+            renderSmartBookDropdown();
         } catch(e) { console.error("Language UI Error:", e); }
     }
 
-    const SERVICE_PRICES = { ttm: { "นวดและประคบเพื่อการรักษา": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป" }, tcm: { "ฝังเข็มเพื่อการรักษา": "เช็คสิทธิ ในหน้าถัดไป", "ครอบแก้ว": "150 บาท", "ฝังเข็มใบหน้า": "300 บาท", "เม็ดผักกาดแปะหู": "50 บาท", "ปรึกษาแพทย์แผนจีน": "ฟรี" } };
-    const SERVICE_PRICES_EN = { ttm: { "นวดและประคบเพื่อการรักษา": "Fee calculated in next step", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Fee calculated in next step" }, tcm: { "ฝังเข็มเพื่อการรักษา": "Fee calculated in next step", "ครอบแก้ว": "150 THB", "ฝังเข็มใบหน้า": "300 THB", "เม็ดผักกาดแปะหู": "50 THB", "ปรึกษาแพทย์แผนจีน": "Free" } };
     const APP_CONFIG = { ttm: { title: "แพทย์แผนไทย", logo: "https://img2.pic.in.th/pic/619e72dc2124132ccf4620717d4fa58d.md.png", color: "#2e7d32" }, tcm: { title: "แพทย์แผนจีน", logo: "https://img2.pic.in.th/pic/--06d2d95efaba2074.md.png", color: "#c62828" }, postpartum: { title: "บริการหลังคลอด", logo: "https://img2.pic.in.th/pic/eb06897c542c79b64690c8e794fa84a4.png", color: "#ec4899" }, steam: { title: "อบไอน้ำสมุนไพร", logo: "https://img2.pic.in.th/pic/-3b445847427fcbfd.png", color: "#0288d1" } };
     const SERVICE_OPTIONS = { ttm: ["นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)"], tcm: ["ฝังเข็มเพื่อการรักษา", "ครอบแก้ว", "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน"] };
-    
     const STAFF_IMAGES = { "รจนา M": "https://img1.pic.in.th/images/29cf568d9d3f548b07.png", "อรรถพล B": "https://img2.pic.in.th/3002857ed55bcb783e.png", "ศินารัตน์ C": "https://img2.pic.in.th/35b2f9d14beddf4380.png", "จุฑามาศ F": "https://img1.pic.in.th/images/3160d8e760be1bc51e.png", "รัตน์ชนก KW": "https://img2.pic.in.th/323086fe6798ca5dce.png", "นิกษ์นิภา T": "https://img2.pic.in.th/33bea174c8b0315ff4.png", "ณิชาภัทร W": "https://img1.pic.in.th/images/3438c14aad54d74a1a.png", "จินดา J": "https://img2.pic.in.th/-2569d4d2a9b79e0efa9e.png" };
-    const STAFF_NAME_MAP = { "จินดา J": "จินดา (เจี๊ยบ)", "รจนา M": "รจนา (แหม่ม)", "อรรถพล B": "อรรถพล (บ่าว)", "ศินารัตน์ C": "ศินารัตน์ (ซี)", "จุฑามาศ F": "จุฑามาศ (ฝน)", "รัตน์ชนก KW": "รัตน์ชนก (กวาง)", "นิกษ์นิภา T": "Niknipha (Kartoon)", "ณิชาภัทร W": "ณิชาภัทร (วาวา)" };
+    const STAFF_NAME_MAP = { "จินดา J": "จินดา (เจี๊ยบ)", "รจนา M": "รจนา (แหม่ม)", "อรรถพล B": "อรรถพล (บ่าว)", "ศินารัตน์ C": "ศินารัตน์ (ซี)", "จุฑามาศ F": "จุฑามาศ (ฝน)", "รัตน์ชนก KW": "รัตน์ชนก (กวาง)", "นิกษ์นิภา T": "นิกษ์นิภา (การ์ตูน)", "ณิชาภัทร W": "ณิชาภัทร (วาวา)" };
     const STAFF_EN_NAMES = { "จินดา J": "Jinda (Jeab)", "รจนา M": "Rotjana (Maam)", "อรรถพล B": "Attapon (Bao)", "ศินารัตน์ C": "Sinarat (C)", "จุฑามาศ F": "Jutamat (Fon)", "รัตน์ชนก KW": "Ratchanok (Kwang)", "นิกษ์นิภา T": "Niknipha (Kartoon)", "ณิชาภัทร W": "Nichapat (Wawa)" };
     const DEFAULT_IMG = "https://img2.pic.in.th/pic/1c189d2a727f532d391a5ab0604ccd2f.png"; const DAY_COLORS = ["#ef4444", "#eab308", "#ec4899", "#22c55e", "#f97316", "#3b82f6", "#a855f7"];
 
+    // ==========================================
+    // 🌟 MULTI-USER & SMART BOOKING
+    // ==========================================
     function renderMultiUserCard() {
         try {
             let container = document.getElementById('main-auth-card');
@@ -653,44 +613,6 @@
     }
 
     function selectUser(id) { activeProfileId = id; saveProfilesToStorage(); renderMultiUserCard(); }
-    
-    function switchUser() { activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
-    
-    function removeUser(id) { savedProfiles = savedProfiles.filter(p => p.id !== id); if(activeProfileId === id) activeProfileId = null; saveProfilesToStorage(); renderMultiUserCard(); }
-    
-    function logoutPatient(fromModal) {
-        activeProfileId = null; 
-        saveProfilesToStorage(); 
-        
-        if(fromModal) {
-            document.getElementById('existing-user-display').classList.add('hidden');
-            document.getElementById('auth-section').style.display = 'block';
-            
-            document.getElementById('inp-idcard').value = '';
-            document.getElementById('inp-idcard-foreigner').value = '';
-            document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
-            
-            document.getElementById('idcard-status').innerHTML = '';
-            document.getElementById('inp-fname').value = '';
-            document.getElementById('inp-lname').value = '';
-            document.getElementById('inp-tel').value = '';
-            document.getElementById('inp-fname').readOnly = false;
-            document.getElementById('inp-lname').readOnly = false;
-            
-            document.getElementById('name-lock-warning').style.display = 'none';
-            document.getElementById('user-details-form').classList.add('hidden');
-            
-            let btnSave = document.getElementById('btn-save-info');
-            btnSave.disabled = true;
-            btnSave.innerHTML = _t('btn_check');
-            
-            currentUserDB = null;
-            
-            if(!isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 100); }
-        }
-        
-        renderMultiUserCard();
-    }
 
     function showAddUserForm() { 
         Swal.fire({
@@ -701,14 +623,127 @@
         }).then((res) => {
             if (res.isConfirmed) {
                 let v = res.value;
-                if(v.idCard && v.fname && v.tel) { addOrUpdateProfile(v.idCard, v.fname, v.lname, v.tel); Swal.fire(_t('swal_success'), '', 'success'); renderMultiUserCard(); } 
+                if(v.idCard && v.fname && v.tel) { addOrUpdateProfile(v.idCard, v.fname, v.lname, v.tel, ""); Swal.fire(_t('swal_success'), '', 'success'); renderMultiUserCard(); } 
                 else { Swal.fire(_t('swal_error'), _t('err_req_fields'), 'error'); }
+            }
+        });
+    }
+
+    // 3D Smart Patient Book in Booking Modal
+    function renderSmartBookDropdown() {
+        let area = document.getElementById('smart-book-area');
+        if (!area) return;
+        if (savedProfiles.length === 0) {
+            area.classList.add('hidden');
+        } else {
+            area.classList.remove('hidden');
+            let opts = document.getElementById('smart-options');
+            let html = "";
+            html += `<div class="smart-item" onclick="clearForNewPatient()" style="color:var(--primary); font-weight:700; justify-content:center; background:#f0fdf4;">
+                        <i class="fas fa-user-plus"></i> ${_t('btn_book_other')}
+                     </div>`;
+            savedProfiles.forEach(p => {
+                let mName = getMaskedFullName(p.fname, p.lname);
+                let displayLabel = p.label ? p.label : (currentLang === 'en' ? 'Add Nickname' : 'กดเพื่อตั้งชื่อเล่น');
+
+                html += `<div class="smart-item" onclick="selectProfileForBooking('${p.id}')">
+                            <div class="smart-item-icon"><i class="fas fa-user"></i></div>
+                            <div>
+                                <div class="smart-item-label">${displayLabel}</div>
+                                <div class="smart-item-mask">${mName}</div>
+                            </div>
+                         </div>`;
+            });
+            opts.innerHTML = html;
+        }
+    }
+
+    function toggleSmartBook() {
+        document.getElementById('smart-trigger').classList.toggle('open');
+        document.getElementById('smart-options').classList.toggle('show');
+    }
+
+    function clearForNewPatient() {
+        document.getElementById('smart-trigger').classList.remove('open');
+        document.getElementById('smart-options').classList.remove('show');
+        
+        document.getElementById('inp-idcard').value = '';
+        document.getElementById('inp-idcard-foreigner').value = '';
+        document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
+        
+        document.getElementById('idcard-status').innerHTML = '';
+        document.getElementById('inp-fname').value = '';
+        document.getElementById('inp-lname').value = '';
+        document.getElementById('inp-tel').value = '';
+        document.getElementById('inp-fname').readOnly = false;
+        document.getElementById('inp-lname').readOnly = false;
+        
+        document.getElementById('existing-user-display').classList.add('hidden');
+        document.getElementById('user-details-form').classList.add('hidden');
+        document.getElementById('name-lock-warning').style.display = 'none';
+        
+        let btnSave = document.getElementById('btn-save-info');
+        btnSave.disabled = true;
+        btnSave.innerHTML = _t('btn_check');
+        
+        currentUserDB = null;
+        activeProfileId = null;
+        
+        if(!isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 100); }
+    }
+
+    function selectProfileForBooking(id) {
+        let p = savedProfiles.find(x => x.id === id);
+        if(p) {
+            document.getElementById('chk-foreigner').checked = false;
+            toggleForeignerMode();
+            
+            if(id.length === 13 && !isForeigner) {
+                let boxes = document.querySelectorAll('.otp-box');
+                for(let i=0; i<13; i++) {
+                    if(boxes[i]) { boxes[i].value = id[i]; boxes[i].classList.add('filled'); }
+                }
+            } else {
+                document.getElementById('chk-foreigner').checked = true;
+                toggleForeignerMode();
+                document.getElementById('inp-idcard-foreigner').value = id;
+            }
+            document.getElementById('inp-idcard').value = id;
+            
+            document.getElementById('smart-trigger').classList.remove('open');
+            document.getElementById('smart-options').classList.remove('show');
+            
+            checkIDCardInput();
+        }
+    }
+
+    function editCurrentLabel() {
+        let id = document.getElementById('inp-idcard').value;
+        let p = savedProfiles.find(x => x.id === id);
+        if(!p) return;
+        Swal.fire({
+            title: _t('edit_label'),
+            input: 'text',
+            inputValue: p.label || '',
+            placeholder: _t('plh_label_eg'),
+            showCancelButton: true,
+            confirmButtonText: currentLang === 'en' ? 'Save' : 'บันทึก',
+            cancelButtonText: _t('btn_cancel'),
+            confirmButtonColor: '#2e7d32'
+        }).then(res => {
+            if(res.isConfirmed && res.value) {
+                addOrUpdateProfile(p.id, p.fname, p.lname, p.tel, res.value);
+                fillUserDataUI(p.id, p.fname, p.lname, p.tel);
+                renderMultiUserCard(); 
             }
         });
     }
 
     window.onload = function() { applyLanguageToUI(); setupIDBoxes(); renderMultiUserCard(); };
 
+    // ==========================================
+    // 🌟 ID & VALIDATION
+    // ==========================================
     function setupIDBoxes() {
         const boxes = document.querySelectorAll('.otp-box');
         boxes.forEach((box, index) => {
@@ -718,7 +753,22 @@
         });
     }
 
-    function updateHiddenID() { if(isForeigner) return; const boxes = document.querySelectorAll('.otp-box'); let id = Array.from(boxes).map(b => b.value).join(''); document.getElementById('inp-idcard').value = id; if (id.length === 13) { checkIDCardInput(); } else { document.getElementById('idcard-status').innerHTML = ''; document.getElementById('btn-save-info').disabled = true; document.getElementById('btn-save-info').innerHTML = _t('btn_check'); } }
+    function updateHiddenID() { 
+        if(isForeigner) return; 
+        const boxes = document.querySelectorAll('.otp-box'); 
+        let id = Array.from(boxes).map(b => b.value).join(''); 
+        document.getElementById('inp-idcard').value = id; 
+        if (id.length === 13) { 
+            checkIDCardInput(); 
+        } else { 
+            document.getElementById('idcard-status').innerHTML = ''; 
+            document.getElementById('btn-save-info').disabled = true; 
+            document.getElementById('btn-save-info').innerHTML = _t('btn_check'); 
+            
+            document.getElementById('existing-user-display').classList.add('hidden');
+            document.getElementById('user-details-form').classList.add('hidden');
+        } 
+    }
 
     function toggleForeignerMode() {
         isForeigner = document.getElementById('chk-foreigner').checked; let hiddenId = document.getElementById('inp-idcard'); let boxContainer = document.getElementById('thai-id-boxes'); let foreignInput = document.getElementById('inp-idcard-foreigner'); let lblId = document.getElementById('lbl-idcard');
@@ -727,37 +777,29 @@
         else { lblId.innerHTML = `${_t('id_card')} <span style="color:red">*</span>`; boxContainer.style.display = 'flex'; foreignInput.classList.add('hidden'); hiddenId.value = ""; document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); }); }
     }
 
-    function validateNameInput(input) { if(isForeigner) { input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); } }
-    
-    function maskString(str) { 
-        if(!str) return ""; let s = str.toString().trim(); 
-        if(s.length <= 2) return s.substring(0, 1) + "***"; 
-        if(s.length <= 4) return s.substring(0, 2) + "***"; 
-        return s.substring(0, 3) + "***"; 
-    }
-    
+    function validateNameInput(input) { if(isForeigner) input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); }
+    function maskString(str) { if(!str) return ""; let s = str.toString().trim(); if(s.length <= 2) return s.substring(0, 1) + "***"; if(s.length <= 4) return s.substring(0, 2) + "***"; return s.substring(0, 3) + "***"; }
     function getMaskedFullName(fname, lname) { return maskString(fname) + " " + maskString(lname); }
     function getMaskedTel(tel) { if(!tel || tel.length < 10) return tel; return tel.substring(0,3) + "-xxx-x" + tel.substring(8); }
 
+    // ==========================================
+    // 🌟 PATIENT HISTORY & CANCELLATION
+    // ==========================================
     function fetchPatientHistory(idCard) {
-        let scText = document.getElementById('t-syncing'); if(scText) scText.innerText = _t('syncing');
         fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'get_my_history', idCard: idCard }) }).then(r=>r.json()).then(data => {
             if (data.status === 'success' && data.history) {
                 let h = data.history; let icon = h.service.includes('ฝังเข็ม') ? '<i class="fas fa-yin-yang"></i>' : (h.service.includes('อบ') ? '<i class="fas fa-hot-tub-person"></i>' : '<i class="fas fa-leaf"></i>');
                 let apsCont = document.getElementById('aps-history-content');
                 if(apsCont) apsCont.innerHTML = `<div class="pc-h-icon" style="background:rgba(46,125,50,0.1); color:#2e7d32; width:35px; height:35px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem;">${icon}</div><div style="flex:1;"><div style="color:#1e293b; font-weight:bold; font-size:0.95rem;">${_t(h.service)}</div><div style="color:#475569; font-size:0.8rem;"><i class="far fa-calendar-alt"></i> ${h.date} | ${h.time} น.</div></div>`;
-                
                 let btnArea = document.getElementById('btn-cancel-area');
                 if(h.sysDate && btnArea) { 
                     activeBookingObj = { idCard: idCard, service: h.service, date: h.date, sysDate: h.sysDate, time: h.time }; 
                     btnArea.innerHTML = `<button class="btn-cancel-q" onclick="reqCancelBooking()"><i class="fas fa-times-circle"></i> ${_t('cancel_q')}</button>`; 
-                } 
-                else if(btnArea) { btnArea.innerHTML = `<div style="text-align:right; font-size:0.8rem; color:#4ade80; margin-top:5px; font-weight:bold;"><i class="fas fa-check-circle"></i> ${h.status || 'Completed'}</div>`; activeBookingObj = null; }
+                } else if(btnArea) { btnArea.innerHTML = `<div style="text-align:right; font-size:0.8rem; color:#4ade80; margin-top:5px; font-weight:bold;"><i class="fas fa-check-circle"></i> ${h.status || 'Completed'}</div>`; activeBookingObj = null; }
             } else { 
                 let apsCont = document.getElementById('aps-history-content');
-                let btnArea = document.getElementById('btn-cancel-area');
                 if(apsCont) apsCont.innerHTML = `<div style="color:#64748b; font-size:0.85rem; width:100%; text-align:center; padding:10px 0;">No record found</div>`; 
-                if(btnArea) btnArea.innerHTML = ''; 
+                if(document.getElementById('btn-cancel-area')) document.getElementById('btn-cancel-area').innerHTML = ''; 
             }
         }).catch(e=>{});
     }
@@ -766,7 +808,7 @@
         if(!activeBookingObj) return; let today = new Date(); today.setHours(0,0,0,0); let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]); let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         let warnMsg = _t('swal_cancel_warn3');
         if(bDate.getTime() === today.getTime()) warnMsg = _t('swal_cancel_warn1'); else if (diffDays === 1) warnMsg = _t('swal_cancel_warn2');
-        Swal.fire({ title: _t('swal_cancel_title'), text: warnMsg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: _t('btn_yes_cancel'), cancelButtonText: _t('btn_close') }).then((result) => { if (result.isConfirmed) { executeCancelBooking(); } });
+        Swal.fire({ title: _t('swal_cancel_title'), text: warnMsg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: _t('btn_yes_cancel'), cancelButtonText: _t('btn_close') }).then((result) => { if (result.isConfirmed) executeCancelBooking(); });
     }
 
     function executeCancelBooking() {
@@ -775,48 +817,27 @@
         let payload = { action: 'cancel_booking', idCard: activeBookingObj.idCard, sysDate: activeBookingObj.sysDate, time: activeBookingObj.time, sheetName: sheetN, dept: sDept };
         fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) })
         .then(async response => { let resText = await response.text(); try { return JSON.parse(resText); } catch(err) { return { status: 'success', penaltyDays: 0 }; } })
-        .then(res => {
-            if(res.status === 'success' || res.status === 'error_but_done') { 
-                let msg = _t('swal_cancelled'); if(res.penaltyDays > 0) msg += `\n\nBan until: ${res.banUntil}`; Swal.fire(_t('swal_success'), msg, 'success'); fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
-            } else { Swal.fire(_t('swal_error'), res.message || 'Error occurred', 'error'); }
-        }).catch(e=>{ fetchPatientHistory(activeBookingObj.idCard); Swal.fire(_t('swal_success'), _t('swal_cancelled'), 'success'); });
+        .then(res => { if(res.status === 'success' || res.status === 'error_but_done') { let msg = _t('swal_cancelled'); if(res.penaltyDays > 0) msg += `\n\nBan until: ${res.banUntil}`; Swal.fire(_t('swal_success'), msg, 'success'); fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); } else Swal.fire(_t('swal_error'), res.message || 'Error occurred', 'error'); })
+        .catch(e=>{ fetchPatientHistory(activeBookingObj.idCard); Swal.fire(_t('swal_success'), _t('swal_cancelled'), 'success'); });
     }
 
-    function openApp(type) {
-      if(type === 'imc' || type === 'wellness') { return; } 
-      if (type === 'ttm') {
-          let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner');
-          modal.style.display = 'flex'; setTimeout(() => { modal.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10);
-          return;
-      }
-      proceedToApp(type);
-    }
-    
-    function acceptAnnouncement() {
-        let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner');
-        modal.style.opacity = '0'; card.style.transform = 'scale(0.9)'; setTimeout(() => { modal.style.display = 'none'; proceedToApp('ttm'); }, 300);
-    }
-
-    function proceedToApp(type) {
-      currentApp = type; let conf = APP_CONFIG[type];
-      document.documentElement.style.setProperty('--primary', conf.color); document.documentElement.style.setProperty('--primary-light', type==='tcm'?'#ffebee':type==='postpartum'?'#fce4ec':type==='steam'?'#e0f2fe':'#e8f5e9');
-      document.getElementById('app-title').innerText = _t('app_' + type); document.getElementById('app-logo').src = conf.logo; document.getElementById('view-home').classList.add('hidden'); document.getElementById('view-dashboard').classList.remove('hidden');
-      fetchData(true); if(refreshInterval) clearInterval(refreshInterval); refreshInterval = setInterval(() => { fetchData(false); }, 15000);
-    }
-    
+    // ==========================================
+    // 🌟 APP NAVIGATION & DATA FETCHING
+    // ==========================================
+    function openApp(type) { if (type === 'ttm') { let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner'); modal.style.display = 'flex'; setTimeout(() => { modal.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10); return; } proceedToApp(type); }
+    function acceptAnnouncement() { let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner'); modal.style.opacity = '0'; card.style.transform = 'scale(0.9)'; setTimeout(() => { modal.style.display = 'none'; proceedToApp('ttm'); }, 300); }
+    function proceedToApp(type) { currentApp = type; let conf = APP_CONFIG[type]; document.documentElement.style.setProperty('--primary', conf.color); document.documentElement.style.setProperty('--primary-light', type==='tcm'?'#ffebee':type==='postpartum'?'#fce4ec':type==='steam'?'#e0f2fe':'#e8f5e9'); document.getElementById('app-title').innerText = _t('app_' + type); document.getElementById('app-logo').src = conf.logo; document.getElementById('view-home').classList.add('hidden'); document.getElementById('view-dashboard').classList.remove('hidden'); fetchData(true); if(refreshInterval) clearInterval(refreshInterval); refreshInterval = setInterval(() => { fetchData(false); }, 15000); }
     function goHome() { document.getElementById('view-dashboard').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); if(refreshInterval) clearInterval(refreshInterval); renderMultiUserCard(); }
 
     function fetchData(showLoader) {
       if(showLoader) document.getElementById('pageLoader').classList.remove('hidden');
       const syncIcon = document.getElementById('sync-icon'); const syncText = document.getElementById('sync-text');
-      if(!showLoader) { syncIcon.classList.add('spin-active'); }
-      fetch("https://sadao-queue-999c3-default-rtdb.asia-southeast1.firebasedatabase.app/sadaoData.json?t=" + new Date().getTime(), { cache: 'no-store' }).then(res => res.json()).then(data => {
+      if(!showLoader) syncIcon.classList.add('spin-active');
+      fetch(FIREBASE_BASE_URL + "sadaoData.json?t=" + new Date().getTime(), { cache: 'no-store' }).then(res => res.json()).then(data => {
             let now = new Date(); let timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
             syncIcon.classList.remove('spin-active'); syncText.innerText = (currentLang === 'en' ? 'Updated ' : 'อัปเดตล่าสุด ') + timeStr; 
-            fullFirebaseData = data; 
-            globalData = currentApp==='ttm'?data.ttm:currentApp==='tcm'?data.tcm:currentApp==='postpartum'?data.postpartum:data.steam;
-            renderScroller(); renderSlots(selectedIndex);
-            if(showLoader) document.getElementById('pageLoader').classList.add('hidden');
+            fullFirebaseData = data; globalData = currentApp==='ttm'?data.ttm:currentApp==='tcm'?data.tcm:currentApp==='postpartum'?data.postpartum:data.steam;
+            renderScroller(); renderSlots(selectedIndex); if(showLoader) document.getElementById('pageLoader').classList.add('hidden');
         }).catch(e => { syncIcon.classList.remove('spin-active'); syncText.innerText = 'Offline'; if(showLoader) document.getElementById('pageLoader').classList.add('hidden'); });
     }
 
@@ -832,152 +853,124 @@
     function renderSlots(index) {
         let day = globalData[index]; let container = document.getElementById('contentArea');
         if (!day || !day.slots || day.slots.length === 0) { container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-calendar-times" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">${currentLang === 'en' ? 'No slots available' : 'ไม่มีรอบว่างในวันนี้'}</h3></div>`; return; }
-        
         let now = new Date(); let currentMins = now.getHours() * 60 + now.getMinutes(); let todaySysDate = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0'); let isToday = (day.sysDate === todaySysDate);
         let validSlots = [];
         day.slots.forEach(slot => { if (isToday) { let tP = slot.time.split(":"); let sM = parseInt(tP[0]) * 60 + parseInt(tP[1]); if (sM <= currentMins) return; } validSlots.push(slot); });
         if(validSlots.length === 0) { container.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#94a3b8;"><i class="fas fa-clock" style="font-size:3.5rem; margin-bottom:15px; opacity:0.4;"></i><h3 style="margin:0;">${currentLang === 'en' ? 'All slots have passed' : 'รอบบริการวันนี้ผ่านไปหมดแล้ว'}</h3></div>`; return; }
-
-        let dtLabel = day.fullLabel;
-        if(currentLang === 'en') { let mEn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; let dParts = day.sysDate.split("-"); dtLabel = `${dParts[2]} ${mEn[parseInt(dParts[1])-1]} ${dParts[0]}`; }
+        let dtLabel = day.fullLabel; if(currentLang === 'en') { let mEn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; let dParts = day.sysDate.split("-"); dtLabel = `${dParts[2]} ${mEn[parseInt(dParts[1])-1]} ${dParts[0]}`; }
         let html = `<div class="selected-date-header"><span class="header-bar"></span>${dtLabel}</div><div class="grid-container">`;
         let deptIcon = '<i class="fas fa-calendar-check"></i>'; if (currentApp === 'ttm') deptIcon = '<i class="fas fa-leaf"></i>'; else if (currentApp === 'tcm') deptIcon = '<i class="fas fa-yin-yang"></i>'; else if (currentApp === 'postpartum') deptIcon = '<i class="fas fa-hands-holding-child"></i>'; else if (currentApp === 'steam') deptIcon = '<i class="fas fa-hot-tub-person"></i>';
-
         validSlots.forEach((slot, i) => {
             let isFull = slot.val.includes('เต็ม') || slot.val.includes('งด'); let count = slot.count || 0; let slotGender = slot.gender || ""; let gClass = "";
             if (currentApp === 'tcm') gClass = "theme-tcm"; if (currentApp === 'postpartum') gClass = "theme-postpartum";
             if (currentApp === 'steam' && slotGender !== "" && !isFull) { if (slotGender === "ชาย" || slotGender === "ช") gClass = "slot-male"; else if (slotGender === "หญิง" || slotGender === "ญ") gClass = "slot-female"; }
-            
             let twoHrBadge = ""; if (!isFull && slot.count2Hr > 0 && (currentApp === 'ttm' || currentApp === 'tcm')) { let bText = currentApp === 'tcm' ? "Acu+Cup" : `2Hr (${slot.count2Hr})`; twoHrBadge = `<div class="badge-2hr"><i class="fas fa-clock"></i> ${bText}</div>`; }
             let iconsHtml = ''; if (!isFull && count > 0) { iconsHtml = `<div class="queue-icons">`; for(let k=0; k<Math.min(count, 4); k++) iconsHtml += `<i class="fas fa-user"></i>`; if (count > 4) iconsHtml += `<span style="font-weight:bold; margin-left:2px; font-size:0.7rem;">+</span>`; iconsHtml += `</div>`; }
             let genderBadge = ''; if (currentApp === 'steam' && slotGender && !isFull) { if (slotGender === "ชาย" || slotGender === "ช") genderBadge = `<div class="gender-tag male-tag"><i class="fas fa-mars"></i> Male</div>`; else if (slotGender === "หญิง" || slotGender === "ญ") genderBadge = `<div class="gender-tag female-tag"><i class="fas fa-venus"></i> Female</div>`; }
-
             let statusTxt = isFull ? (currentLang==='en'?'FULL':'เต็ม') : (currentLang==='en'?`${count} Left`:`ว่าง ${count}`);
             let badgeHtml = isFull ? `<div class="status-capsule"><div class="status-text">${statusTxt}</div></div>` : `<div class="slot-info-right">${genderBadge}${twoHrBadge}<div class="status-capsule">${iconsHtml}<div class="status-text">${statusTxt}</div></div></div>`;
-            
-            let staffJsonEncoded = encodeURIComponent(JSON.stringify(slot.staff || [])); 
-            let action = isFull ? '' : `onclick="openBooking('${slot.time}', '${dtLabel}', '${day.sysDate}', ${index}, '${staffJsonEncoded}', '${slotGender}')"`;
-            
+            let staffJsonEncoded = encodeURIComponent(JSON.stringify(slot.staff || [])); let action = isFull ? '' : `onclick="openBooking('${slot.time}', '${dtLabel}', '${day.sysDate}', ${index}, '${staffJsonEncoded}', '${slotGender}')"`;
             html += `<div class="slot-card ${isFull?'is-full':''} ${gClass}" style="animation-delay:${i*0.05}s; ${isFull?'':'cursor:pointer'}" ${action}><div class="time-wrap"><div class="icon-status">${isFull ? '<i class="fas fa-lock"></i>' : deptIcon}</div><div class="time-text">${slot.time}<small>${currentApp==='steam'?(currentLang==='en'?'Round':'รอบบริการ'):(currentLang==='en'?'Start':'เริ่มให้บริการ')}</small></div></div>${badgeHtml}</div>`;
         });
         container.innerHTML = html + '</div>';
     }
 
+    // ==========================================
+    // 🌟 BOOKING MODAL LOGIC
+    // ==========================================
     function toggleStaffDropdown() { document.getElementById('staff-trigger').classList.toggle('open'); }
     
     function selectStaffNew(sObj, thaiName) { 
         let dName = currentLang === 'en' ? (STAFF_EN_NAMES[thaiName] || thaiName) : (STAFF_NAME_MAP[thaiName] || thaiName);
-        let staffNode = document.getElementById('staff-display-name'); if(staffNode) { staffNode.innerText = dName; } 
-        document.getElementById('inp-staff-val').value = thaiName; 
-        selectedSlotData = { sheetName: sObj.sheetName, row: sObj.row, col: sObj.col }; 
-        
+        if(document.getElementById('staff-display-name')) document.getElementById('staff-display-name').innerText = dName;
+        document.getElementById('inp-staff-val').value = thaiName; selectedSlotData = { sheetName: sObj.sheetName, row: sObj.row, col: sObj.col }; 
         let box = document.getElementById('box-option-2hr'); let chk = document.getElementById('inp-2hr'); let lText = document.getElementById('lbl-2hr-text'); let nText = document.getElementById('note-2hr-text'); 
-        if ((currentApp === 'ttm' || currentApp === 'tcm') && sObj.can2Hr) { 
-            box.style.display = 'block'; chk.disabled = false; 
-            if (currentApp === 'tcm') { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_tcm')}`; nText.innerText = _t('note_2hr_tcm'); } 
-            else { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_ttm')}`; nText.innerText = _t('note_2hr_ttm'); } 
-        } else { box.style.display = 'none'; chk.checked = false; } 
-        
-        document.getElementById('staff-trigger').classList.remove('open'); 
-        updatePriceDisplay();
-        if(typeof updateSteamAddonUI === "function") { try { updateSteamAddonUI(); } catch(err) { console.error("Addon err:", err); } }
+        if ((currentApp === 'ttm' || currentApp === 'tcm') && sObj.can2Hr) { box.style.display = 'block'; chk.disabled = false; if (currentApp === 'tcm') { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_tcm')}`; nText.innerText = _t('note_2hr_tcm'); } else { lText.innerHTML = `<i class="fas fa-star"></i> ${_t('opt_2hr_ttm')}`; nText.innerText = _t('note_2hr_ttm'); } } else { box.style.display = 'none'; chk.checked = false; } 
+        document.getElementById('staff-trigger').classList.remove('open'); updatePriceDisplay(); if(typeof updateSteamAddonUI === "function") updateSteamAddonUI();
     }
     
     function updatePriceDisplay() { 
         let svc = document.getElementById('inp-service').value; let price = "-"; 
-        
-        let isOOH = false;
-        if (globalData && globalData[selectedIndex]) {
-            let day = globalData[selectedIndex];
-            let hasEvening = day.slots.some(s => s.time === '17:00' || s.time === '18:00');
-            let isHolidaySheet = (day.dayOfWeek >= 1 && day.dayOfWeek <= 5) && !hasEvening && day.slots.length > 0;
-            if (day.dayOfWeek === 0 || day.dayOfWeek === 6 || bookingData.time === '17:00' || bookingData.time === '18:00' || isHolidaySheet) {
-                isOOH = true;
-            }
-        }
+        let day = globalData[selectedIndex]; let isOOH = false;
+        if (day) { let hasEvening = day.slots.some(s => s.time === '17:00' || s.time === '18:00'); let isHolidaySheet = (day.dayOfWeek >= 1 && day.dayOfWeek <= 5) && !hasEvening && day.slots.length > 0; if (day.dayOfWeek === 0 || day.dayOfWeek === 6 || bookingData.time === '17:00' || bookingData.time === '18:00' || isHolidaySheet) isOOH = true; }
         bookingData.isOOH = isOOH;
-
+        
         if (currentApp === 'ttm') {
-            if (svc.includes('นวดและประคบ')) { price = currentLang === 'en' ? "Fee calculated in next step" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; } 
-            else if (svc.includes('นวดตัวส่งเสริม')) { price = currentLang === 'en' ? "Base: 250 THB (+50 THB for compress)" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; } 
-            else if (svc.includes('นวดเท้า')) { price = currentLang === 'en' ? "Base: 250 THB" : "เช็คสิทธิ/ค่านอกเวลา ในหน้าถัดไป"; }
+            price = _t('calc_sub'); 
         } else if (currentApp === 'tcm') {
-            if (svc.includes('ฝังเข็มเพื่อการรักษา')) { price = currentLang === 'en' ? "Fee calculated in next step" : "เช็คสิทธิ ในหน้าถัดไป"; }
-            else {
-                if (currentLang === 'en') { price = SERVICE_PRICES_EN[currentApp][svc] || "-"; } 
-                else { price = SERVICE_PRICES[currentApp][svc] || "-"; }
-            }
+            if (svc.includes('ฝังเข็มเพื่อการรักษา')) price = _t('calc_sub');
+            else price = (currentLang === 'en' ? SERVICE_PRICES_EN[currentApp][svc] : SERVICE_PRICES[currentApp][svc]) || "-";
         } else {
-            if (currentLang === 'en') { if (SERVICE_PRICES_EN[currentApp] && SERVICE_PRICES_EN[currentApp][svc]) price = SERVICE_PRICES_EN[currentApp][svc]; } 
-            else { if (SERVICE_PRICES[currentApp] && SERVICE_PRICES[currentApp][svc]) price = SERVICE_PRICES[currentApp][svc]; }
+            price = _t('calc_sub');
         }
         
-        let tag = document.getElementById('price-tag'); let val = document.getElementById('price-val'); 
-        if (price !== "-") { val.innerHTML = price; tag.style.display = 'block'; } else { tag.style.display = 'none'; } 
+        let tag = document.getElementById('price-tag'); 
+        let val = document.getElementById('price-val'); 
+        if (tag && val) { 
+            if (price !== "-") { val.innerHTML = price; tag.style.display = 'block'; } 
+            else { tag.style.display = 'none'; } 
+        } 
     }
     document.addEventListener('DOMContentLoaded', () => { let c = document.getElementById('inp-2hr'); if(c) c.addEventListener('change', updatePriceDisplay); });
 
-    function toggleSteamAddon() {
-        let chk = document.getElementById('chk-addon-steam'); let box = document.getElementById('steam-addon-container'); let details = document.getElementById('addon-steam-details');
-        if(!chk || !box || !details) return; 
-        if(chk.checked) { box.classList.add('active'); details.classList.add('show'); } else { box.classList.remove('active'); details.classList.remove('show'); }
-    }
-
+    function toggleSteamAddon() { let chk = document.getElementById('chk-addon-steam'); let box = document.getElementById('steam-addon-container'); let details = document.getElementById('addon-steam-details'); if(chk.checked) { box.classList.add('active'); details.classList.add('show'); } else { box.classList.remove('active'); details.classList.remove('show'); } }
     function updateSteamAddonUI() {
         if(currentApp !== 'ttm') return;
-        let container = document.getElementById('steam-addon-container'); let infoBadge = document.getElementById('addon-steam-info'); let chkAddon = document.getElementById('chk-addon-steam');
-        if(!container || !chkAddon) return;
-        
-        let is2HrObj = document.getElementById('inp-2hr'); let is2Hr = is2HrObj ? is2HrObj.checked : false;
-        let baseTime = bookingData.time; let targetTime = is2Hr ? STEAM_NEXT_2HR[baseTime] : STEAM_NEXT_1HR[baseTime];
-        
-        if(!targetTime || !fullFirebaseData || !fullFirebaseData.steam) { container.style.display = 'none'; chkAddon.checked = false; toggleSteamAddon(); bookingData.steamTime = null; return; }
-
-        let dayData = fullFirebaseData.steam.find(d => d.sysDate === bookingData.sysDate); let steamSlot = null;
-        if(dayData && dayData.slots) { steamSlot = dayData.slots.find(s => s.time === targetTime); }
-
-        if(steamSlot && steamSlot.count > 0 && steamSlot.rawSpots && !steamSlot.rawSpots.isHoliday) {
-            container.style.display = 'block'; bookingData.steamTime = targetTime;
-            let gText = steamSlot.gender === "" ? (currentLang==='en'?'Any Gender':'ไม่จำกัดเพศ') : (steamSlot.gender === "ชาย" || steamSlot.gender === "ช" ? (currentLang==='en'?'Male Round':'รอบผู้ชาย') : (currentLang==='en'?'Female Round':'รอบผู้หญิง'));
-            let cText = currentLang==='en' ? `${steamSlot.count} Left` : `ว่าง ${steamSlot.count} คิว`;
-            infoBadge.innerHTML = `<i class="fas fa-clock"></i> ${targetTime} น. | ${cText} (${gText})`;
-            
-            let selGender = document.getElementById('inp-addon-gender');
-            if(steamSlot.gender === "ชาย" || steamSlot.gender === "ช") { selGender.value = "ชาย"; selGender.disabled = true; }
-            else if(steamSlot.gender === "หญิง" || steamSlot.gender === "ญ") { selGender.value = "หญิง"; selGender.disabled = true; }
-            else { selGender.disabled = false; }
-        } else {
-            container.style.display = 'none'; chkAddon.checked = false; toggleSteamAddon(); bookingData.steamTime = null;
-        }
+        let cont = document.getElementById('steam-addon-container'); let info = document.getElementById('addon-steam-info'); let chk = document.getElementById('chk-addon-steam');
+        let is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false;
+        let targetTime = is2Hr ? STEAM_NEXT_2HR[bookingData.time] : STEAM_NEXT_1HR[bookingData.time];
+        if(!targetTime || !fullFirebaseData || !fullFirebaseData.steam) { cont.style.display = 'none'; chk.checked = false; bookingData.steamTime = null; return; }
+        let dayData = fullFirebaseData.steam.find(d => d.sysDate === bookingData.sysDate); let steamSlot = dayData ? dayData.slots.find(s => s.time === targetTime) : null;
+        if(steamSlot && steamSlot.count > 0 && !steamSlot.rawSpots.isHoliday) {
+            cont.style.display = 'block'; bookingData.steamTime = targetTime;
+            let gT = steamSlot.gender === "" ? (currentLang==='en'?'Any Gender':'ไม่จำกัดเพศ') : (steamSlot.gender === "ชาย" || steamSlot.gender === "ช" ? (currentLang==='en'?'Male Round':'รอบผู้ชาย') : (currentLang==='en'?'Female Round':'รอบผู้หญิง'));
+            info.innerHTML = `<i class="fas fa-clock"></i> ${targetTime} น. | ${currentLang==='en'?`${steamSlot.count} Left` : `ว่าง ${steamSlot.count} คิว`} (${gT})`;
+            let selG = document.getElementById('inp-addon-gender');
+            if(steamSlot.gender !== "") { selG.value = (steamSlot.gender === "ชาย" || steamSlot.gender === "ช") ? "ชาย" : "หญิง"; selG.disabled = true; } else selG.disabled = false;
+        } else { cont.style.display = 'none'; chk.checked = false; bookingData.steamTime = null; }
     }
 
     function openBooking(time, dateFull, sysDate, dayIndex, staffDataEncoded, slotGender) {
       try {
-          let staffs = [];
-          if(staffDataEncoded) staffs = JSON.parse(decodeURIComponent(staffDataEncoded));
+          let staffs = staffDataEncoded ? JSON.parse(decodeURIComponent(staffDataEncoded)) : [];
           bookingData = { dept: APP_CONFIG[currentApp].title, date: dateFull, sysDate: sysDate, time: time, appType: currentApp, sheetName: globalData[dayIndex].sheetName, ppExtraData: staffDataEncoded };
           
+          document.getElementById('auth-section').style.display = 'block'; 
+          
           if(activeProfileId) { 
-              document.getElementById('auth-section').style.display = 'none'; document.getElementById('existing-user-display').classList.remove('hidden'); document.getElementById('masked-name').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`; document.getElementById('masked-tel').innerHTML = ''; document.getElementById('inp-idcard').value = activeProfileId; checkIDCardInput(); 
-          } else { 
-              document.getElementById('auth-section').style.display = 'block'; document.getElementById('inp-idcard').value = ''; document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); }); document.getElementById('idcard-status').innerHTML = ''; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none'; document.getElementById('user-details-form').classList.add('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('btn-save-info').disabled = true; document.getElementById('btn-save-info').innerHTML = _t('btn_check'); currentUserDB = null; 
+              let idStr = activeProfileId.toString();
+              if(idStr.length === 13 && !isForeigner) {
+                  let boxes = document.querySelectorAll('.otp-box');
+                  for(let i=0; i<13; i++) {
+                      if(boxes[i]) { boxes[i].value = idStr[i]; boxes[i].classList.add('filled'); }
+                  }
+              } else {
+                  document.getElementById('chk-foreigner').checked = true;
+                  toggleForeignerMode();
+                  document.getElementById('inp-idcard-foreigner').value = idStr;
+              }
+              document.getElementById('inp-idcard').value = idStr;
+              
+              document.getElementById('existing-user-display').classList.remove('hidden'); 
+              document.getElementById('user-details-form').classList.add('hidden');
+              document.getElementById('masked-name').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`; 
+              
+              renderSmartBookDropdown(); 
+              checkIDCardInput(); 
+          } 
+          else { 
+              clearForNewPatient(); 
           }
           
-          document.getElementById('inp-note').value = ''; 
-          let hrChk = document.getElementById('inp-2hr'); if(hrChk) hrChk.checked = false;
-          ['normal-fields', 'postpartum-fields', 'steam-fields'].forEach(id => { let el = document.getElementById(id); if(el) el.classList.add('hidden'); });
-
-          let lblProv = document.getElementById('lbl_provider_text'); if (lblProv) { if (currentApp === 'tcm') lblProv.innerText = _t('prov_text_tcm'); else lblProv.innerText = _t('prov_text_ttm'); }
-
-          let addonCont = document.getElementById('steam-addon-container');
-          let addonChk = document.getElementById('chk-addon-steam');
-          if(addonCont) { addonCont.style.display = 'none'; if(addonChk) addonChk.checked = false; toggleSteamAddon(); }
-
+          document.getElementById('inp-note').value = ''; if(document.getElementById('inp-2hr')) document.getElementById('inp-2hr').checked = false;
+          ['normal-fields', 'postpartum-fields', 'steam-fields'].forEach(id => document.getElementById(id).classList.add('hidden'));
+          if (document.getElementById('lbl_provider_text')) document.getElementById('lbl_provider_text').innerText = (currentApp === 'tcm') ? _t('prov_text_tcm') : _t('prov_text_ttm');
+          if(document.getElementById('steam-addon-container')) { document.getElementById('steam-addon-container').style.display = 'none'; document.getElementById('chk-addon-steam').checked = false; }
+          
           if (currentApp === 'postpartum') { 
-              document.getElementById('postpartum-fields').classList.remove('hidden'); bookingData.service = "บริการหลังคลอด"; document.getElementById('group-staff').style.display = 'none'; document.getElementById('inp-staff-val').value = "ไม่ระบุ";
+              document.getElementById('postpartum-fields').classList.remove('hidden'); bookingData.service = "บริการหลังคลอด"; document.getElementById('group-staff').style.display = 'none'; document.getElementById('inp-staff-val').value = "ไม่ระบุ"; 
           } else if (currentApp === 'steam') { 
-              document.getElementById('steam-fields').classList.remove('hidden'); bookingData.service = "อบไอน้ำ"; document.getElementById('group-staff').style.display = 'none';
-              if (slotGender === 'ช' || slotGender === 'ชาย') document.getElementById('inp-gender').value = 'ชาย'; else if (slotGender === 'ญ' || slotGender === 'หญิง') document.getElementById('inp-gender').value = 'หญิง'; 
+              document.getElementById('steam-fields').classList.remove('hidden'); bookingData.service = "อบไอน้ำ"; document.getElementById('group-staff').style.display = 'none'; if (slotGender === 'ช' || slotGender === 'ชาย') document.getElementById('inp-gender').value = 'ชาย'; else if (slotGender === 'ญ' || slotGender === 'หญิง') document.getElementById('inp-gender').value = 'หญิง'; 
           } else {
               document.getElementById('normal-fields').classList.remove('hidden'); 
               let sel = document.getElementById('inp-service'); sel.innerHTML = ''; 
@@ -986,87 +979,122 @@
               
               let cCont = document.getElementById('staff-options'); cCont.innerHTML = ''; 
               if (staffs.length > 0 && staffs[0].row !== undefined) { 
-                  document.getElementById('group-staff').style.display = 'block'; let grouped = {}; staffs.forEach(s => { let k = s.name; if(!grouped[k]) grouped[k] = Object.assign({}, s); else if(s.can2Hr) grouped[k] = Object.assign({}, s); }); let unique = Object.values(grouped); if(unique.length > 0) selectStaffNew(unique[0], unique[0].name); 
-                  unique.forEach(s => { let baseName = s.name; let dName = currentLang === 'en' ? (STAFF_EN_NAMES[baseName] || baseName) : (STAFF_NAME_MAP[baseName] || baseName); let img = STAFF_IMAGES[s.name] || DEFAULT_IMG; let div = document.createElement('div'); div.className = 'select-item'; div.innerHTML = `<img src="${img}" class="select-img"><div style="font-weight:600; flex:1; color:#1e293b;">${dName} ${s.can2Hr?'<span style="color:#f59e0b;font-size:0.75rem;background:#fffbeb;padding:2px 6px;border-radius:6px;margin-left:6px;"><i class="fas fa-bolt"></i> 2Hr</span>':''}</div>`; div.onclick = () => selectStaffNew(s, baseName); cCont.appendChild(div); }); 
+                  document.getElementById('group-staff').style.display = 'block'; 
+                  let grouped = {}; 
+                  staffs.forEach(s => { 
+                      let k = s.name; 
+                      if(!grouped[k]) grouped[k] = Object.assign({}, s); 
+                      else if(s.can2Hr) grouped[k] = Object.assign({}, s); 
+                  }); 
                   
-                  if(typeof updateSteamAddonUI === "function") { setTimeout(updateSteamAddonUI, 100); }
+                  let unique = Object.values(grouped); 
+                  if(unique.length > 0) selectStaffNew(unique[0], unique[0].name); 
+                  
+                  unique.forEach(s => { 
+                      let baseN = s.name; 
+                      let dN = currentLang === 'en' ? (STAFF_EN_NAMES[baseN] || baseN) : (STAFF_NAME_MAP[baseN] || baseN); 
+                      let img = STAFF_IMAGES[baseN] || DEFAULT_IMG; 
+                      
+                      let badge1Hr = `<span style="background:#dcfce7; color:#16a34a; font-size:0.75rem; padding:2px 6px; border-radius:6px; margin-left:6px; border:1px solid #bbf7d0;"><i class="fas fa-clock"></i> 1Hr</span>`;
+                      let badge2Hr = s.can2Hr ? `<span style="background:#fffbeb; color:#d97706; font-size:0.75rem; padding:2px 6px; border-radius:6px; margin-left:4px; border:1px solid #fde68a;"><i class="fas fa-bolt"></i> 2Hr</span>` : '';
+                      
+                      let div = document.createElement('div'); 
+                      div.className = 'select-item'; 
+                      div.innerHTML = `<img src="${img}" class="select-img"><div style="font-weight:600; flex:1; color:#1e293b;">${dN} ${badge1Hr}${badge2Hr}</div>`; 
+                      div.onclick = () => selectStaffNew(s, baseN); 
+                      cCont.appendChild(div); 
+                  }); 
+                  setTimeout(updateSteamAddonUI, 100);
               } else { document.getElementById('group-staff').style.display = 'none'; document.getElementById('inp-staff-val').value = "ไม่ระบุ"; }
           }
       } catch(e) { console.error("Setup error:", e); }
-      
       switchStep('step-form'); document.getElementById('bookingModal').classList.add('show');
-      if(!activeProfileId && !isForeigner) { setTimeout(() => { let oBox = document.querySelector('.otp-box'); if(oBox) oBox.focus(); }, 300); }
     }
 
     async function checkIDCardInput() {
-        if(isForeigner) { document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value; }
-        clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let statusDiv = document.getElementById('idcard-status'); let btnSave = document.getElementById('btn-save-info');
+        if(isForeigner) document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value;
+        clearTimeout(typingTimer); let id = document.getElementById('inp-idcard').value; let stat = document.getElementById('idcard-status'); let btn = document.getElementById('btn-save-info');
+        
         if (isForeigner ? id.length >= 6 : id.length === 13) { 
-            btnSave.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
-            if(!activeProfileId) statusDiv.innerHTML = '<span style="color:#f59e0b;"><i class="fas fa-spinner fa-spin"></i> Checking...</span>'; 
-            try { let fastRes = await fetch(FIREBASE_BASE_URL + "patientRegistry/" + id + ".json"); let fastUser = await fastRes.json();
-                if(fastUser && !activeProfileId) { statusDiv.innerHTML = `<span style="color:#2e7d32;">✅ ${_t('swal_record_found')}</span>`; fillUserDataUI(id, fastUser.fname, fastUser.lname, fastUser.tel); }
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
+            stat.innerHTML = '<span style="color:#f59e0b;"><i class="fas fa-spinner fa-spin"></i> Checking...</span>'; 
+            try { 
+                let p = savedProfiles.find(x => x.id === id);
+                if(p) { stat.innerHTML = `<span style="color:#2e7d32;">✅ ${_t('swal_record_found')}</span>`; fillUserDataUI(id, p.fname, p.lname, p.tel); } 
+                else {
+                    let fRes = await fetch(FIREBASE_BASE_URL + "patientRegistry/" + id + ".json"); let fUser = await fRes.json(); 
+                    if(fUser) { stat.innerHTML = `<span style="color:#2e7d32;">✅ ${_t('swal_record_found')}</span>`; fillUserDataUI(id, fUser.fname, fUser.lname, fUser.tel); }
+                }
             } catch(e) {}
+
             typingTimer = setTimeout(async () => { 
                 try {
-                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); let data = await res.json(); btnSave.innerHTML = _t('btn_check'); 
+                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); let data = await res.json(); btn.innerHTML = _t('btn_check'); 
                     if (data.status === 'success') {
-                        if (data.user) { currentUserDB = data.user; fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); statusDiv.innerHTML = ''; document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('name-lock-warning').style.display = 'block';
-                        } else { currentUserDB = null; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none'; document.getElementById('user-details-form').classList.remove('hidden'); statusDiv.innerHTML = `<span style="color:#0288d1;">${_t('swal_new_patient')}</span>`; document.getElementById('existing-user-display').classList.add('hidden'); }
+                        if (data.user) { currentUserDB = data.user; fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); stat.innerHTML = ''; document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('name-lock-warning').style.display = 'block'; } 
+                        else { currentUserDB = null; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none'; document.getElementById('user-details-form').classList.remove('hidden'); stat.innerHTML = `<span style="color:#0288d1;">${_t('swal_new_patient')}</span>`; document.getElementById('existing-user-display').classList.add('hidden'); }
                         if(document.getElementById('ban-alert-msg')) document.getElementById('ban-alert-msg').remove();
-                        if (data.isBanned) { let bHtml = `<div id="ban-alert-msg" style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem; font-weight:bold;"><i class="fas fa-ban"></i> Account Suspended</span><br><span style="color:#b91c1c; font-size:0.9rem;">You can book again on: <b>${data.banUntil}</b></span></div>`; if(data.user) document.getElementById('existing-user-display').innerHTML += bHtml; else statusDiv.innerHTML += bHtml; btnSave.disabled = true;
-                        } else if (data.nextAllowedDate && new Date(data.nextAllowedDate.split('/').reverse().join('-')) > new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}).split(',')[0])) { let wHtml = `<div id="ban-alert-msg" style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem;"><i class="fas fa-history"></i> Next Appointment</span><br><span style="color:#b91c1c;">You can book again on:<br><b>${data.nextAllowedDate}</b></span></div>`; if(data.user) document.getElementById('existing-user-display').innerHTML += wHtml; else statusDiv.innerHTML += wHtml; btnSave.disabled = true; } else { btnSave.disabled = false; }
+                        if (data.isBanned) { let bH = `<div id="ban-alert-msg" style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem; font-weight:bold;"><i class="fas fa-ban"></i> Account Suspended</span><br><span style="color:#b91c1c; font-size:0.9rem;">Wait until: <b>${data.banUntil}</b></span></div>`; if(data.user) document.getElementById('existing-user-display').insertAdjacentHTML('beforeend', bH); else stat.innerHTML += bH; btn.disabled = true; } 
+                        else if (data.nextAllowedDate && new Date(data.nextAllowedDate.split('/').reverse().join('-')) > new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}).split(',')[0])) { let wH = `<div id="ban-alert-msg" style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem;"><i class="fas fa-history"></i> Next Appointment</span><br><span style="color:#b91c1c;">Allowed on: <b>${data.nextAllowedDate}</b></span></div>`; if(data.user) document.getElementById('existing-user-display').insertAdjacentHTML('beforeend', wH); else stat.innerHTML += wH; btn.disabled = true; } 
+                        else btn.disabled = false;
                     }
-                } catch(e) { 
-                    statusDiv.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; 
-                    document.getElementById('user-details-form').classList.remove('hidden'); 
-                    btnSave.disabled = false; btnSave.innerHTML = _t('btn_check'); 
-                }
+                } catch(e) { stat.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; document.getElementById('user-details-form').classList.remove('hidden'); btn.disabled = false; btn.innerHTML = _t('btn_check'); }
             }, 600); 
-        } else { statusDiv.innerHTML = ''; btnSave.innerHTML = _t('btn_check'); btnSave.disabled = true; }
+        } else { stat.innerHTML = ''; btn.innerHTML = _t('btn_check'); btn.disabled = true; }
     }
 
-    function fillUserDataUI(id, fname, lname, tel) { document.getElementById('inp-fname').value = fname; document.getElementById('inp-lname').value = lname || ""; document.getElementById('inp-tel').value = tel; document.getElementById('masked-name').innerHTML = `<i class="fas fa-user"></i> ${getMaskedFullName(fname, lname)}`; document.getElementById('masked-tel').innerHTML = `<i class="fas fa-phone"></i> ${getMaskedTel(tel)}`; document.getElementById('existing-user-display').classList.remove('hidden'); document.getElementById('user-details-form').classList.add('hidden'); }
-    function verifyAndEditPhone() { Swal.fire({ title: 'Verify', input: 'text', inputLabel: 'Old Phone Number', inputPlaceholder: '08XXXXXXXX', showCancelButton: true, confirmButtonText: 'Confirm', cancelButtonText: _t('btn_cancel') }).then((result) => { if (result.isConfirmed) { if(result.value.replace(/[-\s]/g, "") === currentUserDB.tel.replace(/[-\s]/g, "")) { Swal.fire(_t('swal_success'), 'Enter new phone number below', 'success'); document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('user-details-form').classList.remove('hidden'); document.getElementById('inp-tel').value = ""; document.getElementById('inp-tel').focus(); } else { Swal.fire(_t('swal_error'), 'Incorrect phone number', 'error'); } } }); }
-
+    function fillUserDataUI(id, f, l, t) { 
+        let p = savedProfiles.find(x => x.id === id);
+        let label = (p && p.label) ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
+        
+        document.getElementById('inp-fname').value = f; 
+        document.getElementById('inp-lname').value = l || ""; 
+        document.getElementById('inp-tel').value = t; 
+        
+        let mName = getMaskedFullName(f, l);
+        
+        document.getElementById('masked-name').innerHTML = `
+            <div style="display:flex; align-items:center; gap:8px;">
+                <i class="fas fa-user-circle" style="color:var(--primary); font-size:1.3rem;"></i> 
+                <button type="button" onclick="editCurrentLabel()" style="background:#eff6ff; border:1px dashed #3b82f6; color:#2563eb; border-radius:20px; padding:4px 12px; cursor:pointer; font-family:'Prompt'; font-size:0.9rem; font-weight:600; transition:0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+                    ${label} <i class="fas fa-pen" style="font-size:0.75rem; margin-left:4px;"></i>
+                </button>
+            </div>
+            <div style="font-size:0.85rem; color:#64748b; margin-left:32px; font-weight:400; margin-top:4px;">(${mName})</div>
+        `; 
+        document.getElementById('masked-tel').innerHTML = `<i class="fas fa-phone-alt" style="width:20px; text-align:center;"></i> ${getMaskedTel(t)}`; 
+        
+        document.getElementById('existing-user-display').classList.remove('hidden'); 
+        document.getElementById('user-details-form').classList.add('hidden'); 
+        
+        renderSmartBookDropdown(); 
+    }
+    
+    // ==========================================
+    // 🌟 SUMMARY & CALCULATION (5 RIGHTS)
+    // ==========================================
     function goToSummary() {
-      let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value.trim(); let l = document.getElementById('inp-lname').value.trim(); let tel = document.getElementById('inp-tel').value;
-      if(!id || !f || !tel) return Swal.fire(_t('warn_title'), _t('err_req_fields'), 'warning');
+      let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value.trim(); let l = document.getElementById('inp-lname').value.trim(); let t = document.getElementById('inp-tel').value;
+      if(!id || !f || !t) return Swal.fire(_t('warn_title'), _t('err_req_fields'), 'warning');
+      bookingData.idCard = id; bookingData.fname = f; bookingData.lname = l; bookingData.name = f + " " + l; bookingData.tel = t; bookingData.note = document.getElementById('inp-note').value; bookingData.extraInfo = "";
       
-      bookingData.idCard = id; bookingData.fname = f; bookingData.lname = l; bookingData.name = f + " " + l; bookingData.tel = tel; bookingData.note = document.getElementById('inp-note').value; bookingData.extraInfo = "";
-      
+      let existingProfile = savedProfiles.find(p => p.id === id);
+      if(!existingProfile) { addOrUpdateProfile(id, f, l, t, ""); }
+
       let day = globalData[selectedIndex]; let isOOH = false;
-      if (day) {
-          let hasEvening = day.slots.some(s => s.time === '17:00' || s.time === '18:00');
-          let isHolidaySheet = (day.dayOfWeek >= 1 && day.dayOfWeek <= 5) && !hasEvening && day.slots.length > 0;
-          if (day.dayOfWeek === 0 || day.dayOfWeek === 6 || bookingData.time === '17:00' || bookingData.time === '18:00' || isHolidaySheet) {
-              isOOH = true;
-          }
-      }
+      if (day) { let hasEvening = day.slots.some(s => s.time === '17:00' || s.time === '18:00'); let isHolidaySheet = (day.dayOfWeek >= 1 && day.dayOfWeek <= 5) && !hasEvening && day.slots.length > 0; if (day.dayOfWeek === 0 || day.dayOfWeek === 6 || bookingData.time === '17:00' || bookingData.time === '18:00' || isHolidaySheet) isOOH = true; }
       bookingData.isOOH = isOOH;
 
       let baseStaffName = document.getElementById('inp-staff-val').value; let displayStaff = currentLang === 'en' ? (STAFF_EN_NAMES[baseStaffName] || baseStaffName) : (STAFF_NAME_MAP[baseStaffName] || baseStaffName);
 
       if (currentApp === 'postpartum') { 
-          let bDate = document.getElementById('inp-birth-date').value; let dType = document.getElementById('inp-delivery-type').value; let hosp = document.getElementById('inp-hospital').value;
-          if(!bDate || !dType || !hosp) return Swal.fire(_t('warn_title'), currentLang==='en'?'Please fill all delivery details':'กรุณากรอกข้อมูลการคลอดให้ครบ','warning');
-          bookingData.extraInfo = currentLang==='en' ? `Birth: ${bDate} (${dType}) Hosp: ${hosp}` : `คลอด: ${bDate} (${dType}) รพ.${hosp}`; bookingData.service = "บริการหลังคลอด"; bookingData.staff = "ไม่ระบุ"; bookingData.is2Hr = true; 
-      } else if (currentApp === 'steam') { 
-          bookingData.extraInfo = currentLang==='en' ? `Gender: ${document.getElementById('inp-gender').value}` : `เพศ: ${document.getElementById('inp-gender').value}`; bookingData.service = "อบไอน้ำ"; bookingData.staff = "ไม่ระบุ";
-      } else { 
-          bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = baseStaffName; 
-          let is2HrObj = document.getElementById('inp-2hr'); bookingData.is2Hr = is2HrObj ? is2HrObj.checked : false; 
-          let addonObj = document.getElementById('chk-addon-steam'); bookingData.addSteam = addonObj ? addonObj.checked : false;
-          if(bookingData.addSteam) { let gObj = document.getElementById('inp-addon-gender'); bookingData.steamGender = gObj ? gObj.value : "หญิง"; }
-      }
+          let bd = document.getElementById('inp-birth-date').value; let dt = document.getElementById('inp-delivery-type').value; let h = document.getElementById('inp-hospital').value;
+          if(!bd || !dt || !h) return Swal.fire(_t('warn_title'), currentLang==='en'?'Please fill delivery details':'กรุณากรอกข้อมูลการคลอดให้ครบ','warning');
+          bookingData.extraInfo = currentLang==='en' ? `Birth: ${bd} (${dt}) Hosp: ${h}` : `คลอด: ${bd} (${dt}) รพ.${h}`; bookingData.service = "บริการหลังคลอด"; bookingData.staff = "ไม่ระบุ"; bookingData.is2Hr = true; 
+      } else if (currentApp === 'steam') { bookingData.extraInfo = currentLang==='en' ? `Gender: ${document.getElementById('inp-gender').value}` : `เพศ: ${document.getElementById('inp-gender').value}`; bookingData.service = "อบไอน้ำ"; bookingData.staff = "ไม่ระบุ"; } 
+      else { bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = baseStaffName; bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; bookingData.addSteam = document.getElementById('chk-addon-steam') ? document.getElementById('chk-addon-steam').checked : false; if(bookingData.addSteam) bookingData.steamGender = document.getElementById('inp-addon-gender').value; }
       
-      if (currentApp === 'ttm' || currentApp === 'tcm') { 
-          if(currentApp === 'tcm' && !bookingData.service.includes("ฝังเข็มเพื่อการรักษา")) {
-              buildSummaryAndShow(null);
-          } else {
-              promptRightSelection(); 
-          }
-      } 
+      if (currentApp === 'ttm' || currentApp === 'tcm') { if(currentApp === 'tcm' && !bookingData.service.includes("ฝังเข็มเพื่อการรักษา")) { buildSummaryAndShow(null); } else { promptRightSelection(); } } 
       else { buildSummaryAndShow(null); }
     }
 
@@ -1075,302 +1103,192 @@
             title: _t('right_title'),
             html: `
                 <div style="text-align:left; font-size:0.95rem; margin-top:10px;">
-                    <div class="right-option" onclick="selectRight('1')" id="opt-right-1">
-                        <i class="fas fa-id-card" style="color:#f59e0b;"></i> ${_t('right_uc')}
-                    </div>
-                    <div class="right-option" onclick="selectRight('2')" id="opt-right-2">
-                        <i class="fas fa-id-badge" style="color:#3b82f6;"></i> ${_t('right_gov')}
-                    </div>
-                    <div class="right-option" onclick="selectRight('3')" id="opt-right-3">
-                        <i class="fas fa-wallet" style="color:#10b981;"></i> ${_t('right_ss')}
-                    </div>
+                    <div class="right-option" onclick="selectRight('1')" id="opt-right-1"><div class="right-title-row"><i class="fas fa-id-card" style="color:#f59e0b;"></i> ${_t('right_uc30')}</div><div class="right-desc">${_t('right_desc30')}</div></div>
+                    <div class="right-option" onclick="selectRight('2')" id="opt-right-2"><div class="right-title-row"><i class="fas fa-id-card" style="color:#10b981;"></i> ${_t('right_uc_free')}</div><div class="right-desc">${_t('right_desc_free')}</div></div>
+                    <div class="right-option" onclick="selectRight('3')" id="opt-right-3"><div class="right-title-row"><i class="fas fa-id-badge" style="color:#3b82f6;"></i> ${_t('right_gov')}</div><div class="right-desc">${_t('right_desc_gov')}</div></div>
+                    <div class="right-option" onclick="selectRight('4')" id="opt-right-4"><div class="right-title-row"><i class="fas fa-landmark" style="color:#8b5cf6;"></i> ${_t('right_enterprise')}</div><div class="right-desc">${_t('right_desc_enterprise')}</div></div>
+                    <div class="right-option" onclick="selectRight('5')" id="opt-right-5"><div class="right-title-row"><i class="fas fa-wallet" style="color:#f97316;"></i> ${_t('right_ss')}</div><div class="right-desc">${_t('right_desc_ss')}</div></div>
                 </div>
                 <input type="hidden" id="selected-right-val" value="">
             `,
             showCancelButton: true, confirmButtonText: _t('btn_confirm_right'), cancelButtonText: _t('btn_cancel'), confirmButtonColor: '#2e7d32',
-            preConfirm: () => {
-                let val = document.getElementById('selected-right-val').value;
-                if(!val) { Swal.showValidationMessage(_t('warn_select_right')); return false; }
-                return val;
-            }
-        }).then((result) => { if(result.isConfirmed) { calculateAnimation(result.value); } });
+            preConfirm: () => { let v = document.getElementById('selected-right-val').value; if(!v) { Swal.showValidationMessage(_t('warn_select_right')); return false; } return v; }
+        }).then((r) => { if(r.isConfirmed) calculateAnimation(r.value); });
     }
 
-    function calculateAnimation(rightVal) {
-        Swal.fire({
-            title: _t('calc_title'), html: `<div style="font-size:3.5rem; color:var(--primary); margin:20px 0;"><i class="fas fa-calculator fa-beat-fade"></i></div><div style="font-size:0.95rem; font-weight:bold; color:#64748b;">${_t('calc_sub')}</div>`,
-            showConfirmButton: false, allowOutsideClick: false, timer: 1500
-        }).then(() => { buildSummaryAndShow(rightVal); });
+    function calculateAnimation(rV) {
+        Swal.fire({ title: _t('calc_title'), html: `<div style="font-size:3.5rem; color:var(--primary); margin:20px 0;"><i class="fas fa-calculator fa-beat-fade"></i></div><div style="font-size:0.95rem; font-weight:bold; color:#64748b;">${_t('calc_sub')}</div>`, showConfirmButton: false, allowOutsideClick: false, timer: 1500 }).then(() => buildSummaryAndShow(rV));
     }
 
-    // 🔥 สร้างหน้าสรุปบิลแบบ 3D Realistic 🔥
-    function buildSummaryAndShow(rightVal) {
-        let f = bookingData.fname; let l = bookingData.lname; let tel = bookingData.tel;
-        let baseStaffName = bookingData.staff; let displayStaff = currentLang === 'en' ? (STAFF_EN_NAMES[baseStaffName] || baseStaffName) : (STAFF_NAME_MAP[baseStaffName] || baseStaffName);
-        let mName = getMaskedFullName(f, l); 
+    function buildSummaryAndShow(rV) {
+        let f = bookingData.fname; let l = bookingData.lname; let t = bookingData.tel; let mN = getMaskedFullName(f, l);
+        let sN = bookingData.staff; let dS = currentLang === 'en' ? (STAFF_EN_NAMES[sN] || sN) : (STAFF_NAME_MAP[sN] || sN);
         
-        let infoHtml = `
+        let p = savedProfiles.find(x => x.id === bookingData.idCard);
+        let pLabel = (p && p.label) ? p.label : (currentLang === 'en' ? 'Patient' : 'ผู้รับบริการ');
+
+        let infoH = `
             <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
                 <div style="width:50px; height:50px; border-radius:15px; background:linear-gradient(135deg, var(--primary-light), #bbf7d0); display:flex; justify-content:center; align-items:center; font-size:1.5rem; color:var(--primary); box-shadow: 2px 4px 10px rgba(0,0,0,0.1);"><i class="fas fa-user-circle"></i></div>
                 <div>
-                    <div style="font-weight:800; font-size:1.1rem; color:#1e293b;">${mName}</div>
-                    <div style="color:#64748b; font-size:0.9rem;"><i class="fas fa-phone-alt"></i> ${getMaskedTel(tel)}</div>
+                    <div style="font-weight:800; font-size:1.1rem; color:#1e293b;">${pLabel} <span style="font-size:0.8rem; font-weight:400; color:#64748b;">(${mN})</span></div>
+                    <div style="color:#64748b; font-size:0.9rem;"><i class="fas fa-phone-alt"></i> ${getMaskedTel(t)}</div>
                 </div>
             </div>
             <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:15px; border:1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
                 <div style="margin-bottom:6px;"><b>${currentLang==='en'?'Service':'บริการ'}:</b> <span style="color:var(--primary-dark); font-weight:600;">${_t(bookingData.service)}</span></div>
                 <div style="margin-bottom:6px;"><b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} <span style="background:var(--primary); color:white; padding:2px 8px; border-radius:8px; font-size:0.85rem;">${bookingData.time}</span></div>
-                ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> ${displayStaff}</div>` : ''}
+                ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> ${dS}</div>` : ''}
             </div>
         `;
         
-        let billHtml = "";
-        
-        if ((currentApp === 'ttm' || currentApp === 'tcm') && rightVal) {
-            let breakdownLines = []; let total = 0; let rightName = "";
-            if (rightVal === '1') rightName = _t('right_uc');
-            if (rightVal === '2') rightName = _t('right_gov');
-            if (rightVal === '3') rightName = _t('right_ss');
+        let brk = []; let total = 0; let rName = ""; 
+        if (rV === '1') rName = _t('right_uc30'); else if (rV === '2') rName = _t('right_uc_free'); else if (rV === '3') rName = _t('right_gov'); else if (rV === '4') rName = _t('right_enterprise'); else if (rV === '5') rName = _t('right_ss');
 
-            if (currentApp === 'ttm') {
-                let baseFee = 0;
-                if (bookingData.service.includes("นวดและประคบ") || bookingData.service.includes("Massage and Compress")) {
-                    if (rightVal === '1') baseFee = bookingData.isOOH ? 250 : 100;
-                    if (rightVal === '2') baseFee = 0;
-                    if (rightVal === '3') baseFee = 250;
-                } else { baseFee = 250; } 
-                breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                total += baseFee;
-
-                if (bookingData.isOOH) { breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
-                if (bookingData.is2Hr) { breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${_t('bill_2hr')}</span><b>250 ${_t('baht')}</b></div>`); total += 250; }
-                if (bookingData.addSteam) {
-                    let steamFee = 0; if (rightVal === '3') steamFee = 100;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#0288d1; margin-bottom:4px;"><span>${_t('bill_steam')}</span><b>${steamFee} ${_t('baht')}</b></div>`); total += steamFee;
-                }
-            } else if (currentApp === 'tcm') {
-                let baseFee = 0;
-                let svcName = bookingData.service;
-                
-                if (svcName.includes("ฝังเข็มเพื่อการรักษา") || svcName.includes("Acupuncture Therapy")) {
-                    baseFee = (rightVal === '2') ? 0 : 200;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                    total += baseFee;
-                } else if (svcName.includes("ครอบแก้ว") || svcName.includes("Cupping")) {
-                    baseFee = 150;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                    total += baseFee;
-                } else if (svcName.includes("ฝังเข็มใบหน้า") || svcName.includes("Facial")) {
-                    baseFee = 300;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                    total += baseFee;
-                } else if (svcName.includes("เม็ดผักกาด") || svcName.includes("Auricular")) {
-                    baseFee = 50;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                    total += baseFee;
-                } else {
-                    baseFee = 0;
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${baseFee} ${_t('baht')}</b></div>`);
-                }
-
-                if (bookingData.is2Hr) {
-                    let cupFee = 150;
-                    let cupText = currentLang === 'en' ? "Cupping Therapy:" : "บริการครอบแก้ว (ต่อเนื่อง):";
-                    breakdownLines.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${cupText}</span><b>${cupFee} ${_t('baht')}</b></div>`);
-                    total += cupFee;
-                }
-            }
-
-            bookingData.rightName = rightName; bookingData.totalFee = total; bookingData.breakdownLines = breakdownLines;
-
-            // 🔥 สีของตัวเลขรวม 🔥
-            let totalColorClass = total > 0 ? "price-red" : "price-green";
-
-            billHtml = `<div class="receipt-3d">
-                        <div style="font-weight:800; color:#1e293b; margin-bottom:12px; border-bottom:2px dashed #cbd5e1; padding-bottom:10px; display:flex; align-items:center; gap:8px;">
-                            <i class="fas fa-file-invoice-dollar" style="color:var(--primary); font-size:1.5rem;"></i>
-                            <span style="font-size:1.1rem;">${_t('bill_title')}</span>
-                        </div>
-                        <div style="font-size:0.85rem; color:var(--primary-dark); font-weight:700; margin-bottom:12px; background:#e8f5e9; padding:8px 12px; border-radius:8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                            ${_t('bill_right')} ${rightName}
-                        </div>
-                        <div style="font-size:0.9rem; color:#475569; line-height:1.4;">
-                            ${breakdownLines.join('')}
-                        </div>
-                        <div class="total-box-3d">
-                            <span style="font-weight:800; color:#475569; font-size:1rem;">${_t('bill_total')}</span>
-                            <span class="${totalColorClass}" style="font-size:1.6rem; font-weight:800;">${total} ${_t('baht')}</span>
-                        </div>
-                    </div>`;
-        } else {
-            let extraText = "";
-            if(bookingData.is2Hr && currentApp !== 'postpartum') extraText += `<div style="color:#b45309; font-weight:bold; margin-top:10px; font-size:0.95rem;"><i class="fas fa-clock"></i> ${currentLang==='en'?'2 Hours Session':'2 ชั่วโมงต่อเนื่อง'}</div>`;
-            if(bookingData.addSteam) { extraText += `<div style="color:#0288d1; font-weight:bold; margin-top:10px; font-size:0.95rem;"><i class="fas fa-hot-tub-person"></i> + อบไอน้ำต่อเนื่อง (${bookingData.steamTime} น.) เพศ${bookingData.steamGender}</div>`; }
-            
-            if(extraText !== "") {
-                billHtml = `<div class="receipt-3d" style="padding:15px;">${extraText}</div>`;
-            }
+        if (currentApp === 'ttm') {
+            let base = 0; if (bookingData.service.includes("นวดและประคบ")) { if (rV === '1') base = bookingData.isOOH ? 310-60 : 100; else if (rV === '2') base = bookingData.isOOH ? 210-60 : 0; else if (rV === '3') base = 0; else base = 250; } else base = 250;
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
+            if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${_t('bill_2hr')}</span><b>250 ${_t('baht')}</b></div>`); total += 250; }
+            if (bookingData.addSteam) { let stF = (rV === '5' || rV === '4') ? 100 : 0; brk.push(`<div style="display:flex; justify-content:space-between; color:#0288d1; margin-bottom:4px;"><span>${_t('bill_steam')}</span><b>${stF} ${_t('baht')}</b></div>`); total += stF; }
+        } else if (currentApp === 'tcm') {
+            let base = 0; let sv = bookingData.service;
+            if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; else if (sv.includes("ครอบแก้ว")) base = 150; else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; else if (sv.includes("เม็ดผักกาด")) base = 50;
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${currentLang==='en'?"Cupping:":"ครอบแก้ว:"}</span><b>150 ${_t('baht')}</b></div>`); total += 150; }
+        } else if (currentApp === 'postpartum') {
+            let base = 0; if(rV==='1') base=30; else if(rV==='4') base=670; else if(rV==='5') base=500;
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total = base;
+        } else if (currentApp === 'steam') {
+            let base = 0; if(rV==='1') base=30; else if(rV==='4') base=120; else if(rV==='5') base=100;
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
         }
+
+        bookingData.rightName = rName; bookingData.totalFee = total; bookingData.breakdownLines = brk;
+        let totalC = total > 0 ? "price-red" : "price-green";
+        let noteBill = rV === '4' ? `<div style="font-size:0.75rem; color:#dc2626; margin-top:10px; font-weight:600; text-align:center;">${_t('bill_enterprise_note')}</div>` : '';
+
+        let billH = `<div class="receipt-3d">
+                        <div style="font-weight:800; color:#1e293b; margin-bottom:12px; border-bottom:2px dashed #cbd5e1; padding-bottom:10px; display:flex; align-items:center; gap:8px;"><i class="fas fa-file-invoice-dollar" style="color:var(--primary); font-size:1.5rem;"></i><span>${_t('bill_title')}</span></div>
+                        <div style="font-size:0.85rem; color:var(--primary-dark); font-weight:700; margin-bottom:12px; background:#e8f5e9; padding:8px 12px; border-radius:8px;">${_t('bill_right')} ${rName}</div>
+                        <div style="font-size:0.9rem; color:#475569; line-height:1.4;">${brk.join('')}</div>
+                        <div class="total-box-3d"><span style="font-weight:800; color:#475569; font-size:1rem;">${_t('bill_total')}</span><span class="${totalC}" style="font-size:1.6rem; font-weight:800;">${total} ${_t('baht')}</span></div>
+                        ${noteBill}
+                    </div>`;
         
-        let noteHtml = "";
-        if(bookingData.extraInfo) noteHtml += `<div style="margin-top:15px; color:#0ea5e9; font-size:0.9rem;"><i class="fas fa-info-circle"></i> ${bookingData.extraInfo}</div>`;
-        if(bookingData.note) noteHtml += `<div style="margin-top:10px; font-size:0.9rem;"><b>${currentLang==='en'?'Note':'หมายเหตุ'}:</b> <span style="color:#ef4444;">${bookingData.note}</span></div>`;
-        
-        document.getElementById('summary-content').innerHTML = infoHtml + billHtml + noteHtml; switchStep('step-summary');
+        let nH = (bookingData.extraInfo ? `<div style="margin-top:15px; color:#0ea5e9; font-size:0.9rem;"><i class="fas fa-info-circle"></i> ${bookingData.extraInfo}</div>` : '') + (bookingData.note ? `<div style="margin-top:10px; font-size:0.9rem;"><b>${_t('note')}:</b> <span style="color:#dc2626;">${bookingData.note}</span></div>` : '');
+        document.getElementById('summary-content').innerHTML = infoH + billH + nH; switchStep('step-summary');
     }
 
-    let loadInterval; let tipsInterval; let currentPercent = 0;
-    const loadTips = [ { icon: 'fa-clock', title: {th: 'มาก่อนเวลา 15 นาที', en: 'Arrive 15 mins early'}, text: {th: 'หากไม่มาติดต่อภายในเวลาที่กำหนด<br>ถือว่าท่านสละสิทธิ์', en: 'Failure to arrive on time<br>may result in cancellation.'} }, { icon: 'fa-id-card', title: {th: 'สิ่งที่ต้องเตรียม', en: 'What to bring'}, text: {th: '1. บัตรประจำตัวประชาชนตัวจริง<br>2. หน้ากากอนามัย (สวมตลอดเวลา)', en: '1. Original ID Card/Passport<br>2. Face Mask'} }, { icon: 'fa-calendar-times', title: {th: 'เลื่อน/ยกเลิกนัด', en: 'Reschedule/Cancel'}, text: {th: 'ล่วงหน้าอย่างน้อย 2 วัน<br>หากไม่ปฏิบัติตามแนวทาง<br>ขอสงวนสิทธิ์ไม่รับนัดครั้งถัดไป', en: 'At least 2 days in advance.<br>Otherwise, future bookings<br>may be restricted.'} } ];
-    
-    function showPercentageLoader() { 
-        document.getElementById('saveLoader').classList.remove('hidden'); currentPercent = 0; const circle = document.getElementById('progress-circle'); const txt = document.getElementById('progress-text'); circle.style.transition = 'none'; circle.style.strokeDashoffset = '326'; txt.innerText = "0%"; let tipIdx = 0; document.getElementById('tip-title').innerHTML = `<i class="fas ${loadTips[0].icon}"></i> ${loadTips[0].title[currentLang]}`; document.getElementById('tip-text').innerHTML = loadTips[0].text[currentLang]; tipsInterval = setInterval(() => { tipIdx = (tipIdx + 1) % loadTips.length; document.getElementById('tip-title').innerHTML = `<i class="fas ${loadTips[tipIdx].icon}"></i> ${loadTips[tipIdx].title[currentLang]}`; document.getElementById('tip-text').innerHTML = loadTips[tipIdx].text[currentLang]; }, 4000); 
-        setTimeout(() => { circle.style.transition = 'stroke-dashoffset 0.5s linear'; loadInterval = setInterval(() => { currentPercent += 1.5; if(currentPercent >= 95) currentPercent = 95; let offset = 326 - (currentPercent / 100) * 326; circle.style.strokeDashoffset = offset; txt.innerText = Math.floor(currentPercent) + "%"; }, 500); }, 50); 
-    }
-    
-    function finishPercentageLoader(callback) { clearInterval(loadInterval); clearInterval(tipsInterval); const circle = document.getElementById('progress-circle'); const txt = document.getElementById('progress-text'); currentPercent = 100; circle.style.transition = 'stroke-dashoffset 0.4s ease-out'; circle.style.strokeDashoffset = '0'; txt.innerText = "100%"; setTimeout(() => { document.getElementById('saveLoader').classList.add('hidden'); if(callback) callback(); }, 500); }
-
+    // ==========================================
+    // 🌟 SUBMISSION & LOADERS
+    // ==========================================
     function confirmBooking() {
         document.getElementById('btn-final-confirm').disabled = true; showPercentageLoader(); 
+        let fCombined = (bookingData.fname + " " + (bookingData.lname || "")).trim(); let fSvc = bookingData.service;
+        if(bookingData.is2Hr && currentApp !== 'postpartum') fSvc += (currentApp === 'ttm') ? " (2 ชม.)" : " + ครอบแก้ว";
+        let payload = { appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, fname: bookingData.fname, lname: bookingData.lname, fullName: fCombined, tel: bookingData.tel, service: fSvc, note: (bookingData.extraInfo + " | " + (bookingData.note || "")), time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, is2Hr: bookingData.is2Hr, addSteam: bookingData.addSteam, steamTime: bookingData.steamTime, steamGender: bookingData.steamGender, right: bookingData.rightName, totalFee: bookingData.totalFee };
+        if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: fCombined, tel: bookingData.tel}]; } else if (currentApp === 'postpartum') payload.ppExtraData = bookingData.ppExtraData;
         
-        let fNameCombined = (bookingData.fname + " " + (bookingData.lname || "")).trim(); let finalServiceDb = bookingData.service; let finalNote = bookingData.note;
-        
-        if(bookingData.is2Hr && currentApp !== 'postpartum') {
-            if(currentApp === 'ttm') { finalServiceDb += " (2 ชม.)"; }
-            else if(currentApp === 'tcm') { finalServiceDb = "ฝังเข็ม+ครอบแก้ว"; }
-        }
-
-        let payload = { appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, fname: bookingData.fname, lname: bookingData.lname, fullName: fNameCombined, tel: bookingData.tel, service: finalServiceDb, note: finalNote, time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, is2Hr: bookingData.is2Hr, addSteam: bookingData.addSteam, steamTime: bookingData.steamTime, steamGender: bookingData.steamGender };
-        if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: fNameCombined, tel: bookingData.tel}]; } else if (currentApp === 'postpartum') { payload.ppExtraData = bookingData.ppExtraData; payload.note = bookingData.extraInfo + (finalNote ? " | อาการ: " + finalNote : ""); }
-        
-        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) })
-        .then(async response => { let resText = await response.text(); try { return JSON.parse(resText); } catch(err) { return { status: 'error_but_done', penaltyDays: 0 }; } })
-        .then(res => {
-            finishPercentageLoader(() => {
-                if(res.status === 'success' || res.status === 'error_but_done') { 
-                    addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel);
-                    Swal.fire({ title: _t('swal_book_success'), html: _t('swal_line_notify'), icon: 'success', confirmButtonText: '<i class="fab fa-line"></i> LINE Notify', confirmButtonColor: '#00c300', allowOutsideClick: false }).then((r) => {
-                        if(r.isConfirmed) {
-                            let mName = getMaskedFullName(bookingData.fname, bookingData.lname); let mPhone = "******" + bookingData.tel.slice(-4);
-                            let msg = currentLang === 'en' ? `Booking: ${APP_CONFIG[bookingData.appType].title}\nPatient: ${mName}\nPhone: ${mPhone}\n` : `ขอจองคิว${APP_CONFIG[bookingData.appType].title}\nผู้รับบริการ: ${mName}\nเบอร์โทร: ${mPhone}\n`;
-                            if(currentApp === 'ttm' || currentApp === 'tcm') { let sName = currentLang === 'en' ? (STAFF_EN_NAMES[bookingData.staff] || bookingData.staff) : (STAFF_NAME_MAP[bookingData.staff] || bookingData.staff); msg += currentLang === 'en' ? `Provider: ${sName}\n` : `ผู้ให้บริการ: ${sName}\n`; }
-                            msg += currentLang === 'en' ? `Service: ${_t(bookingData.service)}\nDate: ${bookingData.date}\nTime: ${bookingData.time}` : `บริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}\nเวลา: ${bookingData.time} น.`;
-                            
-                            if ((currentApp === 'ttm' || currentApp === 'tcm') && bookingData.rightName) {
-                                msg += currentLang === 'en' ? `\n\n💳 Treatment Right: ${bookingData.rightName}\n------------------------\nFee Breakdown:\n` : `\n\n💳 สิทธิการรักษา: ${bookingData.rightName}\n------------------------\nรายละเอียดค่าบริการ:\n`;
-                                
-                                // Clean up HTML tags for LINE
-                                let cleanBreakdown = bookingData.breakdownLines.map(line => line.replace(/<[^>]*>?/gm, '')).join('\n');
-                                msg += cleanBreakdown + `\n`;
-                                
-                                msg += currentLang === 'en' ? `💰 Total Estimated Amount: ${bookingData.totalFee} THB\n------------------------` : `💰 ยอดชำระโดยประมาณ: ${bookingData.totalFee} บาท\n------------------------`;
-                            } else {
-                                let lineNoteExtra = "";
-                                if(bookingData.is2Hr && currentApp === 'tcm') lineNoteExtra += currentLang==='en'?"\nNote: Acu + Cupping":"\nหมายเหตุ: นัดจอง ฝังเข็ม+ครอบแก้ว";
-                                if(bookingData.addSteam) lineNoteExtra += currentLang==='en'?`\n+ Steam Therapy (${bookingData.steamGender})`:`\n+ อบไอน้ำต่อเนื่อง (เพศ${bookingData.steamGender})`;
-                                msg += lineNoteExtra;
-                            }
-
-                            if(currentApp === 'postpartum') { msg += `\n${bookingData.extraInfo}`; }
-                            if(bookingData.note) { msg += currentLang === 'en' ? `\nPatient Note: ${bookingData.note}` : `\nอาการเบื้องต้น: ${bookingData.note}`; }
-                            
-                            let dummy = document.createElement("textarea"); document.body.appendChild(dummy); dummy.value = msg; dummy.select(); document.execCommand("copy"); document.body.removeChild(dummy);
-                            window.location.href = `https://line.me/R/oaMessage/@649dqeft/?${encodeURIComponent(msg)}`;
-                        }
-                    });
-                    closeModal(); renderMultiUserCard(); fetchData(true);
-                } else { Swal.fire(_t('swal_error'), res.message || 'Slot unavailable', 'error'); document.getElementById('btn-final-confirm').disabled = false; fetchData(true); }
-            });
-        }).catch(e=>{ finishPercentageLoader(() => { addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel); Swal.fire(_t('swal_success'), _t('swal_saved'), 'success'); closeModal(); renderMultiUserCard(); fetchData(true); }); });
+        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(async r => { let res = await r.json(); finishPercentageLoader(() => { if(res.status === 'success' || res.status === 'error_but_done') { let p = savedProfiles.find(x => x.id === bookingData.idCard); addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); Swal.fire({ title: _t('swal_book_success'), html: _t('swal_line_notify'), icon: 'success', confirmButtonText: '<i class="fab fa-line"></i> LINE Notify', confirmButtonColor: '#00c300', allowOutsideClick: false }).then((r) => { if(r.isConfirmed) { let mN = getMaskedFullName(bookingData.fname, bookingData.lname); let mP = "******" + bookingData.tel.slice(-4); let pLab = p ? p.label : 'ผู้รับบริการ'; let msg = (currentLang === 'en' ? `Booking: ${APP_CONFIG[bookingData.appType].title}\nPatient: ${pLab} (${mN})\nPhone: ${mP}\n` : `ขอจองคิว${APP_CONFIG[bookingData.appType].title}\nผู้รับบริการ: ${pLab} (${mN})\nเบอร์โทร: ${mP}\n`) + `Service: ${_t(bookingData.service)}\nDate: ${bookingData.date}\nTime: ${bookingData.time}\n`; if(bookingData.rightName) msg += `Right: ${bookingData.rightName}\n`; msg += `------------------\n`; if(bookingData.breakdownLines) msg += bookingData.breakdownLines.map(l => l.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ')).join('\n') + `\n`; msg += `------------------\nTotal: ${bookingData.totalFee||0} ${_t('baht')}\n` + (bookingData.note?`Note: ${bookingData.note}`:''); let d = document.createElement("textarea"); document.body.appendChild(d); d.value = msg; d.select(); document.execCommand("copy"); document.body.removeChild(d); window.location.href = `https://line.me/R/oaMessage/@649dqeft/?${encodeURIComponent(msg)}`; } }); closeModal(); renderMultiUserCard(); fetchData(true); } else { Swal.fire(_t('swal_error'), res.message || 'Slot unavailable', 'error'); document.getElementById('btn-final-confirm').disabled = false; fetchData(true); } }); }).catch(e=>finishPercentageLoader(() => { let p = savedProfiles.find(x => x.id === bookingData.idCard); addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); Swal.fire(_t('swal_success'), _t('swal_saved'), 'success'); closeModal(); renderMultiUserCard(); fetchData(true); }));
     }
 
     function closeModal() { document.getElementById('bookingModal').classList.remove('show'); }
     function switchStep(id) { document.getElementById('step-form').classList.add('hidden'); document.getElementById('step-summary').classList.add('hidden'); document.getElementById(id).classList.remove('hidden'); }
+    
+    let loadInterval; let tipsInterval; let currentPercent = 0;
+    const loadTips = [ { icon: 'fa-clock', title: {th: 'มาก่อนเวลา 15 นาที', en: 'Arrive 15 mins early'}, text: {th: 'หากไม่มาติดต่อภายในเวลาที่กำหนด<br>ถือว่าท่านสละสิทธิ์', en: 'Failure to arrive on time<br>may result in cancellation.'} }, { icon: 'fa-id-card', title: {th: 'สิ่งที่ต้องเตรียม', en: 'What to bring'}, text: {th: '1. บัตรประจำตัวประชาชนตัวจริง<br>2. หน้ากากอนามัย (สวมตลอดเวลา)', en: '1. Original ID Card/Passport<br>2. Face Mask'} }, { icon: 'fa-calendar-times', title: {th: 'เลื่อน/ยกเลิกนัด', en: 'Reschedule/Cancel'}, text: {th: 'ล่วงหน้าอย่างน้อย 2 วัน<br>หากไม่ปฏิบัติตามแนวทาง<br>ขอสงวนสิทธิ์ไม่รับนัดครั้งถัดไป', en: 'At least 2 days in advance.<br>Otherwise, future bookings<br>may be restricted.'} } ];
+    
+    function showPercentageLoader() { document.getElementById('saveLoader').classList.remove('hidden'); currentPercent = 0; let tipIdx = 0; loadInterval = setInterval(() => { currentPercent += 1.5; if(currentPercent >= 95) currentPercent = 95; document.getElementById('progress-circle').style.strokeDashoffset = 326 - (currentPercent / 100) * 326; document.getElementById('progress-text').innerText = Math.floor(currentPercent) + "%"; }, 500); tipsInterval = setInterval(() => { tipIdx = (tipIdx + 1) % loadTips.length; document.getElementById('tip-title').innerHTML = `<i class="fas ${loadTips[tipIdx].icon}"></i> ${loadTips[tipIdx].title[currentLang]}`; document.getElementById('tip-text').innerHTML = loadTips[tipIdx].text[currentLang]; }, 4000); }
+    function finishPercentageLoader(cb) { clearInterval(loadInterval); clearInterval(tipsInterval); document.getElementById('progress-circle').style.strokeDashoffset = 0; document.getElementById('progress-text').innerText = "100%"; setTimeout(() => { document.getElementById('saveLoader').classList.add('hidden'); if(cb) cb(); }, 500); }
 
+    // ==========================================
+    // 🌟 ADMIN & SYSTEM
+    // ==========================================
     let logoTaps = 0; let tapTimer; let currentAdminSort = 'created';
-    function handleAdminTap() { 
-        logoTaps++; clearTimeout(tapTimer); tapTimer = setTimeout(() => { logoTaps = 0; }, 2000); 
-        if (logoTaps >= 7) { 
-            logoTaps = 0; 
-            Swal.fire({ title: '🛡️ Restricted Access', input: 'password', inputLabel: 'Admin Code', showCancelButton: true, confirmButtonColor: '#2e7d32' }).then((result) => { 
-                if (result.isConfirmed && result.value === "11395") { 
-                    document.getElementById('adminModal').classList.add('show'); 
-                    setTimeout(() => { loadAdminLogs(); }, 100);
-                } else if(result.isConfirmed) {
-                    Swal.fire(_t('swal_error'), 'รหัสผ่านไม่ถูกต้อง', 'error');
-                }
+    function handleAdminTap() { logoTaps++; clearTimeout(tapTimer); tapTimer = setTimeout(() => logoTaps = 0, 2000); if (logoTaps >= 7) { logoTaps = 0; Swal.fire({ title: '🛡️ Admin Login', input: 'password', showCancelButton: true }).then((r) => { if (r.isConfirmed && r.value === "11395") { document.getElementById('adminModal').classList.add('show'); loadAdminLogs(); } }); } }
+    function switchAdminTab(tId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active')); event.currentTarget.classList.add('active'); document.getElementById(tId).classList.add('active'); }
+    
+    async function adminSearch() { 
+        let q = document.getElementById('adminSearchInp').value; if(!q) return; 
+        let resA = document.getElementById('adminSearchResult'); resA.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Loading...</td></tr>"; 
+        let r = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) }); 
+        let d = await r.json(); 
+        if(d.status === 'success') { 
+            let h = ''; 
+            if(d.data.length === 0) h = "<tr><td colspan='2' style='text-align:center; color:red;'>No data</td></tr>";
+            d.data.forEach(u => { 
+                let pH = ''; 
+                u.plans.forEach(p => { 
+                    if(p.service === 'BANNED') pH += `<div style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:0.75rem; margin-top:4px;">BANNED ${p.date} <button onclick="adminManagePlan('${u.idCard}', 'BANNED', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; float:right;">[X]</button></div>`; 
+                    else pH += `<div class="plan-tag">${p.service}: ${p.date} <button onclick="adminManagePlan('${u.idCard}', '${p.service}', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">[X]</button></div>`; 
+                }); 
+                h += `<tr><td><div style="font-weight:700;">${u.fname} ${u.lname||''}</div><div>${u.idCard}</div><div>📞 ${u.tel}</div>${pH}</td><td style="text-align:right;"><button class="btn-icon btn-telebook" onclick="adminTeleBook('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')">Book</button><br><br><button class="btn-icon btn-edit" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-plan" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button><button class="btn-icon btn-delete" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button></td></tr>`; 
             }); 
+            resA.innerHTML = h; 
         } 
     }
-
-    function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active')); event.currentTarget.classList.add('active'); document.getElementById(tabId).classList.add('active'); }
-    async function adminSearch() { let q = document.getElementById('adminSearchInp').value; if(!q) return; let resArea = document.getElementById('adminSearchResult'); resArea.innerHTML = "<tr><td colspan='2' style='text-align:center;'><i class='fas fa-spinner fa-spin'></i> Loading...</td></tr>"; let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_search', pass: '11395', query: q }) }); let data = await res.json(); if(data.status === 'success') { let html = ''; if(data.data.length === 0) { resArea.innerHTML = "<tr><td colspan='2' style='text-align:center; color:red;'>No data</td></tr>"; return; } data.data.forEach(u => { let plansHtml = ''; if(u.plans.length > 0) { u.plans.forEach(p => { if(p.service === 'BANNED') plansHtml += `<div style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:0.75rem; margin-top:4px;"><i class="fas fa-ban"></i> BANNED ${p.date} <button onclick="adminManagePlan('${u.idCard}', 'BANNED', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; float:right;">[X]</button></div>`; else plansHtml += `<div class="plan-tag">${p.service}: ${p.date} <button onclick="adminManagePlan('${u.idCard}', '${p.service}', 'CLEAR')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">[X]</button></div>`; }); } html += `<tr><td><div style="font-weight:700; color:var(--primary-dark); font-size:1.05rem;">${u.fname} ${u.lname||''}</div><div style="font-family:monospace; color:#64748b;">${u.idCard}</div><div style="font-size:0.8rem; color:#64748b;">📞 ${u.tel}</div><div style="margin-top:5px;">${plansHtml}</div></td><td style="text-align:right; vertical-align:top;"><button class="btn-icon btn-telebook" onclick="adminTeleBook('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-calendar-check"></i> Book</button><br><br><button class="btn-icon btn-edit" onclick="editPatientUI('${u.idCard}','${u.fname}','${u.lname||''}','${u.tel}')"><i class="fas fa-edit"></i></button><button class="btn-icon btn-plan" onclick="openPlanModal('${u.idCard}')"><i class="fas fa-calendar-plus"></i></button><button class="btn-icon btn-delete" onclick="deletePatientConfirm('${u.idCard}')"><i class="fas fa-trash-alt"></i></button></td></tr>`; }); resArea.innerHTML = html; } }
-    function adminTeleBook(id, fname, lname, tel) { addOrUpdateProfile(id, fname, lname, tel); document.getElementById('adminModal').classList.remove('show'); Swal.fire({ title: 'Tele-Booking Mode', html: `Login as <b>${fname} ${lname}</b>`, icon: 'info' }).then(() => { renderMultiUserCard(); }); }
-    function openAddPatientModalAdmin() { Swal.fire({ title: 'New Patient', html: `<input id="swal-id" class="form-control" style="margin-bottom:10px;" placeholder="ID/Passport" maxlength="20"><div style="display:flex; gap:10px;"><input id="swal-add-fname" class="form-control" placeholder="First Name"><input id="swal-add-lname" class="form-control" placeholder="Last Name"></div><input id="swal-add-tel" class="form-control" style="margin-top:10px;" placeholder="Phone" maxlength="10" type="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'')">`, showCancelButton: true, confirmButtonText: 'Save', preConfirm: () => { return { idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-add-fname').value, lname: document.getElementById('swal-add-lname').value, tel: document.getElementById('swal-add-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); }); }
-    function editPatientUI(id, f, l, t) { Swal.fire({ title: 'Edit Patient', html: `<input id="swal-id" class="form-control" style="margin-bottom:10px;" value="${id}"><div style="display:flex; gap:10px;"><input id="swal-add-fname" class="form-control" value="${f}"><input id="swal-add-lname" class="form-control" value="${l}"></div><input id="swal-add-tel" class="form-control" style="margin-top:10px;" value="${t}" type="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'')">`, showCancelButton: true, confirmButtonText: 'Update', preConfirm: () => { return { oldId: id, idCard: document.getElementById('swal-id').value, fname: document.getElementById('swal-add-fname').value, lname: document.getElementById('swal-add-lname').value, tel: document.getElementById('swal-add-tel').value } } }).then((res) => { if(res.isConfirmed) savePatientData(res.value); }); }
-    async function savePatientData(payload) { if(!payload.idCard || !payload.fname || !payload.tel) return; Swal.fire({title:'Saving...'}); let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_patient', pass: '11395', payload: payload }) }); let data = await res.json(); if(data.status === 'success') { Swal.fire('Success','','success'); adminSearch(); } }
-    function deletePatientConfirm(id) { Swal.fire({ title: 'Delete?', icon: 'warning', showCancelButton: true }).then(async (result) => { if (result.isConfirmed) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_delete_patient', pass: '11395', idCard: id }) }); adminSearch(); } }); }
+    
+    function adminTeleBook(id, f, l, t) { addOrUpdateProfile(id, f, l, t, "Admin Book"); document.getElementById('adminModal').classList.remove('show'); renderMultiUserCard(); }
+    function editPatientUI(id, f, l, t) { Swal.fire({ title: 'Edit', html: `<input id="sw-id" class="form-control" value="${id}" style="margin-bottom:10px;"><div style="display:flex; gap:10px; margin-bottom:10px;"><input id="sw-f" class="form-control" value="${f}"><input id="sw-l" class="form-control" value="${l}"></div><input id="sw-t" class="form-control" value="${t}">`, showCancelButton: true, preConfirm: () => { savePatientData({oldId: id, idCard: document.getElementById('sw-id').value, fname: document.getElementById('sw-f').value, lname: document.getElementById('sw-l').value, tel: document.getElementById('sw-t').value}); } }); }
+    async function savePatientData(p) { Swal.fire({title:'Saving...'}); await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_patient', pass: '11395', payload: p }) }); Swal.fire('Success','','success'); adminSearch(); }
+    async function deletePatientConfirm(id) { Swal.fire({ title: 'Delete?', showCancelButton: true }).then(async (r) => { if (r.isConfirmed) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_delete_patient', pass: '11395', idCard: id }) }); adminSearch(); } }); }
     function openPlanModal(id) { Swal.fire({ title: 'Plan / Ban', html: `<select id="swal-svc" class="form-control" style="margin-bottom:10px;"><option value="ttm">TTM</option><option value="tcm">TCM</option><option value="steam">Steam</option><option value="postpartum">Postpartum</option><option value="BANNED">BAN ACCOUNT</option></select><input type="number" id="swal-days" class="form-control" placeholder="Days from now">`, showCancelButton: true, preConfirm: () => { adminManagePlan(id, document.getElementById('swal-svc').value, document.getElementById('swal-days').value); } }); }
     async function adminManagePlan(id, svc, days) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_manage_plan', pass: '11395', idCard: id, service: svc, days: days }) }); adminSearch(); }
-    function setAdminSort(type) { currentAdminSort = type; if(type === 'created') { document.getElementById('btnSortCreated').className = 'btn btn-confirm'; document.getElementById('btnSortAppoint').className = 'btn btn-cancel'; } else { document.getElementById('btnSortCreated').className = 'btn btn-cancel'; document.getElementById('btnSortAppoint').className = 'btn btn-confirm'; } loadAdminLogs(); }
     
-    function adminGetLogs(filterDate, sortType) {
-        let area = document.getElementById('adminLogsArea'); 
-        area.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px;'><i class='fas fa-spinner fa-spin' style='font-size:2rem; color:var(--primary);'></i><br><br>กำลังดึงข้อมูล...</td></tr>"; 
-        let fDate = document.getElementById('adminLogDateFilter').value; 
-        
-        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({action: 'admin_get_logs', pass: '11395', filterDate: fDate, sortType: currentAdminSort}) })
-        .then(res => res.json())
-        .then(data => { 
-            if(data.status === 'success') { 
-                let html = ''; 
-                if(data.data.length === 0) { html = "<tr><td colspan='4' style='text-align:center; padding:20px; color:#64748b;'>ไม่พบประวัติการจอง</td></tr>"; } 
-                else {
-                    data.data.forEach(l => { 
-                        let c = l.status.includes('ยกเลิก') ? '#ef4444' : '#10b981'; 
-                        if(l.status.includes('เลยกำหนด')) c = '#f59e0b'; 
-                        let actBtn = l.status === 'รอรับบริการ' ? `<button class="btn-icon btn-delete" onclick="adminCancelQueue('${l.idCard}','${l.sysDate}','${l.timeOnly}','${l.dept}')"><i class="fas fa-times-circle"></i></button>` : ''; 
-                        html += `<tr><td><div style="font-size:0.75rem; color:#64748b;">${l.createdAt}</div></td><td><div style="font-weight:700; color:var(--primary-dark);">${l.name}</div><div style="font-size:0.75rem;">${l.service}</div></td><td><div style="font-weight:700; color:#1e293b;">${l.bookFor}</div><div style="font-size:0.7rem; color:${c}; font-weight:700;">${l.status}</div></td><td style="text-align:right;">${actBtn}</td></tr>`; 
-                    }); 
+    function setAdminSort(t) { currentAdminSort = t; document.getElementById('btnSortCreated').className = (t === 'created') ? 'btn btn-confirm' : 'btn btn-cancel'; document.getElementById('btnSortAppoint').className = (t === 'appoint') ? 'btn btn-confirm' : 'btn btn-cancel'; loadAdminLogs(); }
+    
+    function loadAdminLogs() { 
+        let a = document.getElementById('adminLogsArea'); a.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Loading...</td></tr>"; 
+        fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({action: 'admin_get_logs', pass: '11395', filterDate: document.getElementById('adminLogDateFilter').value, sortType: currentAdminSort}) }).then(r => r.json()).then(d => { 
+            if(d.status === 'success') { 
+                let h = ''; 
+                d.data.forEach(l => { 
+                    let c = l.status.includes('ยกเลิก') ? '#ef4444' : '#10b981'; if(l.status.includes('เลยกำหนด')) c = '#f59e0b';
+                    h += `<tr><td><div style="font-size:0.7rem;">${l.createdAt}</div></td><td><div style="font-weight:700;">${l.name}</div><div style="font-size:0.75rem;">${l.service}</div></td><td><div>${l.bookFor}</div><div style="color:${c}; font-weight:700;">${l.status}</div></td><td style="text-align:right;">${l.status==='รอรับบริการ'?`<button class="btn-icon btn-delete" onclick="adminCancelQueue('${l.idCard}','${l.sysDate}','${l.timeOnly}','${l.dept}')"><i class="fas fa-times-circle"></i></button>`:''}</td></tr>`; 
+                }); 
+                a.innerHTML = h; 
+            } 
+        }); 
+    }
+    
+    function adminCancelQueue(id, sd, t, d) { Swal.fire({ title: 'Cancel?', html:`Ban duration:<br><select id="swal-ban-days" class="form-control" style="margin-top:10px;"><option value="0">No Ban</option><option value="2">2 Days</option><option value="5">5 Days</option></select>`, showCancelButton: true }).then(async (r) => { if (r.isConfirmed) { await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_cancel_booking', pass: '11395', idCard: id, sysDate: sd, time: t, dept: d, banDays: document.getElementById('swal-ban-days').value }) }); loadAdminLogs(); } }); }
+    
+    function forceSyncSystem(b) { let old = b.innerHTML; b.innerHTML='Syncing...'; b.disabled = true; fetch(API_ENDPOINT + "?action=syncFirebase").then(()=>{ Swal.fire('Success'); b.innerHTML=old; b.disabled = false; }).catch(()=>{ Swal.fire('Error'); b.innerHTML=old; b.disabled=false; }); }
+    
+    // RESTORED CSV UPLOAD
+    function updateAdminFileUI(input) {
+        if(input.files.length > 0) {
+            document.getElementById('adminFileName').innerText = input.files[0].name;
+            document.getElementById('btnAdminUpload').disabled = false;
+        }
+    }
+    
+    function processAdminUpload() {
+        const fileInp = document.getElementById('adminFileInput');
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            Swal.fire({title: 'Uploading...', allowOutsideClick: false, didOpen: () => {Swal.showLoading();}});
+            const rows = e.target.result.split('\n').slice(1);
+            const payload = [];
+            rows.forEach(row => {
+                const cols = row.split(',');
+                if(cols.length >= 4) {
+                    payload.push({ visitDate: cols[0].trim(), idCard: cols[1].trim(), service: cols[2].trim(), planDays: cols[3].trim() });
                 }
-                area.innerHTML = html; 
-            } else { area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>โหลดข้อมูลล้มเหลว</td></tr>"; }
-        }).catch(e => { area.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ</td></tr>"; }); 
-    }
-    
-    function adminCancelQueue(idCard, sysDate, time, dept) { Swal.fire({ title: 'Cancel Queue?', html: `Ban duration for this account:<br><select id="swal-ban-days" class="form-control" style="margin-top:10px;"><option value="0">No Ban</option><option value="2">Ban 2 days</option><option value="5">Ban 5 days</option></select>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Cancel Booking', confirmButtonColor: '#ef4444' }).then(async (result) => { if (result.isConfirmed) { let bDays = document.getElementById('swal-ban-days').value; Swal.fire({title:'Processing...', didOpen:()=>{Swal.showLoading()}}); await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_cancel_booking', pass: '11395', idCard: idCard, sysDate: sysDate, time: time, dept: dept, banDays: bDays }) }); Swal.fire('Success', 'Cancelled', 'success'); loadAdminLogs(); } }); }
-    function updateAdminFileUI(input) { if(input.files.length > 0) { document.getElementById('adminFileName').innerText = input.files[0].name; document.getElementById('btnAdminUpload').disabled = false; } }
-    function processAdminUpload() { const fileInp = document.getElementById('adminFileInput'); const reader = new FileReader(); reader.onload = async function(e) { const rows = e.target.result.split('\n').slice(1); const payload = []; rows.forEach(row => { const cols = row.split(','); if(cols.length >= 4) { payload.push({ visitDate: cols[0].trim(), idCard: cols[1].trim(), service: cols[2].trim(), planDays: cols[3].trim() }); } }); await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_batch_upload', pass: '11395', payload: payload }) }); Swal.fire('Success', '', 'success'); }; reader.readAsText(fileInp.files[0]); }
-    
-    function forceSyncSystem(btn) { 
-        let orig = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังซิงค์ข้อมูล...'; btn.disabled = true; 
-        fetch(API_ENDPOINT + "?action=syncFirebase").then(()=>{ Swal.fire('Success', 'ซิงค์ข้อมูลสำเร็จ', 'success'); btn.innerHTML = orig; btn.disabled = false; }).catch(e=>{ Swal.fire('Error', 'เชื่อมต่อล้มเหลว', 'error'); btn.innerHTML = orig; btn.disabled = false; }); 
+            });
+            try {
+                let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'admin_batch_upload', pass: '11395', payload: payload }) });
+                let data = await res.json();
+                if(data.status === 'success') { Swal.fire('Success', `Uploaded ${data.count} records`, 'success'); }
+                else { Swal.fire('Error', 'Upload failed', 'error'); }
+            } catch(err) { Swal.fire('Error', 'Connection error', 'error'); }
+        };
+        reader.readAsText(fileInp.files[0]);
     }
 
-    function viewFullImage() {
-        let metaViewport = document.querySelector('meta[name=viewport]');
-        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
-
-        Swal.fire({
-            imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png',
-            imageAlt: 'ประกาศสำคัญ',
-            width: '100%', 
-            background: 'transparent', 
-            padding: '0',
-            showConfirmButton: false, 
-            showCloseButton: true, 
-            backdrop: 'rgba(0,0,0,0.95)', 
-            didOpen: () => {
-                document.querySelector('.swal2-container').style.zIndex = '20000';
-                let img = document.querySelector('.swal2-image');
-                img.style.margin = '0 auto';
-                img.style.objectFit = 'contain';
-                img.style.maxHeight = '85vh'; 
-            },
-            willClose: () => {
-                metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-            }
-        });
-    }
+    function viewFullImage() { let meta = document.querySelector('meta[name=viewport]'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'); Swal.fire({ imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png', imageAlt: 'Announce', width: '100%', background: 'transparent', padding: '0', showConfirmButton: false, showCloseButton: true, backdrop: 'rgba(0,0,0,0.95)', didOpen: () => { document.querySelector('.swal2-image').style.maxHeight = '85vh'; }, willClose: () => { meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'); } }); }
   </script>
 </body>
 </html>
