@@ -1045,7 +1045,7 @@
 
     function fillUserDataUI(id, f, l, t) { 
         let p = savedProfiles.find(x => x.id === id);
-        let label = p && p.label ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
+        let label = (p && p.label) ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
         
         document.getElementById('inp-fname').value = f; 
         document.getElementById('inp-lname').value = l || ""; 
@@ -1147,20 +1147,33 @@
 
         if (currentApp === 'ttm') {
             let base = 0; 
+            let oohFee = bookingData.isOOH ? 60 : 0; 
+
             if (bookingData.service.includes("นวดและประคบ")) { 
-                if (rV === '3') base = 0;
-                else if (rV === '1' || rV === '2') {
-                    if (bookingData.isOOH) base = (rV === '1') ? 250 : 150; 
-                    else base = 100;
+                if (rV === '3') {
+                    base = 0; 
                 }
-                else base = 250; 
+                else if (rV === '1' || rV === '2') {
+                    base = 100;
+                    if (bookingData.isOOH) {
+                        oohFee = 0; 
+                    }
+                }
+                else {
+                    base = 250; 
+                } 
             } 
-            else base = 250; 
+            else { 
+                base = 250; 
+            } 
             
             brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); 
             total += base;
             
-            if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
+            if (bookingData.isOOH) { 
+                brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>${oohFee} ${_t('baht')}</b></div>`); 
+                total += oohFee; 
+            }
             if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${_t('bill_2hr')}</span><b>250 ${_t('baht')}</b></div>`); total += 250; }
             if (bookingData.addSteam) { let stF = (rV === '5' || rV === '4') ? 100 : 0; brk.push(`<div style="display:flex; justify-content:space-between; color:#0288d1; margin-bottom:4px;"><span>${_t('bill_steam')}</span><b>${stF} ${_t('baht')}</b></div>`); total += stF; }
             
