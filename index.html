@@ -505,7 +505,7 @@
             bill_enterprise_note: "*(โปรดขอใบเสร็จและใบรับรองแพทย์เพื่อเบิกต้นสังกัด)",
             "นวดและประคบเพื่อการรักษา": "นวดและประคบเพื่อการรักษา", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)", "ฝังเข็มเพื่อการรักษา": "ฝังเข็มเพื่อการรักษา", "ครอบแก้ว": "ครอบแก้ว", "ฝังเข็มใบหน้า": "ฝังเข็มใบหน้า", "เม็ดผักกาดแปะหู": "เม็ดผักกาดแปะหู", "ปรึกษาแพทย์แผนจีน": "ปรึกษาแพทย์แผนจีน",
             plh_label: "สรรพนาม (เช่น ตัวฉัน, พ่อ, แม่)", sb_title: "เลือกจากรายชื่อที่บันทึกไว้", sb_or: "หรือจองให้คนอื่น", edit_label: "แก้ไขสรรพนาม", plh_label_eg: "เช่น คุณแม่, ตัวฉัน, ลูกชาย", btn_book_other: "จองให้บุคคลอื่น (กรอกใหม่)",
-            btn_next: "ถัดไป", btn_back: "ย้อนกลับ", step1_title: "ข้อมูลผู้ป่วย", step2_title: "เลือกบริการ", step3_title: "ยืนยันข้อมูล"
+            btn_next: "ถัดไป (เลือกบริการ)", btn_back: "ย้อนกลับ", step1_title: "ข้อมูลผู้ป่วย", step2_title: "เลือกบริการ", step3_title: "ยืนยันข้อมูล"
         },
         en: {
             lang_toggle: "TH", app_ttm: "Thai Traditional Med.", desc_ttm: "Massage, Compress, Wellness", app_tcm: "Chinese Medicine", desc_tcm: "Acupuncture, Cupping, Facial", app_postpartum: "Postpartum Care", desc_post: "Normal delivery 7 days / C-Section 1 mo.", app_steam: "Herbal Steam", desc_steam: "Blood circulation, Allergy relief", h1: "Sadao Hospital", h2: "Thai Traditional & Alternative Medicine", online: "Online Booking 24/7", greeting: "Patient Information", change_user: "Switch User", history_title: "Upcoming / Recent Appointments", syncing: "Syncing data...", fill_info: "Booking Details", id_card: "Passport / ID Number", foreigner: "Foreigner", pdpa: "100% Secured by PDPA standard", fname: "First Name", lname: "Last Name", phone: "Phone Number", lock_warn: "Profile found. Name cannot be changed.", user_info_title: "Patient Details", change_phone: "Change Phone Number", sel_svc: "Select Service", price_title: "Estimated Fee:", prov_text_ttm: "Provider (TTM Assistant)", prov_text_tcm: "Provider (TCM Doctor)", not_spec: "Not Specified", birthdate: "Date of Birth (Baby)", del_type: "Delivery Type", hosp: "Hospital", gender: "Gender (For Room Allocation)", note: "Note (Optional)", btn_cancel: "Cancel", btn_check: "Check Info", sum_title: "Confirm Appointment", btn_edit: "Edit", btn_confirm: "Confirm Booking", saving: "Data Received", saving_sub: "Processing confirmation...", loading: "Loading...", opt_sel: "-- Select --", opt_nat: "Normal Delivery", opt_csec: "C-Section", g_f: "Female", g_m: "Male", mu_title: "Saved Profiles", btn_add_user: "Add New Patient", act_user: "Active Profile", aps_hist: "Your Recent Appointment", cancel_q: "Cancel Appointment", addon_title: "🌿 Add Continuous Steam Therapy", addon_gender: "Select gender for steam room", no_profile: "No profiles saved", btn_ack: "Acknowledge & Continue",
@@ -513,7 +513,7 @@
             bill_enterprise_note: "*(Please claim the receipt and certificate at your office)",
             "นวดและประคบเพื่อการรักษา": "Massage and Compress Therapy", "นวดตัวส่งเสริมสุขภาพ(ชำระเงินเอง)": "Relaxing Body Massage (Self-pay)", "นวดเท้าส่งเสริมสุขภาพ(ชำระเงินเอง)": "Foot Reflexology (Self-pay)", "ฝังเข็มเพื่อการรักษา": "Acupuncture Therapy", "ครอบแก้ว": "Cupping Therapy", "ฝังเข็มใบหน้า": "Facial Acupuncture", "เม็ดผักกาดแปะหู": "Auricular Seed Therapy", "ปรึกษาแพทย์แผนจีน": "TCM Consultation",
             plh_label: "Label (e.g. Me, Mom, Son)", sb_title: "Select from saved profiles", sb_or: "OR BOOK FOR OTHERS", edit_label: "Edit Label", plh_label_eg: "e.g. Mom, Me, Son", btn_book_other: "Book for someone else (New)",
-            btn_next: "Next", btn_back: "Back", step1_title: "Patient Info", step2_title: "Select Service", step3_title: "Confirm Details"
+            btn_next: "Next (Select Service)", btn_back: "Back", step1_title: "Patient Info", step2_title: "Select Service", step3_title: "Confirm Details"
         }
     };
 
@@ -576,7 +576,7 @@
             let btnNext = document.getElementById('btn-next-step'); 
             if(btnNext) {
                 if(btnNext.innerHTML.includes('fa-spinner')) btnNext.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
-                else btnNext.innerText = _t('btn_next');
+                else btnNext.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`;
             }
             
             let btnCheck = document.getElementById('btn-check-info'); if(btnCheck) btnCheck.innerText = _t('btn_check');
@@ -721,7 +721,7 @@
         
         let btnNext = document.getElementById('btn-next-step');
         btnNext.disabled = true;
-        btnNext.innerHTML = _t('btn_next');
+        btnNext.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`;
         
         currentUserDB = null;
         activeProfileId = null;
@@ -800,7 +800,7 @@
         } else { 
             document.getElementById('idcard-status').innerHTML = ''; 
             document.getElementById('btn-next-step').disabled = true; 
-            document.getElementById('btn-next-step').innerHTML = _t('btn_next'); 
+            document.getElementById('btn-next-step').innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
             
             document.getElementById('existing-user-display').classList.add('hidden');
             document.getElementById('user-details-form').classList.remove('hidden');
@@ -812,6 +812,7 @@
         document.getElementById('idcard-status').innerHTML = ""; document.getElementById('user-details-form').classList.remove('hidden'); document.getElementById('existing-user-display').classList.add('hidden'); document.getElementById('btn-next-step').disabled = true;
         if(isForeigner) { lblId.innerHTML = 'Passport / ID Number <span style="color:red">*</span>'; boxContainer.style.display = 'none'; foreignInput.classList.remove('hidden'); hiddenId.value = ""; foreignInput.value = ""; } 
         else { lblId.innerHTML = `${_t('id_card')} <span style="color:red">*</span>`; boxContainer.style.display = 'flex'; foreignInput.classList.add('hidden'); hiddenId.value = ""; document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); }); }
+        document.getElementById('btn-next-step').innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`;
     }
 
     function validateNameInput(input) { if(isForeigner) input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); }
@@ -1118,7 +1119,7 @@
 
             typingTimer = setTimeout(async () => { 
                 try {
-                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); let data = await res.json(); btn.innerHTML = _t('btn_next'); 
+                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); let data = await res.json(); btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
                     if (data.status === 'success') {
                         if (data.user) { currentUserDB = data.user; fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); stat.innerHTML = ''; document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('name-lock-warning').style.display = 'block'; } 
                         else { currentUserDB = null; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none'; document.getElementById('user-details-form').classList.remove('hidden'); stat.innerHTML = `<span style="color:#0288d1;">${_t('swal_new_patient')}</span>`; document.getElementById('existing-user-display').classList.add('hidden'); }
@@ -1127,9 +1128,9 @@
                         else if (data.nextAllowedDate && new Date(data.nextAllowedDate.split('/').reverse().join('-')) > new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Bangkok"}).split(',')[0])) { let wH = `<div id="ban-alert-msg" style="background:#fee2e2; border:1px solid #fca5a5; padding:12px; border-radius:12px; margin-top:10px;"><span style="color:#ef4444; font-size:1.05rem;"><i class="fas fa-history"></i> Next Appointment</span><br><span style="color:#b91c1c;">Allowed on: <b>${data.nextAllowedDate}</b></span></div>`; if(data.user) document.getElementById('existing-user-display').insertAdjacentHTML('beforeend', wH); else stat.innerHTML += wH; btn.disabled = true; } 
                         else btn.disabled = false;
                     }
-                } catch(e) { stat.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; document.getElementById('user-details-form').classList.remove('hidden'); btn.disabled = false; btn.innerHTML = _t('btn_next'); }
+                } catch(e) { stat.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; document.getElementById('user-details-form').classList.remove('hidden'); btn.disabled = false; btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; }
             }, 600); 
-        } else { stat.innerHTML = ''; btn.innerHTML = _t('btn_next'); btn.disabled = true; }
+        } else { stat.innerHTML = ''; btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; btn.disabled = true; }
     }
 
     function fillUserDataUI(id, f, l, t) { 
@@ -1463,8 +1464,6 @@
         };
         reader.readAsText(fileInp.files[0]);
     }
-
-    function viewFullImage() { let meta = document.querySelector('meta[name=viewport]'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'); Swal.fire({ imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png', imageAlt: 'Announce', width: '100%', background: 'transparent', padding: '0', showConfirmButton: false, showCloseButton: true, backdrop: 'rgba(0,0,0,0.95)', didOpen: () => { document.querySelector('.swal2-image').style.maxHeight = '85vh'; }, willClose: () => { meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'); } }); }
   </script>
 </body>
 </html>
