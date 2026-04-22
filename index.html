@@ -1045,7 +1045,7 @@
 
     function fillUserDataUI(id, f, l, t) { 
         let p = savedProfiles.find(x => x.id === id);
-        let label = (p && p.label) ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
+        let label = p && p.label ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
         
         document.getElementById('inp-fname').value = f; 
         document.getElementById('inp-lname').value = l || ""; 
@@ -1146,22 +1146,57 @@
         if (rV === '1') rName = _t('right_uc30'); else if (rV === '2') rName = _t('right_uc_free'); else if (rV === '3') rName = _t('right_gov'); else if (rV === '4') rName = _t('right_enterprise'); else if (rV === '5') rName = _t('right_ss');
 
         if (currentApp === 'ttm') {
-            let base = 0; if (bookingData.service.includes("นวดและประคบ")) { if (rV === '1') base = bookingData.isOOH ? 310-60 : 100; else if (rV === '2') base = bookingData.isOOH ? 210-60 : 0; else if (rV === '3') base = 0; else base = 250; } else base = 250;
-            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            let base = 0; 
+            if (bookingData.service.includes("นวดและประคบ")) { 
+                if (rV === '3') base = 0;
+                else if (rV === '1' || rV === '2') {
+                    if (bookingData.isOOH) base = (rV === '1') ? 250 : 150; 
+                    else base = 100;
+                }
+                else base = 250; 
+            } 
+            else base = 250; 
+            
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); 
+            total += base;
+            
             if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
             if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${_t('bill_2hr')}</span><b>250 ${_t('baht')}</b></div>`); total += 250; }
             if (bookingData.addSteam) { let stF = (rV === '5' || rV === '4') ? 100 : 0; brk.push(`<div style="display:flex; justify-content:space-between; color:#0288d1; margin-bottom:4px;"><span>${_t('bill_steam')}</span><b>${stF} ${_t('baht')}</b></div>`); total += stF; }
+            
         } else if (currentApp === 'tcm') {
             let base = 0; let sv = bookingData.service;
-            if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; else if (sv.includes("ครอบแก้ว")) base = 150; else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; else if (sv.includes("เม็ดผักกาด")) base = 50;
-            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; 
+            else if (sv.includes("ครอบแก้ว")) base = 150; 
+            else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; 
+            else if (sv.includes("เม็ดผักกาด")) base = 50;
+            else if (sv.includes("ปรึกษา")) base = 0;
+            
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); 
+            total += base;
+            
             if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#b45309; margin-bottom:4px;"><span>${currentLang==='en'?"Cupping:":"ครอบแก้ว:"}</span><b>150 ${_t('baht')}</b></div>`); total += 150; }
+            
         } else if (currentApp === 'postpartum') {
-            let base = 0; if(rV==='1') base=30; else if(rV==='4') base=670; else if(rV==='5') base=500;
-            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total = base;
+            let base = 0; 
+            if (rV === '2' || rV === '3') base = 0; 
+            else if (rV === '1') base = 30; 
+            else if (rV === '4') base = 670; 
+            else if (rV === '5') base = 500;
+            
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); 
+            total += base;
+            if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
+            
         } else if (currentApp === 'steam') {
-            let base = 0; if(rV==='1') base=30; else if(rV==='4') base=120; else if(rV==='5') base=100;
-            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
+            let base = 0; 
+            if (rV === '2' || rV === '3') base = 0; 
+            else if (rV === '1') base = 30; 
+            else if (rV === '4') base = 120; 
+            else if (rV === '5') base = 100;
+            
+            brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); 
+            total += base;
             if (bookingData.isOOH) { brk.push(`<div style="display:flex; justify-content:space-between; color:#e65100; margin-bottom:4px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`); total += 60; }
         }
 
