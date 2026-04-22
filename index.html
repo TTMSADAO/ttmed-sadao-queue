@@ -413,19 +413,6 @@
       </div>
   </div>
 
-  <div id="announcementModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(8px);">
-      <div style="width: 90%; max-width: 400px; background: white; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5);" id="announce-card-inner">
-          <div style="background: #fff; padding: 0;">
-              <img src="https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png" style="width: 100%; height: auto; display: block; cursor: zoom-in;" alt="ประกาศสำคัญ" onclick="viewFullImage()" title="คลิกเพื่อขยายภาพ">
-          </div>
-          <div style="padding: 15px 20px 20px; background: #fff; text-align: center; border-top: 1px dashed #e2e8f0;">
-              <button class="btn btn-confirm" style="width: 100%; max-width: 250px; border-radius: 30px; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);" onclick="acceptAnnouncement()">
-                  <i class="fas fa-check-circle"></i> <span id="t-ack-btn">รับทราบและดำเนินการต่อ</span>
-              </button>
-          </div>
-      </div>
-  </div>
-
   <script>
     // ==========================================
     // 🌟 CONSTANTS & GLOBALS
@@ -824,8 +811,8 @@
     // ==========================================
     // 🌟 APP NAVIGATION & DATA FETCHING
     // ==========================================
-    function openApp(type) { if (type === 'ttm') { let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner'); modal.style.display = 'flex'; setTimeout(() => { modal.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10); return; } proceedToApp(type); }
-    function acceptAnnouncement() { let modal = document.getElementById('announcementModal'); let card = document.getElementById('announce-card-inner'); modal.style.opacity = '0'; card.style.transform = 'scale(0.9)'; setTimeout(() => { modal.style.display = 'none'; proceedToApp('ttm'); }, 300); }
+    function openApp(type) { proceedToApp(type); }
+
     function proceedToApp(type) { currentApp = type; let conf = APP_CONFIG[type]; document.documentElement.style.setProperty('--primary', conf.color); document.documentElement.style.setProperty('--primary-light', type==='tcm'?'#ffebee':type==='postpartum'?'#fce4ec':type==='steam'?'#e0f2fe':'#e8f5e9'); document.getElementById('app-title').innerText = _t('app_' + type); document.getElementById('app-logo').src = conf.logo; document.getElementById('view-home').classList.add('hidden'); document.getElementById('view-dashboard').classList.remove('hidden'); fetchData(true); if(refreshInterval) clearInterval(refreshInterval); refreshInterval = setInterval(() => { fetchData(false); }, 15000); }
     function goHome() { document.getElementById('view-dashboard').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); if(refreshInterval) clearInterval(refreshInterval); renderMultiUserCard(); }
 
@@ -1335,8 +1322,6 @@
         };
         reader.readAsText(fileInp.files[0]);
     }
-
-    function viewFullImage() { let meta = document.querySelector('meta[name=viewport]'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'); Swal.fire({ imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png', imageAlt: 'Announce', width: '100%', background: 'transparent', padding: '0', showConfirmButton: false, showCloseButton: true, backdrop: 'rgba(0,0,0,0.95)', didOpen: () => { document.querySelector('.swal2-image').style.maxHeight = '85vh'; }, willClose: () => { meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'); } }); }
   </script>
 </body>
 </html>
