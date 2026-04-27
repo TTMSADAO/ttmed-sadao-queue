@@ -1406,14 +1406,17 @@
                         if(r.isConfirmed) { 
                             let mN = getMaskedFullName(bookingData.fname, bookingData.lname); 
                             let mP = "******" + bookingData.tel.slice(-4); 
+                            let sN = bookingData.staff; 
+                            let dS = currentLang === 'en' ? (STAFF_EN_NAMES[sN] || sN) : (STAFF_NAME_MAP[sN] || sN);
                             
-                            // 🔥 ตัด pLab (ชื่อเล่น) ออกจาก LINE Notify ตามที่ผู้ใช้รีเควส
                             let msg = (currentLang === 'en' ? `Booking: ${APP_CONFIG[bookingData.appType].title}\nPatient: ${mN}\nPhone: ${mP}\n` : `ขอจองคิว${APP_CONFIG[bookingData.appType].title}\nผู้รับบริการ: ${mN}\nเบอร์โทร: ${mP}\n`) + `Service: ${_t(bookingData.service)}\nDate: ${bookingData.date}\nTime: ${bookingData.time}\n`; 
                             
                             if(bookingData.rightName) msg += `Right: ${bookingData.rightName}\n`; 
+                            if((currentApp === 'ttm' || currentApp === 'tcm') && dS && dS !== "ไม่ระบุ" && dS !== "Not Specified") msg += (currentLang === 'en' ? `Provider: ${dS}\n` : `ผู้ให้บริการ: ${dS}\n`);
                             msg += `------------------\n`; 
                             if(bookingData.breakdownLines) msg += bookingData.breakdownLines.map(l => l.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ')).join('\n') + `\n`; 
-                            msg += `------------------\nTotal: ${bookingData.totalFee||0} ${_t('baht')}\n` + (bookingData.note?`Note: ${bookingData.note}`:''); 
+                            msg += `------------------\nTotal: ${bookingData.totalFee||0} ${_t('baht')}\n`;
+                            if(bookingData.note) msg += (currentLang === 'en' ? `Note: ${bookingData.note}` : `หมายเหตุ: ${bookingData.note}`); 
                             
                             let d = document.createElement("textarea"); document.body.appendChild(d); d.value = msg; d.select(); document.execCommand("copy"); document.body.removeChild(d); 
                             window.location.href = `https://line.me/R/oaMessage/@649dqeft/?${encodeURIComponent(msg)}`; 
@@ -1421,7 +1424,6 @@
                     }); 
                     closeModal(); renderMultiUserCard(); fetchData(true); 
                 } else { 
-                    // 🔥 Custom Alert Logic ตรงนี้ 🔥
                     let errTitle = _t('swal_error');
                     let errMsg = res.message || 'Slot unavailable';
                     let errIcon = 'error';
@@ -1553,8 +1555,6 @@
         };
         reader.readAsText(fileInp.files[0]);
     }
-
-    function viewFullImage() { let meta = document.querySelector('meta[name=viewport]'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'); Swal.fire({ imageUrl: 'https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png', imageAlt: 'Announce', width: '100%', background: 'transparent', padding: '0', showConfirmButton: false, showCloseButton: true, backdrop: 'rgba(0,0,0,0.95)', didOpen: () => { document.querySelector('.swal2-image').style.maxHeight = '85vh'; }, willClose: () => { meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'); }, customClass:{popup:'swal-3d-popup'} }); }
   </script>
 </body>
 </html>
