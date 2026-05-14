@@ -1530,7 +1530,7 @@
                         if (liff.isInClient()) {
                             let msgText = currentLang === 'en' ? 
                                 `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
-                                `[ระบบอัตโนมัติ] แจ้งทำรายการ\nจองคิว: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                                `[ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ\nบริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
                             
                             liff.sendMessages([{ type: 'text', text: msgText }])
                                 .then(() => liff.closeWindow())
@@ -1564,7 +1564,7 @@
                 if (liff.isInClient()) {
                     let msgText = currentLang === 'en' ? 
                         `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
-                        `[ระบบอัตโนมัติ] แจ้งทำรายการ\nจองคิว: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                        `[ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ\nบริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
                     
                     liff.sendMessages([{ type: 'text', text: msgText }])
                         .then(() => liff.closeWindow())
