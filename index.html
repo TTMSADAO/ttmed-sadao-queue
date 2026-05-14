@@ -411,7 +411,6 @@
 
     </div>
   </div>
-
   <div id="adminModal" class="modal-overlay">
       <div class="modal-card" style="background: #f0f4f8; padding:0; border-radius:0; height:100vh; max-height:100vh;">
           <div style="background:white; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); display:flex; justify-content:space-between; position:sticky; top:0; z-index:10; font-weight:700; font-size:1.1rem;">
@@ -455,6 +454,20 @@
           </div>
       </div>
   </div>
+
+  <div id="announcementModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(8px);">
+      <div style="width: 90%; max-width: 400px; background: white; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5);" id="announce-card-inner">
+          <div style="background: #fff; padding: 0;">
+              <img src="https://img2.pic.in.th/890005e17a696c1ad92f3ab1fb121f87.png" style="width: 100%; height: auto; display: block; cursor: zoom-in;" alt="ประกาศสำคัญ" onclick="viewFullImage()" title="คลิกเพื่อขยายภาพ">
+          </div>
+          <div style="padding: 15px 20px 20px; background: #fff; text-align: center; border-top: 1px dashed #e2e8f0;">
+              <button class="btn btn-confirm" style="width: 100%; max-width: 250px; border-radius: 30px; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);" onclick="acceptAnnouncement()">
+                  <i class="fas fa-check-circle"></i> <span id="t-ack-btn">รับทราบและดำเนินการต่อ</span>
+              </button>
+          </div>
+      </div>
+  </div>
+
   <script>
     // ==========================================
     // 🌟 CONSTANTS & GLOBALS
@@ -939,7 +952,16 @@
                     confirmButtonText: _t('btn_close'),
                     customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
                 }).then(() => {
-                    if (liff.isInClient()) { liff.closeWindow(); }
+                    // ⚡ สั่งให้ LINE คนไข้ พิมพ์แจ้งเตือนอัตโนมัติเข้า OA แอดมิน
+                    if (liff.isInClient()) {
+                        let msgText = currentLang === 'en' ? 
+                            `[Auto] Cancel Booking\nService: ${activeBookingObj.service}\nDate: ${activeBookingObj.sysDate}` : 
+                            `[ระบบอัตโนมัติ] แจ้งทำรายการ\nยกเลิกคิว: ${activeBookingObj.service}\nวันที่: ${activeBookingObj.sysDate}`;
+                        
+                        liff.sendMessages([{ type: 'text', text: msgText }])
+                            .then(() => liff.closeWindow())
+                            .catch(() => liff.closeWindow());
+                    }
                 });
                 
                 fetchPatientHistory(activeBookingObj.idCard); 
@@ -955,7 +977,16 @@
                 confirmButtonText: _t('btn_close'),
                 customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
             }).then(() => {
-                if (liff.isInClient()) { liff.closeWindow(); }
+                // ⚡ สั่งให้ LINE คนไข้ พิมพ์แจ้งเตือนอัตโนมัติเข้า OA แอดมิน
+                if (liff.isInClient()) {
+                    let msgText = currentLang === 'en' ? 
+                        `[Auto] Cancel Booking\nService: ${activeBookingObj.service}\nDate: ${activeBookingObj.sysDate}` : 
+                        `[ระบบอัตโนมัติ] แจ้งทำรายการ\nยกเลิกคิว: ${activeBookingObj.service}\nวันที่: ${activeBookingObj.sysDate}`;
+                    
+                    liff.sendMessages([{ type: 'text', text: msgText }])
+                        .then(() => liff.closeWindow())
+                        .catch(() => liff.closeWindow());
+                }
             }); 
         });
     }
@@ -1451,7 +1482,6 @@
         let displayStaffName = currentLang === 'en' ? (STAFF_EN_NAMES[sN] || sN) : (STAFF_NAME_MAP[sN] || sN);
 
         let payload = { 
-            // ⚡ แนบ lineUid ไปให้ฝั่ง Server ด้วย
             lineUid: currentLineUid,
             staff: displayStaffName, 
             appType: bookingData.appType, 
@@ -1496,9 +1526,15 @@
                         confirmButtonText: _t('btn_close'),
                         customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' }
                     }).then(() => {
-                        // ⚡ ถ้ารันอยู่ในแอป LINE จองเสร็จแล้วให้ปิดหน้าต่างกลับแชทอัตโนมัติ
+                        // ⚡ ใช้ LIFF สั่งส่งข้อความจากฝั่งคนไข้เข้า OA เพื่อเปิดห้องแชท
                         if (liff.isInClient()) {
-                            liff.closeWindow();
+                            let msgText = currentLang === 'en' ? 
+                                `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
+                                `[ระบบอัตโนมัติ] แจ้งทำรายการ\nจองคิว: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                            
+                            liff.sendMessages([{ type: 'text', text: msgText }])
+                                .then(() => liff.closeWindow())
+                                .catch(() => liff.closeWindow());
                         }
                     });
                     closeModal(); renderMultiUserCard(); fetchData(true); 
@@ -1524,7 +1560,16 @@
             let p = savedProfiles.find(x => x.id === bookingData.idCard); 
             addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); 
             Swal.fire({title:_t('swal_success'), text:_t('swal_saved'), icon:'success', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}}).then(() => {
-                if (liff.isInClient()) { liff.closeWindow(); }
+                // ⚡ ใช้ LIFF สั่งส่งข้อความ
+                if (liff.isInClient()) {
+                    let msgText = currentLang === 'en' ? 
+                        `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
+                        `[ระบบอัตโนมัติ] แจ้งทำรายการ\nจองคิว: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                    
+                    liff.sendMessages([{ type: 'text', text: msgText }])
+                        .then(() => liff.closeWindow())
+                        .catch(() => liff.closeWindow());
+                }
             }); 
             closeModal(); renderMultiUserCard(); fetchData(true); 
         }));
