@@ -335,8 +335,8 @@
           </div>
           
           <div class="btn-group">
-            <button class="btn btn-cancel" onclick="closeModal()" id="btn-cancel-modal1">ยกเลิก</button>
-            <button class="btn btn-confirm" id="btn-next-step" onclick="goToStep2()" disabled>ถัดไป (เลือกบริการ) <i class="fas fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-cancel" onclick="closeModal()" id="btn-cancel-modal1">ยกเลิก</button>
+            <button type="button" class="btn btn-confirm" id="btn-next-step" onclick="goToStep2()" disabled>ถัดไป (เลือกบริการ) <i class="fas fa-arrow-right"></i></button>
           </div>
       </div>
 
@@ -396,16 +396,16 @@
           </div>
 
           <div class="btn-group">
-            <button class="btn btn-cancel" onclick="goToStep1()" id="btn-back-1">ย้อนกลับ</button>
-            <button class="btn btn-confirm" id="btn-check-info" onclick="goToSummary()">ตรวจสอบข้อมูล</button>
+            <button type="button" class="btn btn-cancel" onclick="goToStep1()" id="btn-back-1">ย้อนกลับ</button>
+            <button type="button" class="btn btn-confirm" id="btn-check-info" onclick="goToSummary()">ตรวจสอบข้อมูล</button>
           </div>
       </div>
 
       <div id="step-3-summary" class="hidden">
         <div id="summary-content"></div>
         <div class="btn-group">
-          <button class="btn btn-cancel" onclick="goToStep2()" id="btn-edit-sum">แก้ไข</button>
-          <button class="btn btn-confirm" id="btn-final-confirm" onclick="confirmBooking()">ยืนยันจองคิว</button>
+          <button type="button" class="btn btn-cancel" onclick="goToStep2()" id="btn-edit-sum">แก้ไข</button>
+          <button type="button" class="btn btn-confirm" id="btn-final-confirm" onclick="confirmBooking()">ยืนยันจองคิว</button>
         </div>
       </div>
 
@@ -952,11 +952,11 @@
                     confirmButtonText: _t('btn_close'),
                     customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
                 }).then(() => {
-                    // ⚡ สั่งให้ LINE คนไข้ พิมพ์แจ้งเตือนอัตโนมัติเข้า OA แอดมิน
+                    // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
                     if (liff.isInClient()) {
                         let msgText = currentLang === 'en' ? 
-                            `[Auto] Cancel Booking\nService: ${activeBookingObj.service}\nDate: ${activeBookingObj.sysDate}` : 
-                            `[ระบบอัตโนมัติ] แจ้งทำรายการ\nยกเลิกคิว: ${activeBookingObj.service}\nวันที่: ${activeBookingObj.sysDate}`;
+                            `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
+                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
                         
                         liff.sendMessages([{ type: 'text', text: msgText }])
                             .then(() => liff.closeWindow())
@@ -977,11 +977,11 @@
                 confirmButtonText: _t('btn_close'),
                 customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
             }).then(() => {
-                // ⚡ สั่งให้ LINE คนไข้ พิมพ์แจ้งเตือนอัตโนมัติเข้า OA แอดมิน
+                // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
                 if (liff.isInClient()) {
                     let msgText = currentLang === 'en' ? 
-                        `[Auto] Cancel Booking\nService: ${activeBookingObj.service}\nDate: ${activeBookingObj.sysDate}` : 
-                        `[ระบบอัตโนมัติ] แจ้งทำรายการ\nยกเลิกคิว: ${activeBookingObj.service}\nวันที่: ${activeBookingObj.sysDate}`;
+                        `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
+                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
                     
                     liff.sendMessages([{ type: 'text', text: msgText }])
                         .then(() => liff.closeWindow())
@@ -1526,11 +1526,10 @@
                         confirmButtonText: _t('btn_close'),
                         customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' }
                     }).then(() => {
-                        // ⚡ ใช้ LIFF สั่งส่งข้อความจากฝั่งคนไข้เข้า OA เพื่อเปิดห้องแชท
                         if (liff.isInClient()) {
                             let msgText = currentLang === 'en' ? 
-                                `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
-                                `[ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ\nบริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                                `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
+                                `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
                             
                             liff.sendMessages([{ type: 'text', text: msgText }])
                                 .then(() => liff.closeWindow())
@@ -1560,11 +1559,10 @@
             let p = savedProfiles.find(x => x.id === bookingData.idCard); 
             addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); 
             Swal.fire({title:_t('swal_success'), text:_t('swal_saved'), icon:'success', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}}).then(() => {
-                // ⚡ ใช้ LIFF สั่งส่งข้อความ
                 if (liff.isInClient()) {
                     let msgText = currentLang === 'en' ? 
-                        `[Auto] New Booking\nService: ${_t(bookingData.service)}\nDate: ${bookingData.date}` : 
-                        `[ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ\nบริการ: ${_t(bookingData.service)}\nวันที่: ${bookingData.date}`;
+                        `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
+                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
                     
                     liff.sendMessages([{ type: 'text', text: msgText }])
                         .then(() => liff.closeWindow())
