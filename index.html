@@ -208,8 +208,8 @@
           <svg><circle class="circle-bg" cx="60" cy="60" r="52"></circle><circle class="circle-progress" id="progress-circle" cx="60" cy="60" r="52"></circle></svg>
           <div class="percent-text" id="progress-text">0%</div>
       </div>
-      <div class="loading-title" id="t-saving">ระบบรับข้อมูลแล้ว</div>
-      <div style="color:var(--primary); font-weight:bold; font-size:0.95rem; margin-top:5px;" id="t-saving-sub">กรุณารอสักครู่ เพื่อยืนยันข้อมูล...</div>
+      <div class="loading-title" id="t-saving" style="color:#1e293b;">กำลังบันทึกข้อมูล...</div>
+      <div style="color:#dc2626; font-weight:800; font-size:0.95rem; margin-top:5px;" id="t-saving-sub">⚠️ กรุณาอย่าปิดหน้าจอนี้ จนกว่าจะสำเร็จ</div>
       
       <div class="tips-box">
           <div class="tips-title" id="tip-title"><i class="fas fa-clock"></i> มาก่อนเวลา 15 นาที</div>
@@ -905,7 +905,7 @@
                 let btnArea = document.getElementById('btn-cancel-area');
                 if(h.sysDate && btnArea) { 
                     activeBookingObj = { idCard: idCard, service: h.service, date: h.date, sysDate: h.sysDate, time: h.time }; 
-                    btnArea.innerHTML = `<button class="btn-cancel-q" onclick="reqCancelBooking()"><i class="fas fa-times-circle"></i> ${_t('cancel_q')}</button>`; 
+                    btnArea.innerHTML = `<button type="button" class="btn-cancel-q" onclick="reqCancelBooking()"><i class="fas fa-times-circle"></i> ${_t('cancel_q')}</button>`; 
                 } else if(btnArea) { btnArea.innerHTML = `<div style="text-align:right; font-size:0.8rem; color:#4ade80; margin-top:5px; font-weight:bold;"><i class="fas fa-check-circle"></i> ${h.status || 'Completed'}</div>`; activeBookingObj = null; }
             } else { 
                 let apsCont = document.getElementById('aps-history-content');
@@ -947,23 +947,26 @@
                 
                 Swal.fire({
                     title:_t('swal_success'), 
-                    text:msg, 
+                    text: "กำลังส่งข้อความยกเลิกเข้าแชท...", 
                     icon:'success', 
-                    confirmButtonText: _t('btn_close'),
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    timer: 3000,
+                    timerProgressBar: true,
                     customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
-                }).then(() => {
-                    // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
-                    if (liff.isInClient()) {
-                        let msgText = currentLang === 'en' ? 
-                            `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
-                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
-                        
-                        liff.sendMessages([{ type: 'text', text: msgText }])
-                            .then(() => liff.closeWindow())
-                            .catch(() => liff.closeWindow());
-                    }
                 });
                 
+                // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
+                if (liff.isInClient()) {
+                    let msgText = currentLang === 'en' ? 
+                        `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
+                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
+                    
+                    liff.sendMessages([{ type: 'text', text: msgText }])
+                        .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                        .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                }
+
                 fetchPatientHistory(activeBookingObj.idCard); 
                 fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
             } else Swal.fire({title:_t('swal_error'), text:(res.message || 'Error occurred'), icon:'error', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}}); 
@@ -972,22 +975,24 @@
             fetchPatientHistory(activeBookingObj.idCard); 
             Swal.fire({
                 title:_t('swal_success'), 
-                text:_t('swal_cancelled'), 
+                text: "กำลังส่งข้อความยกเลิกเข้าแชท...", 
                 icon:'success', 
-                confirmButtonText: _t('btn_close'),
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
                 customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}
-            }).then(() => {
-                // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
-                if (liff.isInClient()) {
-                    let msgText = currentLang === 'en' ? 
-                        `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
-                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
-                    
-                    liff.sendMessages([{ type: 'text', text: msgText }])
-                        .then(() => liff.closeWindow())
-                        .catch(() => liff.closeWindow());
-                }
-            }); 
+            });
+            
+            // ⚡ ใช้ LIFF สั่งส่งข้อความ แจ้งยกเลิก
+            if (liff.isInClient()) {
+                let msgText = currentLang === 'en' ? 
+                    `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : 
+                    `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
+                
+                liff.sendMessages([{ type: 'text', text: msgText }])
+                    .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                    .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+            }
         });
     }
 
@@ -1521,21 +1526,26 @@
                     
                     Swal.fire({ 
                         title: _t('swal_book_success'), 
-                        text: _t('swal_line_notify'), 
+                        text: "กำลังส่งข้อความยืนยันเข้าแชท...", 
                         icon: 'success', 
-                        confirmButtonText: _t('btn_close'),
-                        customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' }
-                    }).then(() => {
-                        if (liff.isInClient()) {
-                            let msgText = currentLang === 'en' ? 
-                                `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
-                                `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
-                            
-                            liff.sendMessages([{ type: 'text', text: msgText }])
-                                .then(() => liff.closeWindow())
-                                .catch(() => liff.closeWindow());
-                        }
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        customClass: { popup: 'swal-3d-popup' }
                     });
+
+                    // ⚡ ยิง LIFF Message ทันที!
+                    if (liff.isInClient()) {
+                        let msgText = currentLang === 'en' ? 
+                            `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
+                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
+                        
+                        liff.sendMessages([{ type: 'text', text: msgText }])
+                            .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                            .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                    }
+
                     closeModal(); renderMultiUserCard(); fetchData(true); 
                 } else { 
                     let errTitle = _t('swal_error');
@@ -1558,17 +1568,27 @@
         }).catch(e => finishPercentageLoader(() => { 
             let p = savedProfiles.find(x => x.id === bookingData.idCard); 
             addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); 
-            Swal.fire({title:_t('swal_success'), text:_t('swal_saved'), icon:'success', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}}).then(() => {
-                if (liff.isInClient()) {
-                    let msgText = currentLang === 'en' ? 
-                        `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
-                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
-                    
-                    liff.sendMessages([{ type: 'text', text: msgText }])
-                        .then(() => liff.closeWindow())
-                        .catch(() => liff.closeWindow());
-                }
-            }); 
+            
+            Swal.fire({
+                title:_t('swal_success'), 
+                text: "กำลังส่งข้อความยืนยันเข้าแชท...", 
+                icon:'success', 
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                customClass:{popup:'swal-3d-popup'}
+            });
+            
+            if (liff.isInClient()) {
+                let msgText = currentLang === 'en' ? 
+                    `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : 
+                    `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
+                
+                liff.sendMessages([{ type: 'text', text: msgText }])
+                    .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                    .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+            }
+
             closeModal(); renderMultiUserCard(); fetchData(true); 
         }));
     }
