@@ -135,6 +135,9 @@
     .custom-select { width: 100%; padding: 12px 18px; border-radius: 18px; background: var(--bg-color); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light); border: 1px solid rgba(255,255,255,0.5); }
     .custom-select:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); }
     .select-img { width: 40px; height: 40px; border-radius: 14px; object-fit: cover; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+    .select-items { position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: white; border-radius: 18px; border: 1px solid #e2e8f0; box-shadow: 0 15px 30px rgba(0,0,0,0.15); max-height: 220px; overflow-y: auto; z-index: 50; display: none; }
+    .custom-select.open + .select-items { display: block; animation: fadeIn 0.2s; }
+    .select-item { padding: 12px 18px; display: flex; align-items: center; gap: 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
     
     .btn-group { display: flex; gap: 15px; margin-top: 30px; } 
     .btn { flex: 1; padding: 16px; border: none; border-radius: 20px; font-size: 1.1rem; cursor: pointer; font-family: 'Prompt', sans-serif; font-weight: 800; transition: 0.2s; text-align:center; }
@@ -217,7 +220,7 @@
 
     <div class="hero-banner">
         <div class="hero-overlay">
-            <img src="https://github.com/TTMSADAO/ttmed-sadao-queue/blob/PIC/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%AA%E0%B8%99%E0%B9%88%E0%B8%AB%E0%B9%8C.png?raw=true" class="main-logo" onclick="handleAdminTap()">
+            <img src="https://img2.pic.in.th/pic/2e56ebb3c838125fd55c9db5dcd51baf.png" class="main-logo" onclick="handleAdminTap()">
             <h2 style="margin:0; font-size:1.05rem; font-weight:600; opacity:0.9;" id="t-h2">กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก</h2>
             <h1 style="margin:8px 0 10px 0; font-size:1.8rem; text-shadow:0 2px 10px rgba(0,0,0,0.3);" id="t-h1">โรงพยาบาลสะเดา</h1>
             <div class="online-badge"><div class="online-dot"></div><span id="t-online">เปิดให้บริการออนไลน์ 24 ชม.</span></div>
@@ -384,10 +387,20 @@
                   <div class="admin-tab" onclick="switchAdminTab('tab-logs')"><i class="fas fa-calendar-alt"></i> ตารางนัด</div>
                   <div class="admin-tab" onclick="switchAdminTab('tab-system')"><i class="fas fa-cogs"></i> ระบบ</div>
               </div>
+              
               <div id="tab-db" class="admin-panel active">
-                  <div style="display:flex; gap:10px; margin-bottom:15px;"><input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลขบัตร"><button class="btn btn-confirm" style="flex:none; padding:14px 20px; border-radius:18px;" onclick="adminSearch()"><i class="fas fa-search"></i></button></div>
-                  <div class="table-responsive"><table class="log-table"><thead><tr><th>ID / ข้อมูลคนไข้</th><th style="text-align:right;">จัดการ</th></tr></thead><tbody id="adminSearchResult"><tr><td colspan="2" style="text-align:center; padding:30px; color:#94a3b8; font-weight:600;">ค้นหาเพื่อจัดการข้อมูล</td></tr></tbody></table></div>
+                  <div style="display:flex; gap:10px; margin-bottom:15px;">
+                      <input type="text" id="adminSearchInp" class="form-control" placeholder="ชื่อ / สกุล / เลขบัตร">
+                      <button class="btn btn-confirm" style="flex:none; padding:14px 20px; border-radius:18px;" onclick="adminSearch()"><i class="fas fa-search"></i></button>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="log-table">
+                          <thead><tr><th>ID / ข้อมูลคนไข้</th><th style="text-align:right;">จัดการ</th></tr></thead>
+                          <tbody id="adminSearchResult"><tr><td colspan="2" style="text-align:center; padding:30px; color:#94a3b8; font-weight:600;">ค้นหาเพื่อจัดการข้อมูล</td></tr></tbody>
+                      </table>
+                  </div>
               </div>
+              
               <div id="tab-logs" class="admin-panel">
                   <div style="display:flex; gap:10px; margin-bottom:15px; align-items:center;">
                       <input type="date" id="adminLogDateFilter" class="form-control" style="flex:1;">
@@ -398,13 +411,23 @@
                       <button id="btnSortCreated" class="btn btn-confirm" style="padding:10px; font-size:0.85rem; flex:1; border-radius:15px;" onclick="setAdminSort('created')">เวลาที่กดจอง</button>
                       <button id="btnSortAppoint" class="btn btn-cancel" style="padding:10px; font-size:0.85rem; flex:1; border-radius:15px;" onclick="setAdminSort('appoint')">เวลานัดหมาย</button>
                   </div>
-                  <div class="table-responsive"><table class="log-table"><thead><tr><th>เวลาทำรายการ</th><th>ผู้ป่วย/บริการ</th><th>คิววันที่/เวลา</th><th style="text-align:right;"></th></tr></thead><tbody id="adminLogsArea"><tr><td colspan="4" style="text-align:center; padding:20px; color:#94a3b8; font-weight:600;">กำลังรอข้อมูล...</td></tr></tbody></table></div>
+                  <div class="table-responsive">
+                      <table class="log-table">
+                          <thead><tr><th>เวลาทำรายการ</th><th>ผู้ป่วย/บริการ</th><th>คิววันที่/เวลา</th><th style="text-align:right;"></th></tr></thead>
+                          <tbody id="adminLogsArea"><tr><td colspan="4" style="text-align:center; padding:20px; color:#94a3b8; font-weight:600;">กำลังรอข้อมูล...</td></tr></tbody>
+                      </table>
+                  </div>
               </div>
+              
               <div id="tab-system" class="admin-panel">
                   <div style="background:white; border-radius:24px; padding:20px; box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light); border:1px solid rgba(255,255,255,0.5); margin-bottom:20px;">
                       <h4 style="margin:0 0 10px 0; color:#0ea5e9; font-weight:800; font-size:1.1rem;"><i class="fas fa-file-csv"></i> อัปโหลดแผนการรักษา</h4>
                       <p style="font-size:0.8rem; color:#64748b; font-weight:600;">ไฟล์ 4 คอลัมน์: <code>visitDate, idCard, service, planDays</code></p>
-                      <div style="border: 2px dashed #cbd5e1; padding: 25px; text-align: center; border-radius: 18px; background: #f8fafc; cursor: pointer; margin-bottom: 15px;" onclick="document.getElementById('adminFileInput').click()"><i class="fas fa-cloud-upload-alt" style="font-size:2.5rem; color:var(--primary); margin-bottom:10px;"></i><div id="adminFileName" style="font-weight:800; color:#1e293b; font-size:0.95rem;">เลือกไฟล์ .CSV</div><input type="file" id="adminFileInput" accept=".csv" style="display:none;" onchange="updateAdminFileUI(this)"></div>
+                      <div style="border: 2px dashed #cbd5e1; padding: 25px; text-align: center; border-radius: 18px; background: #f8fafc; cursor: pointer; margin-bottom: 15px;" onclick="document.getElementById('adminFileInput').click()">
+                          <i class="fas fa-cloud-upload-alt" style="font-size:2.5rem; color:var(--primary); margin-bottom:10px;"></i>
+                          <div id="adminFileName" style="font-weight:800; color:#1e293b; font-size:0.95rem;">เลือกไฟล์ .CSV</div>
+                          <input type="file" id="adminFileInput" accept=".csv" style="display:none;" onchange="updateAdminFileUI(this)">
+                      </div>
                       <button class="btn btn-confirm" id="btnAdminUpload" onclick="processAdminUpload()" disabled style="width:100%;"><i class="fas fa-save"></i> อัปโหลดข้อมูล</button>
                   </div>
                   <div style="background:white; border-radius:24px; padding:20px; box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light); border:1px solid rgba(255,255,255,0.5); text-align:center;">
@@ -753,6 +776,7 @@
         if(document.getElementById('btn-cancel-area')) document.getElementById('btn-cancel-area').innerHTML = ''; 
     }
 
+    // 🚀 ระบบยกเลิกคิว พร้อมเด้ง Flex Cancel ทันที
     function reqCancelBooking() {
         if(!activeBookingObj) return; let today = new Date(); today.setHours(0,0,0,0); let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]); let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         let warnMsg = _t('swal_cancel_warn3');
@@ -770,11 +794,32 @@
         .then(res => { 
             if(res.status === 'success' || res.status === 'error_but_done') { 
                 Swal.fire({ title:_t('swal_success'), text: "กำลังส่งข้อความยกเลิกเข้าแชท...", icon:'success', showConfirmButton: false, allowOutsideClick: false, timer: 3000, timerProgressBar: true, customClass:{popup:'swal-3d-popup'} });
+                
+                // ⚡ ส่ง Flex Cancel ผ่าน LIFF เข้าห้องแชท OA ทันที
                 if (liff.isInClient()) {
-                    let msgText = currentLang === 'en' ? `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
-                    liff.sendMessages([{ type: 'text', text: msgText }]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                    let flexCancel = {
+                      "type": "flex",
+                      "altText": "ระบบได้ยกเลิกคิวของคุณแล้ว",
+                      "contents": {
+                        "type": "bubble",
+                        "header": { "type": "box", "layout": "vertical", "backgroundColor": "#fee2e2", "contents": [ { "type": "text", "text": "❌ ยกเลิกคิวสำเร็จ", "color": "#dc2626", "weight": "bold" } ] },
+                        "body": {
+                          "type": "box", "layout": "vertical", "spacing": "sm",
+                          "contents": [
+                            { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": activeBookingObj.service, "wrap": true, "color": "#dc2626", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                            { "type": "separator", "margin": "md" },
+                            { "type": "box", "layout": "vertical", "margin": "md", "contents": [ { "type": "text", "text": "📅 วันที่ยกเลิก: " + activeBookingObj.sysDate, "size": "md", "weight": "bold", "color": "#1e293b" }, { "type": "text", "text": "⏰ รอบเวลา: " + activeBookingObj.time + " น.", "size": "lg", "weight": "bold", "color": "#dc2626" } ] }
+                          ]
+                        }
+                      }
+                    };
+                    liff.sendMessages([flexCancel]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
                 }
-                fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
+
+                let idToFetch = activeBookingObj.idCard;
+                activeBookingObj = null;
+                fetchPatientHistory(idToFetch); 
+                fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
             } else Swal.fire({title:_t('swal_error'), text:(res.message || 'Error occurred'), icon:'error', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}});
         })
         .catch(e=>{ fetchPatientHistory(activeBookingObj.idCard); });
@@ -1166,7 +1211,7 @@
         goToStep3();
     }
 
-    // 🚀 [แก้ไขแล้ว] ตรวจจับตอนกดปุ่มยืนยันนัดหมาย เพื่อเช็คแบน และแพ็คข้อมูลส่งไลน์แบบสมบูรณ์
+    // 🚀 [แก้ไขแล้ว] ตรวจจับตอนกดปุ่มยืนยันนัดหมาย เพื่อส่ง Flex เข้า LINE OA เด้งให้คนไข้
     function confirmBooking() {
         if (bookingData.backendStatus === 'checking') {
             Swal.fire({title: 'กำลังตรวจสอบข้อมูล', text: 'กรุณารอสักครู่ ระบบกำลังประมวลผล...', icon: 'info', customClass:{popup:'swal-3d-popup'}});
@@ -1210,18 +1255,81 @@
             staff: displayStaffName,
             extraInfo: bookingData.extraInfo
         };
+        
         if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; }
         else if (currentApp === 'steam') { payload.gender = document.getElementById('inp-gender').value; payload.patients = [{name: fCombined, tel: bookingData.tel}]; }
         else if (currentApp === 'postpartum') { payload.ppExtraData = bookingData.ppExtraData; }
         
         fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) })
-        .then(async r => { 
+        .then(r => r.json())
+        .then(res => { 
             finishPercentageLoader(() => { 
-                closeModal(); switchMainTab('profile'); fetchData(true);
-                if(activeProfileId) fetchPatientHistory(activeProfileId);
+                if(res.status === 'success' || res.status === 'error_but_done') { 
+                    
+                    // Optimistic Data Update ทันที
+                    activeBookingObj = {
+                        idCard: bookingData.idCard,
+                        service: fSvc,
+                        date: bookingData.date,
+                        sysDate: bookingData.sysDate,
+                        time: bookingData.time,
+                        status: "รอรับบริการ"
+                    };
+
+                    Swal.fire({ 
+                        title: _t('swal_book_success'), 
+                        text: "กำลังส่งข้อความยืนยันเข้าแชท...", 
+                        icon: 'success', 
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        timer: 2500,
+                        customClass: { popup: 'swal-3d-popup' }
+                    });
+
+                    // ⚡ สร้าง Flex Message ทรงสวยงาม แล้วยิงผ่าน LIFF เข้า LINE OA ทันที
+                    if (liff.isInClient()) {
+                        let is2HrText = bookingData.is2Hr && currentApp !== 'postpartum' ? (currentApp === 'ttm' ? " (2 ชม.)" : " + ครอบแก้ว") : "";
+                        let steamText = bookingData.addSteam ? ("\n🌿 เพิ่มอบไอน้ำเวลา " + bookingData.steamTime + " น.") : "";
+                        let flexMsg = {
+                          "type": "flex",
+                          "altText": "ยืนยันการจองคิว: " + _t(bookingData.service),
+                          "contents": {
+                            "type": "bubble",
+                            "header": { "type": "box", "layout": "vertical", "backgroundColor": "#f8fafc", "contents": [ { "type": "text", "text": "✅ ยืนยันการจองคิวสำเร็จ", "color": "#16a34a", "weight": "bold", "size": "md" } ] },
+                            "body": {
+                              "type": "box", "layout": "vertical", "spacing": "sm",
+                              "contents": [
+                                { "type": "text", "text": "โรงพยาบาลสะเดา", "weight": "bold", "color": "#1e293b", "size": "lg" },
+                                { "type": "text", "text": "แผนก: " + (bookingData.appType || "").toUpperCase(), "size": "sm", "color": "#64748b" },
+                                { "type": "separator", "margin": "md" },
+                                { "type": "box", "layout": "horizontal", "margin": "md", "contents": [ { "type": "text", "text": "บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": _t(bookingData.service) + is2HrText + steamText, "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "ชื่อผู้จอง:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": bookingData.fname + " " + (bookingData.lname || ""), "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "separator", "margin": "md" },
+                                { "type": "box", "layout": "vertical", "margin": "md", "contents": [ { "type": "text", "text": "📅 วันนัดหมาย: " + bookingData.date, "size": "md", "weight": "bold", "color": "#1e293b" }, { "type": "text", "text": "⏰ เวลานัด: " + bookingData.time + " น.", "size": "xl", "weight": "bold", "color": "#2e7d32" } ] },
+                                { "type": "text", "text": "*กรุณามาก่อนเวลานัด 15 นาที", "color": "#dc2626", "size": "xs", "margin": "sm", "weight": "bold" }
+                              ]
+                            }
+                          }
+                        };
+                        liff.sendMessages([flexMsg]).then(() => { setTimeout(() => liff.closeWindow(), 1200); }).catch(() => { setTimeout(() => liff.closeWindow(), 1200); });
+                    }
+
+                    closeModal(); switchMainTab('profile'); fetchData(true);
+                    
+                    // บังคับ Render UI หน้าประวัติใหม่ทันที จะได้ไม่ค้าง!
+                    renderHistoryUI(bookingData.idCard, activeBookingObj);
+                    setTimeout(() => { if(activeProfileId) fetchPatientHistory(activeProfileId); }, 4000);
+
+                } else {
+                    Swal.fire({ title: _t('swal_error'), html: res.message || 'Slot unavailable', icon: 'error', customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } });
+                    document.getElementById('btn-final-confirm').disabled = false; fetchData(true);
+                }
             });
         }).catch(e => {
-            finishPercentageLoader(() => { closeModal(); switchMainTab('profile'); fetchData(true); });
+            finishPercentageLoader(() => { 
+                Swal.fire({ title: _t('swal_error'), text: _t('swal_sys_err'), icon: 'error', customClass: { popup: 'swal-3d-popup' } });
+                document.getElementById('btn-final-confirm').disabled = false; 
+            });
         });
     }
 
