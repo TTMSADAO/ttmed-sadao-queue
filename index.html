@@ -13,7 +13,6 @@
   <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   
   <style>
-    /* 🔥 3D MODERN MINIMALIST VARIABLES 🔥 */
     :root { 
         --primary: #2e7d32; 
         --primary-light: #e8f5e9; 
@@ -29,7 +28,6 @@
     .hidden { display: none !important; }
     .fade-in { animation: fadeIn 0.4s ease-in-out; }
 
-    /* --- Language & Badges --- */
     .lang-toggle-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); color: var(--primary-dark); padding: 8px 18px; border-radius: 25px; font-size: 0.95rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); }
     .lang-toggle-btn i { font-size: 1.1rem; color: var(--accent); } 
     .lang-toggle-btn:active { transform: scale(0.96); }
@@ -37,14 +35,12 @@
     .online-badge { background: rgba(255,255,255,0.25); padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-top:12px; border: 1px solid rgba(255,255,255,0.3); }
     .online-dot { width: 10px; height: 10px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 10px #4ade80; animation: pulseDot 2s infinite; }
 
-    /* --- Hero Banner Soft UI --- */
     .home-container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; position: relative; }
     .hero-banner { width: 100%; height: 280px; background-image: url('https://img2.pic.in.th/pic/2e56ebb3c838125fd55c9db5dcd51baf.png'); background-size: cover; background-position: center; position: relative; border-radius: 0 0 40px 40px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); margin-bottom: 30px; overflow: hidden; }
     .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(46,125,50,0.3), rgba(27,94,32,0.95)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
     .main-logo { width: 85px; height: 85px; object-fit: cover; margin-bottom: 12px; background: white; border-radius: 50%; padding: 4px; box-shadow: 0 8px 20px rgba(0,0,0,0.25); cursor: pointer; transition: 0.2s; } 
     .main-logo:active { transform: scale(0.9); }
 
-    /* --- 3D Profile Card --- */
     .premium-glass-card { width: 100%; background: var(--bg-color); border: 1px solid rgba(255,255,255,0.7); border-radius: 30px; padding: 25px; position: relative; overflow: hidden; box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light); margin-bottom: 25px; z-index: 5; }
     .mu-profile-list { display: flex; flex-direction: column; gap: 15px; }
     .mu-profile { display: flex; align-items: center; justify-content: space-between; background: var(--bg-color); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.5); cursor: pointer; transition: 0.2s; box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light); }
@@ -59,7 +55,6 @@
     .btn-cancel-q { background: #fee2e2; color: #ef4444; border: none; padding: 12px; border-radius: 15px; font-size: 0.95rem; font-weight: 700; cursor:pointer; width:100%; margin-top:15px; transition:0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 3px 3px 8px rgba(239, 68, 68, 0.2); }
     .btn-cancel-q:active { box-shadow: inset 3px 3px 6px rgba(239, 68, 68, 0.3); transform: scale(0.97); }
 
-    /* --- 3D Department Cards --- */
     .menu-container { width: 100%; padding: 0 25px; display: flex; flex-direction: column; gap: 18px; margin-top: -30px; position: relative; z-index: 10; }
     .dept-card { background: var(--bg-color); border-radius: 24px; padding: 20px; display: flex; align-items: center; cursor: pointer; box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.6); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .dept-card:active { box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light); transform: translateY(2px); }
@@ -69,7 +64,6 @@
     .dept-info h3 { margin: 0 0 4px 0; font-size: 1.2rem; font-weight: 700; color: #1e293b; } .dept-info p { margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.4; }
     .arrow-btn { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-color); color: var(--accent); font-size: 1.1rem; box-shadow: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light); }
 
-    /* --- Dashboard Top Section --- */
     .top-section { background: var(--bg-color); color: #1e293b; padding: 20px 0 10px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 20px rgba(209, 217, 230, 0.4); border-radius: 0 0 30px 30px; }
     .header-top-row { display: flex; align-items: center; justify-content: center; position: relative; padding: 0 20px; margin-bottom: 12px; }
     .back-btn { position: absolute; left: 20px; background: var(--bg-color); width: 44px; height: 44px; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; color: #1e293b; box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light); border: 1px solid rgba(255,255,255,0.4); }
@@ -78,7 +72,6 @@
     .sync-badge { display: inline-flex; align-items: center; gap: 6px; background: #e2e8f0; color: #475569; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05); }
     .spin-active { animation: spin 1s linear infinite; color: var(--accent); }
 
-    /* --- 3D Date Scroller --- */
     .date-scroller { display: flex; overflow-x: auto; padding: 15px 20px 10px 20px; gap: 15px; scrollbar-width: none; } .date-scroller::-webkit-scrollbar { display: none; }
     .date-chip { background: var(--bg-color); color: #64748b; border-radius: 18px; padding: 12px 0; min-width: 65px; text-align: center; cursor: pointer; flex-shrink: 0; position: relative; transition: 0.3s; box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light); border: 1px solid rgba(255,255,255,0.4); }
     .date-chip small { font-size: 0.75rem; display: block; margin-bottom: 4px; font-weight: 600; } .date-chip span { font-size: 1.25rem; display: block; font-weight: 800; line-height: 1; }
@@ -87,7 +80,6 @@
     .container { max-width: 600px; margin: 0 auto; padding: 0 20px 100px; }
     .selected-date-header { font-size: 1.2rem; font-weight: 800; color: #1e293b; padding: 25px 5px 15px; display: flex; align-items: center; } .header-bar { width: 6px; height: 24px; border-radius: 6px; margin-right: 12px; background-color: var(--accent); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5); }
     
-    /* --- 3D Slot Cards --- */
     .grid-container { display: flex; flex-direction: column; gap: 18px; }
     .slot-card { display: flex; justify-content: space-between; align-items: center; background: var(--bg-color); border-radius: 24px; padding: 18px 20px; box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light); border: 1px solid rgba(255,255,255,0.6); position: relative; overflow: hidden; animation: slideUp 0.3s forwards; opacity: 0; transition: 0.2s; }
     .slot-card:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.98); } 
@@ -105,7 +97,6 @@
     .queue-icons { display: flex; gap: 4px; color: var(--accent); font-size: 1rem; } .status-text { font-size: 1rem; font-weight: 800; color: var(--primary); line-height: 1; } .is-full .status-text { color: #64748b; }
     .badge-2hr { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
 
-    /* --- Loaders & Tips --- */
     .loading-screen, .page-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240,244,248,0.95); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; backdrop-filter: blur(10px); } 
     .loading-screen.hidden, .page-loader.hidden { opacity: 0; pointer-events: none; }
     .circle-wrap svg { transform: rotate(-90deg); width: 120px; height: 120px; } .circle-bg { fill: none; stroke: var(--shadow-dark); stroke-width: 8; } .circle-progress { fill: none; stroke: var(--accent); stroke-width: 8; stroke-dasharray: 326; stroke-dashoffset: 326; stroke-linecap: round; }
@@ -115,7 +106,6 @@
     .tips-text { font-size: 0.9rem; color: #475569; line-height: 1.5; font-weight: 500; }
     @keyframes spin { 100% { transform: rotate(360deg); } } @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* --- 3D Modal Forms --- */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.5); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(8px); } 
     .modal-overlay.show { opacity: 1; visibility: visible; }
     .modal-card { background: var(--bg-color); width: 100%; max-width: 600px; border-radius: 35px 35px 0 0; padding: 35px 25px 45px; box-shadow: 0 -15px 40px rgba(0,0,0,0.15); transform: translateY(100%); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); max-height: 92vh; overflow-y: auto; } 
@@ -147,7 +137,6 @@
     .btn-confirm:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4); }
     .btn-confirm:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; box-shadow: none; text-shadow: none; }
 
-    /* Stepper */
     .stepper-wrapper { display: flex; align-items: center; justify-content: space-between; margin-bottom: 35px; padding: 0 10px; }
     .step { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 2; width: 65px; }
     .step-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-color); color: #94a3b8; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; transition: 0.3s; box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); }
@@ -158,33 +147,28 @@
     .step-line { flex: 1; height: 4px; background: var(--shadow-dark); margin: 0 -15px; position: relative; top: -12px; z-index: 1; transition: 0.3s; border-radius: 2px; }
     .step-line.active { background: var(--accent); box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3); }
 
-    /* 🏷️ RIGHT SELECTION STYLES */
     .right-option { padding: 16px 20px; border-radius: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.2s; background: var(--bg-color); display: flex; flex-direction: column; gap: 4px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light); }
     .right-option.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: inset 4px 4px 10px rgba(46, 125, 50, 0.15), inset -4px -4px 10px rgba(255,255,255,0.8); }
     .right-title-row { display: flex; align-items: center; gap: 12px; font-weight: 800; color: #1e293b; font-size: 1.05rem; }
     .right-desc { font-size: 0.8rem; color: #64748b; margin-left: 34px; line-height: 1.4; font-weight: 500; }
 
-    /* 🔥 3D REALISTIC BILL STYLES 🔥 */
     .receipt-3d { background: #ffffff; border-radius: 20px; padding: 20px; box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light); border: 1px solid #f1f5f9; margin-top: 15px; position: relative; overflow: hidden; }
     .receipt-3d::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(45deg, #f59e0b, #f59e0b 10px, #fbbf24 10px, #fbbf24 20px); }
     .total-box-3d { background: #f8fafc; border-radius: 16px; padding: 15px 20px; box-shadow: inset 4px 4px 8px #e2e8f0, inset -4px -4px 8px #ffffff; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border: 1px solid #f1f5f9; }
     .price-red { color: #dc2626; text-shadow: 1px 1px 0px rgba(220, 38, 38, 0.2); }
     .price-green { color: #16a34a; text-shadow: 1px 1px 0px rgba(22, 163, 74, 0.2); }
 
-    /* 🔥 3D SWEETALERT OVERRIDE 🔥 */
     .swal2-popup { border-radius: 30px !important; background: var(--bg-color) !important; box-shadow: 15px 15px 35px var(--shadow-dark), -15px -15px 35px var(--shadow-light) !important; border: 1px solid rgba(255,255,255,0.5) !important; padding: 2.5em 2em !important; }
     .swal2-title { color: #1e293b !important; font-family: 'Prompt', sans-serif !important; font-weight: 800 !important; }
     .swal2-html-container { font-family: 'Prompt', sans-serif !important; color: #475569 !important; font-weight: 500 !important; }
     .swal2-confirm { background: linear-gradient(135deg, var(--accent), #d97706) !important; border-radius: 18px !important; font-weight: 800 !important; padding: 14px 28px !important; box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4) !important; }
     .swal2-cancel { background: #e2e8f0 !important; color: #475569 !important; border-radius: 18px !important; font-weight: 800 !important; padding: 14px 28px !important; box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light) !important; }
 
-    /* --- FLOATING BOTTOM NAVIGATION --- */
     .bottom-nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; width: 90%; max-width: 400px; padding: 10px 15px; border-radius: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,1); z-index: 999; }
     .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94a3b8; text-decoration: none; font-size: 1.3rem; padding: 12px; border-radius: 50%; transition: all 0.3s ease; width: 50px; height: 50px; }
     .nav-item.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transform: translateY(-5px); }
     .nav-item:active i { transform: scale(0.85); }
 
-    /* ADMIN STYLES */
     .admin-tab-container { display: flex; background: #e2e8f0; border-radius: 14px; padding: 4px; margin-bottom: 20px; box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); }
     .admin-tab { flex: 1; text-align: center; padding: 12px; font-size: 0.95rem; font-weight: 800; color: #64748b; cursor: pointer; border-radius: 10px; transition: 0.3s; }
     .admin-tab.active { background: var(--bg-color); color: var(--primary); box-shadow: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light); }
@@ -468,6 +452,7 @@
     let bookingData = {}; let selectedIndex = 0; let typingTimer;
     let currentUserDB = null; let selectedSlotData = null; let refreshInterval; let activeBookingObj = null;
     let isForeigner = false;
+    let skipNextFetch = false; // สำหรับป้องกันการรีเฟรชข้อมูลทับซ้อนตอนจองเสร็จใหม่ๆ
 
     function switchMainTab(tab) {
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -739,6 +724,8 @@
 
     // 🚀 ระบบดึงประวัติจาก Firebase แบบ Realtime (ไม่ต้องรอ GAS)
     function fetchPatientHistory(idCard) {
+        if(skipNextFetch) return; // หากเพิ่งจองเสร็จให้ใช้ UI Optimistic ต่อไป ไม่ต้องโหลดทับ
+        
         fetch(FIREBASE_BASE_URL + "patientHistory/" + idCard + ".json?t=" + new Date().getTime(), { cache: 'no-store' })
         .then(r => r.json())
         .then(h => {
@@ -771,12 +758,12 @@
     }
 
     function renderNoHistory() {
+        if(skipNextFetch) return; // หากเพิ่งจอง ไม่ต้องให้ขึ้นว่าไม่มีประวัติ
         let apsCont = document.getElementById('aps-history-content');
         if(apsCont) apsCont.innerHTML = `<div style="color:#94a3b8; font-size:0.9rem; font-weight:600; width:100%; text-align:center; padding:15px 0;">ไม่มีประวัติการจองเร็วๆ นี้</div>`; 
         if(document.getElementById('btn-cancel-area')) document.getElementById('btn-cancel-area').innerHTML = ''; 
     }
 
-    // 🚀 ระบบยกเลิกคิว พร้อมเด้ง Flex Cancel ทันที
     function reqCancelBooking() {
         if(!activeBookingObj) return; let today = new Date(); today.setHours(0,0,0,0); let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]); let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         let warnMsg = _t('swal_cancel_warn3');
@@ -794,32 +781,11 @@
         .then(res => { 
             if(res.status === 'success' || res.status === 'error_but_done') { 
                 Swal.fire({ title:_t('swal_success'), text: "กำลังส่งข้อความยกเลิกเข้าแชท...", icon:'success', showConfirmButton: false, allowOutsideClick: false, timer: 3000, timerProgressBar: true, customClass:{popup:'swal-3d-popup'} });
-                
-                // ⚡ ส่ง Flex Cancel ผ่าน LIFF เข้าห้องแชท OA ทันที
                 if (liff.isInClient()) {
-                    let flexCancel = {
-                      "type": "flex",
-                      "altText": "ระบบได้ยกเลิกคิวของคุณแล้ว",
-                      "contents": {
-                        "type": "bubble",
-                        "header": { "type": "box", "layout": "vertical", "backgroundColor": "#fee2e2", "contents": [ { "type": "text", "text": "❌ ยกเลิกคิวสำเร็จ", "color": "#dc2626", "weight": "bold" } ] },
-                        "body": {
-                          "type": "box", "layout": "vertical", "spacing": "sm",
-                          "contents": [
-                            { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": activeBookingObj.service, "wrap": true, "color": "#dc2626", "size": "sm", "weight": "bold", "flex": 7 } ] },
-                            { "type": "separator", "margin": "md" },
-                            { "type": "box", "layout": "vertical", "margin": "md", "contents": [ { "type": "text", "text": "📅 วันที่ยกเลิก: " + activeBookingObj.sysDate, "size": "md", "weight": "bold", "color": "#1e293b" }, { "type": "text", "text": "⏰ รอบเวลา: " + activeBookingObj.time + " น.", "size": "lg", "weight": "bold", "color": "#dc2626" } ] }
-                          ]
-                        }
-                      }
-                    };
-                    liff.sendMessages([flexCancel]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                    let msgText = currentLang === 'en' ? `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
+                    liff.sendMessages([{ type: 'text', text: msgText }]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
                 }
-
-                let idToFetch = activeBookingObj.idCard;
-                activeBookingObj = null;
-                fetchPatientHistory(idToFetch); 
-                fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
+                fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
             } else Swal.fire({title:_t('swal_error'), text:(res.message || 'Error occurred'), icon:'error', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}});
         })
         .catch(e=>{ fetchPatientHistory(activeBookingObj.idCard); });
@@ -1008,93 +974,6 @@
       goToStep1(); document.getElementById('bookingModal').classList.add('show');
     }
 
-    async function checkIDCardInput() {
-        if(isForeigner) document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value;
-        clearTimeout(typingTimer);
-        
-        let id = document.getElementById('inp-idcard').value; 
-        let stat = document.getElementById('idcard-status'); 
-        let btn = document.getElementById('btn-next-step');
-
-        bookingData.backendStatus = 'checking';
-        bookingData.backendMessage = '';
-
-        if (isForeigner ? id.length >= 6 : id.length === 13) { 
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
-            stat.innerHTML = '<span style="color:var(--accent);"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
-            
-            try { 
-                let p = savedProfiles.find(x => x.id === id);
-                if(p) { 
-                    stat.innerHTML = `<span style="color:var(--primary);">✅ ${_t('swal_record_found')}</span>`; 
-                    fillUserDataUI(id, p.fname, p.lname, p.tel); 
-                } else { 
-                    let fRes = await fetch(FIREBASE_BASE_URL + "patientRegistry/" + id + ".json"); 
-                    let fUser = await fRes.json(); 
-                    if(fUser) { 
-                        stat.innerHTML = `<span style="color:var(--primary);">✅ ${_t('swal_record_found')}</span>`; 
-                        fillUserDataUI(id, fUser.fname, fUser.lname, fUser.tel); 
-                    } else {
-                        stat.innerHTML = `<span style="color:#0ea5e9;">${_t('swal_new_patient')}</span>`;
-                        document.getElementById('user-details-form').classList.remove('hidden');
-                        document.getElementById('existing-user-display').classList.add('hidden');
-                        document.getElementById('inp-fname').readOnly = false;
-                        document.getElementById('inp-lname').readOnly = false;
-                        document.getElementById('name-lock-warning').style.display = 'none';
-                    }
-                }
-            } catch(e) {}
-
-            btn.disabled = false;
-            btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`;
-
-            typingTimer = setTimeout(() => { 
-                fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        if (data.isBanned) {
-                            bookingData.backendStatus = 'banned';
-                            bookingData.backendMessage = `คุณถูกระงับการจอง กรุณาติดต่อเจ้าหน้าที่ (ถึง ${data.banUntil})`;
-                        } else if (data.nextAllowedDate) {
-                            bookingData.backendStatus = 'blocked';
-                            bookingData.backendMessage = `คุณมีนัดหมายบริการนี้อยู่แล้ว (จองครั้งถัดไปได้ ${data.nextAllowedDate})`;
-                        } else {
-                            bookingData.backendStatus = 'clear';
-                        }
-                    } else {
-                        bookingData.backendStatus = 'clear';
-                    }
-                }).catch(() => { bookingData.backendStatus = 'clear'; });
-            }, 500); 
-
-        } else { 
-            stat.innerHTML = ''; 
-            btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
-            btn.disabled = true; 
-        }
-    }
-
-    function fillUserDataUI(id, f, l, t) { 
-        let p = savedProfiles.find(x => x.id === id); let label = (p && p.label) ? p.label : (currentLang === 'en' ? '+ Add Nickname' : '+ กดเพื่อตั้งชื่อเล่น');
-        document.getElementById('inp-fname').value = f; document.getElementById('inp-lname').value = l || ""; document.getElementById('inp-tel').value = t; 
-        let mName = getMaskedFullName(f, l);
-        document.getElementById('masked-name').innerHTML = `
-            <div style="display:flex; align-items:center; gap:12px;">
-                <i class="fas fa-user-circle" style="color:var(--primary); font-size:1.5rem;"></i> 
-                <button type="button" onclick="editCurrentLabel()" style="background:var(--bg-color); border:none; color:var(--accent); border-radius:20px; padding:6px 15px; cursor:pointer; font-family:'Prompt'; font-size:0.9rem; font-weight:800; transition:0.2s; box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);" onactive="this.style.transform='scale(0.95)'">
-                    ${label} <i class="fas fa-pen" style="font-size:0.75rem; margin-left:6px;"></i>
-                </button>
-            </div>
-            <div style="font-size:0.9rem; color:#64748b; margin-left:36px; font-weight:500; margin-top:6px;">(${mName})</div>
-        `;
-        document.getElementById('masked-tel').innerHTML = `<i class="fas fa-phone-alt" style="width:20px; text-align:center; color:var(--primary);"></i> ${getMaskedTel(t)}`; 
-        document.getElementById('existing-user-display').classList.remove('hidden'); document.getElementById('user-details-form').classList.add('hidden'); renderSmartBookDropdown();
-    }
-    
-    // ==========================================
-    // 🌟 3D RECEIPT & CONFIRMATION
-    // ==========================================
     function goToSummary() {
       let id = document.getElementById('inp-idcard').value; let f = document.getElementById('inp-fname').value.trim(); let l = document.getElementById('inp-lname').value.trim(); let t = document.getElementById('inp-tel').value;
       if(!id || !f || !t) return Swal.fire({title:_t('warn_title'), text:_t('err_req_fields'), icon:'warning', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}});
@@ -1211,7 +1090,7 @@
         goToStep3();
     }
 
-    // 🚀 [แก้ไขแล้ว] ตรวจจับตอนกดปุ่มยืนยันนัดหมาย เพื่อส่ง Flex เข้า LINE OA เด้งให้คนไข้
+    // 🚀 [แก้ไขแล้ว] ตรวจจับตอนกดปุ่มยืนยันนัดหมาย เพื่อส่ง Flex เข้า LINE OA เด้งให้คนไข้ พร้อมป้องกันประวัติโหลดค้าง
     function confirmBooking() {
         if (bookingData.backendStatus === 'checking') {
             Swal.fire({title: 'กำลังตรวจสอบข้อมูล', text: 'กรุณารอสักครู่ ระบบกำลังประมวลผล...', icon: 'info', customClass:{popup:'swal-3d-popup'}});
@@ -1266,7 +1145,7 @@
             finishPercentageLoader(() => { 
                 if(res.status === 'success' || res.status === 'error_but_done') { 
                     
-                    // Optimistic Data Update ทันที
+                    // Optimistic Data Update ทันที แก้บั๊กรูปที่ 3 โหลดค้าง
                     activeBookingObj = {
                         idCard: bookingData.idCard,
                         service: fSvc,
@@ -1286,39 +1165,72 @@
                         customClass: { popup: 'swal-3d-popup' }
                     });
 
-                    // ⚡ สร้าง Flex Message ทรงสวยงาม แล้วยิงผ่าน LIFF เข้า LINE OA ทันที
+                    // ⚡ สร้าง Flex Message 2 การ์ด ทรงสวยงาม ยิงผ่าน LIFF เข้า LINE OA ทันที (แก้รูปที่ 1)
                     if (liff.isInClient()) {
                         let is2HrText = bookingData.is2Hr && currentApp !== 'postpartum' ? (currentApp === 'ttm' ? " (2 ชม.)" : " + ครอบแก้ว") : "";
                         let steamText = bookingData.addSteam ? ("\n🌿 เพิ่มอบไอน้ำเวลา " + bookingData.steamTime + " น.") : "";
-                        let flexMsg = {
+                        
+                        let flexCard1 = {
                           "type": "flex",
                           "altText": "ยืนยันการจองคิว: " + _t(bookingData.service),
                           "contents": {
                             "type": "bubble",
-                            "header": { "type": "box", "layout": "vertical", "backgroundColor": "#f8fafc", "contents": [ { "type": "text", "text": "✅ ยืนยันการจองคิวสำเร็จ", "color": "#16a34a", "weight": "bold", "size": "md" } ] },
+                            "header": { "type": "box", "layout": "vertical", "backgroundColor": "#16a34a", "contents": [ { "type": "text", "text": "✅ ยืนยันการจองสำเร็จ", "color": "#ffffff", "weight": "bold", "size": "md" } ] },
                             "body": {
                               "type": "box", "layout": "vertical", "spacing": "sm",
                               "contents": [
-                                { "type": "text", "text": "โรงพยาบาลสะเดา", "weight": "bold", "color": "#1e293b", "size": "lg" },
-                                { "type": "text", "text": "แผนก: " + (bookingData.appType || "").toUpperCase(), "size": "sm", "color": "#64748b" },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "ผู้รับบริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": fCombined, "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "เบอร์โทร:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": bookingData.tel, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": _t(fSvc) + steamText, "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "สิทธิ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": bookingData.rightName || "-", "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "ผู้ให้บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": displayStaffName || "-", "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
+                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "ค่าบริการรวม:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": (bookingData.totalFee || 0) + " บาท", "color": "#dc2626", "size": "sm", "weight": "bold", "flex": 7 } ] },
                                 { "type": "separator", "margin": "md" },
-                                { "type": "box", "layout": "horizontal", "margin": "md", "contents": [ { "type": "text", "text": "บริการ:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": _t(bookingData.service) + is2HrText + steamText, "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
-                                { "type": "box", "layout": "horizontal", "contents": [ { "type": "text", "text": "ชื่อผู้จอง:", "color": "#64748b", "size": "sm", "flex": 3 }, { "type": "text", "text": bookingData.fname + " " + (bookingData.lname || ""), "wrap": true, "color": "#1e293b", "size": "sm", "weight": "bold", "flex": 7 } ] },
-                                { "type": "separator", "margin": "md" },
-                                { "type": "box", "layout": "vertical", "margin": "md", "contents": [ { "type": "text", "text": "📅 วันนัดหมาย: " + bookingData.date, "size": "md", "weight": "bold", "color": "#1e293b" }, { "type": "text", "text": "⏰ เวลานัด: " + bookingData.time + " น.", "size": "xl", "weight": "bold", "color": "#2e7d32" } ] },
-                                { "type": "text", "text": "*กรุณามาก่อนเวลานัด 15 นาที", "color": "#dc2626", "size": "xs", "margin": "sm", "weight": "bold" }
+                                { "type": "box", "layout": "vertical", "margin": "md", "contents": [ 
+                                    { "type": "text", "text": "📅 วันที่: " + bookingData.date, "size": "sm", "weight": "bold", "color": "#1e293b" }, 
+                                    { "type": "text", "text": "⏰ เวลา: " + bookingData.time + " น.", "size": "xl", "weight": "bold", "color": "#2e7d32" } 
+                                ] }
                               ]
                             }
                           }
                         };
-                        liff.sendMessages([flexMsg]).then(() => { setTimeout(() => liff.closeWindow(), 1200); }).catch(() => { setTimeout(() => liff.closeWindow(), 1200); });
+
+                        let flexCard2 = {
+                          "type": "flex",
+                          "altText": "การเตรียมตัวและข้อปฏิบัติ",
+                          "contents": {
+                            "type": "bubble",
+                            "header": { "type": "box", "layout": "vertical", "backgroundColor": "#f59e0b", "contents": [ { "type": "text", "text": "📌 การเตรียมตัวและข้อปฏิบัติ", "color": "#ffffff", "weight": "bold", "size": "md" } ] },
+                            "body": {
+                              "type": "box", "layout": "vertical", "spacing": "sm",
+                              "contents": [
+                                { "type": "text", "text": "• มาก่อนเวลา 15 นาที", "weight": "bold", "color": "#dc2626", "size": "sm" },
+                                { "type": "text", "text": "สิ่งที่ต้องเตรียม:", "weight": "bold", "color": "#1e293b", "size": "sm", "margin": "sm" },
+                                { "type": "text", "text": "1. บัตรประจำตัวประชาชนตัวจริง", "color": "#475569", "size": "sm" },
+                                { "type": "text", "text": "2. หน้ากากอนามัย (สวมตลอดเวลา)", "color": "#475569", "size": "sm" },
+                                { "type": "separator", "margin": "md" },
+                                { "type": "text", "text": "การเลื่อนหรือยกเลิกนัด:", "weight": "bold", "color": "#1e293b", "size": "sm", "margin": "sm" },
+                                { "type": "text", "text": "แจ้งล่วงหน้า > 2 วัน หากไม่ปฏิบัติตามแนวทาง ขอสงวนสิทธิ์ไม่รับนัดครั้งถัดไป", "color": "#ef4444", "size": "xs", "wrap": true, "weight": "bold" }
+                              ]
+                            }
+                          }
+                        };
+
+                        // ส่งออก 2 การ์ดรวด
+                        liff.sendMessages([flexCard1, flexCard2]).then(() => { setTimeout(() => liff.closeWindow(), 1200); }).catch(() => { setTimeout(() => liff.closeWindow(), 1200); });
                     }
 
-                    closeModal(); switchMainTab('profile'); fetchData(true);
+                    closeModal(); 
+                    skipNextFetch = true; // บล็อคไม่ให้ประวัติดึงกลับไปเป็น null
+                    switchMainTab('profile'); 
+                    fetchData(true);
                     
                     // บังคับ Render UI หน้าประวัติใหม่ทันที จะได้ไม่ค้าง!
                     renderHistoryUI(bookingData.idCard, activeBookingObj);
-                    setTimeout(() => { if(activeProfileId) fetchPatientHistory(activeProfileId); }, 4000);
+                    setTimeout(() => { 
+                        skipNextFetch = false; 
+                        if(activeProfileId) fetchPatientHistory(activeProfileId); 
+                    }, 5000);
 
                 } else {
                     Swal.fire({ title: _t('swal_error'), html: res.message || 'Slot unavailable', icon: 'error', customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } });
