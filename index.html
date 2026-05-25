@@ -459,16 +459,33 @@
     async function initializeLiff() {
         try {
             await liff.init({ liffId: "2010086236-cSpA2YLB" });
-            if (liff.isLoggedIn()) {
-                const profile = await liff.getProfile(); currentLineUid = profile.userId;
-            } else { liff.login(); }
-        } catch (err) { console.error("LIFF Init Error:", err); }
+            
+            // ตรวจสอบว่าเปิดผ่านเบราว์เซอร์ภายนอก หรือยังไม่ได้ล็อกอินใช่หรือไม่?
+            if (!liff.isLoggedIn()) {
+                // บังคับบล็อคหน้าจอด้วย SweetAlert ต้องกดล็อกอินเท่านั้นถึงไปต่อได้
+                Swal.fire({
+                    title: 'เชื่อมต่อระบบแจ้งเตือน',
+                    html: '<span style="font-size:0.95rem; color:#475569;">เพื่อรับการแจ้งเตือนคิวเข้ามือถือ<br>กรุณากดเข้าสู่ระบบด้วย LINE ของคุณครับ</span>',
+                    icon: 'info',
+                    confirmButtonText: '<i class="fab fa-line"></i> ล็อกอิน / เปิดแอป LINE',
+                    confirmButtonColor: '#06C755',
+                    allowOutsideClick: false, // บังคับไม่ให้กดปิด Popup
+                    customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // คำสั่งนี้จะบังคับเด้งไปหน้าล็อกอิน หรือสลับเปิดแอป LINE ให้ทันที
+                        liff.login({ redirectUri: window.location.href });
+                    }
+                });
+            } else {
+                // กรณีปกติ (อยู่ในแอป LINE อยู่แล้ว) ดึงค่าตัวแปร UID ได้เลย
+                const profile = await liff.getProfile(); 
+                currentLineUid = profile.userId;
+            }
+        } catch (err) { 
+            console.error("LIFF Init Error:", err); 
+        }
     }
-    
-    let savedProfiles = [];
-    try { savedProfiles = JSON.parse(localStorage.getItem('sdh_saved_profiles') || '[]'); } catch(e) { savedProfiles = []; }
-    let activeProfileId = localStorage.getItem('sdh_active_profile_id');
-    if (activeProfileId === 'null') activeProfileId = null;
 
     function saveProfilesToStorage() { 
         localStorage.setItem('sdh_saved_profiles', JSON.stringify(savedProfiles));
