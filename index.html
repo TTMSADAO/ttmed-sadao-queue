@@ -791,8 +791,13 @@
                 Swal.fire({ title:_t('swal_success'), text: "กำลังส่งข้อความยกเลิกเข้าแชท...", icon:'success', showConfirmButton: false, allowOutsideClick: false, timer: 3000, timerProgressBar: true, customClass:{popup:'swal-3d-popup'} });
                 
                 if (liff.isInClient()) {
-                    let msgText = currentLang === 'en' ? `🖥️ [Auto] Cancel Booking ✅\n👨‍⚕️ Service: ${activeBookingObj.service}\n🕒 Date: ${activeBookingObj.sysDate}` : `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ✅\n👨‍⚕️ บริการ : ${activeBookingObj.service}\n🕒 วันที่: ${activeBookingObj.sysDate}`;
-                    liff.sendMessages([{ type: 'text', text: msgText }]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                    let msgText = currentLang === 'en' ? 
+                        `🖥️ [Auto] Cancel Booking ❌\n👤 Name: ${activeBookingObj.userName || "-"}\n📞 Tel: ${activeBookingObj.userTel || "-"}\n🩺 Service: ${activeBookingObj.service}\n📅 Date: ${activeBookingObj.sysDate}\n⏰ Time: ${activeBookingObj.time}` : 
+                        `🖥️ [ระบบอัตโนมัติ] แจ้งยกเลิกนัดหมาย ❌\n👤 ชื่อ: ${activeBookingObj.userName || "-"}\n📞 โทร: ${activeBookingObj.userTel || "-"}\n🩺 บริการ: ${activeBookingObj.service}\n📅 วันที่: ${activeBookingObj.sysDate}\n⏰ รอบเวลา: ${activeBookingObj.time} น.`;
+                    
+                    liff.sendMessages([{ type: 'text', text: msgText }])
+                        .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                        .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
                 }
 
                 fetchPatientHistory(activeBookingObj.idCard); fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
@@ -1250,8 +1255,13 @@
                     });
 
                     if (liff.isInClient()) {
-                        let msgText = currentLang === 'en' ? `🖥️ [Auto] New Booking ✅\n👨‍⚕️ Service: ${_t(bookingData.service)}\n🕒 Date: ${bookingData.date}` : `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👨‍⚕️ บริการ : ${_t(bookingData.service)}\n🕒 วันที่: ${bookingData.date}`;
-                        liff.sendMessages([{ type: 'text', text: msgText }]).then(() => { setTimeout(() => liff.closeWindow(), 800); }).catch(() => { setTimeout(() => liff.closeWindow(), 800); });
+                        let msgText = currentLang === 'en' ? 
+                            `🖥️ [Auto] New Booking ✅\n👤 Name: ${fCombined}\n📞 Tel: ${bookingData.tel}\n🩺 Service: ${_t(bookingData.service)}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time}\n👨‍⚕️ Provider: ${displayStaffName}\n💰 Total: ${bookingData.totalFee} THB` : 
+                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${fCombined}\n📞 โทร: ${bookingData.tel}\n🩺 บริการ: ${_t(bookingData.service)}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${bookingData.time} น.\n👨‍⚕️ สิทธิ: ${bookingData.rightName}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
+                        
+                        liff.sendMessages([{ type: 'text', text: msgText }])
+                            .then(() => { setTimeout(() => liff.closeWindow(), 800); })
+                            .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
                     }
 
                 } else { 
