@@ -552,6 +552,7 @@
     const STAFF_NAME_MAP = { "จินดา J": "จินดา (เจี๊ยบ)", "รจนา M": "รจนา (แหม่ม)", "อรรถพล B": "อรรถพล (บ่าว)", "ศินารัตน์ C": "ศินารัตน์ (ซี)", "จุฑามาศ F": "จุฑามาศ (ฝน)", "รัตน์ชนก KW": "รัตน์ชนก (กวาง)", "นิกษ์นิภา T": "นิกษ์นิภา (การ์ตูน)", "ณิชาภัทร W": "ณิชาภัทร (วาวา)", "แพทย์แผนจีน": "แพทย์แผนจีน (TCM)" };
     const STAFF_EN_NAMES = { "จินดา J": "Jinda (Jeab)", "รจนา M": "Rotjana (Maam)", "อรรถพล B": "Attapon (Bao)", "ศินารัตน์ C": "Sinarat (C)", "จุฑามาศ F": "Jutamat (Fon)", "รัตน์ชนก KW": "Ratchanok (Kwang)", "นิกษ์นิภา T": "Niknipha (Kartoon)", "ณิชาภัทร W": "Nichapat (Wawa)", "แพทย์แผนจีน": "TCM Doctor" };
     const DEFAULT_IMG = "https://img2.pic.in.th/pic/1c189d2a727f532d391a5ab0604ccd2f.png"; const DAY_COLORS = ["#ef4444", "#eab308", "#ec4899", "#22c55e", "#f97316", "#3b82f6", "#a855f7"];
+    
     function renderMultiUserCard() {
         try {
             let container = document.getElementById('main-auth-card');
@@ -664,6 +665,7 @@
     }
 
     window.onload = function() { initializeLiff(); applyLanguageToUI(); setupIDBoxes(); renderMultiUserCard(); };
+    
     function setupIDBoxes() {
         const boxes = document.querySelectorAll('.otp-box');
         boxes.forEach((box, index) => {
@@ -699,25 +701,21 @@
         fetch(FIREBASE_BASE_URL + "patientHistory/" + idCard + ".json?t=" + new Date().getTime(), { cache: 'no-store' })
         .then(r => r.json())
         .then(h => {
-            // เช็คให้ชัวร์ว่าข้อมูลที่ตอบกลับมา ไม่ใช่ Error (h.error) และมีฟิลด์ข้อมูลบริการ (h.service) จริงๆ
             if (h && !h.error && h.service) { 
                 renderHistoryUI(idCard, h); 
             } 
             else {
-                // ถ้า Firebase รวน, ติดสิทธิ์, หรือยังว่างเปล่า ให้วิ่งไปดึงข้อมูลก๊อกสองจาก Google Sheet
                 fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'get_my_history', idCard: idCard }) })
                 .then(r=>r.json()).then(data => {
                     if (data.status === 'success') {
                         if (data.history) {
                             renderHistoryUI(idCard, data.history);
                         } else {
-                            // ถ้า Google Sheet คอนเฟิร์มว่าไม่มีคิวจริงๆ ให้ล้างคิวจำลองทิ้งด้วย
                             localStorage.removeItem('sdh_history_' + idCard);
                             renderNoHistory();
                         }
                     } 
                     else { 
-                        // ถ้า Google Sheet ก็ล่ม ให้ไปงัดข้อมูลก๊อกสามจากหน่วยความจำเครื่อง (Local Storage)
                         checkLocalHistoryFallback(idCard);
                     }
                 }).catch(e=> checkLocalHistoryFallback(idCard));
@@ -725,13 +723,11 @@
         }).catch(e=> checkLocalHistoryFallback(idCard));
     }
 
-    // 🚀 ฟังก์ชันก๊อกสาม: งัดข้อมูลจำลองจากเครื่องมาโชว์ (Offline-First)
     function checkLocalHistoryFallback(idCard) {
         try {
             let local = localStorage.getItem('sdh_history_' + idCard);
             if(local) {
                 let h = JSON.parse(local);
-                // ตรวจสอบก่อนว่าคิวนี้เลยวันที่ไปหรือยัง ถ้ายังไม่เลยก็เอามาโชว์แก้ขัด
                 let today = new Date();
                 today.setHours(0,0,0,0);
                 let bParts = h.sysDate.split('-');
@@ -740,7 +736,6 @@
                     renderHistoryUI(idCard, h);
                     return;
                 } else {
-                    // ถ้าวันที่ผ่านไปแล้ว แปลว่าคิวนั้นหมดอายุ ลบออกจากความจำเครื่อง
                     localStorage.removeItem('sdh_history_' + idCard);
                 }
             }
@@ -749,7 +744,7 @@
     }
 
     function renderHistoryUI(idCard, h) {
-        if(!h || !h.service) { renderNoHistory(); return; } // ป้องกันบักในกรณีที่ข้อมูลแหว่ง
+        if(!h || !h.service) { renderNoHistory(); return; } 
         
         let icon = h.service.includes('ฝังเข็ม') ? '<i class="fas fa-yin-yang"></i>' : (h.service.includes('อบ') ? '<i class="fas fa-hot-tub-person"></i>' : '<i class="fas fa-leaf"></i>');
         let apsCont = document.getElementById('aps-history-content');
@@ -791,7 +786,6 @@
         .then(async response => { let resText = await response.text(); try { return JSON.parse(resText); } catch(err) { return { status: 'success', penaltyDays: 0 }; } })
         .then(res => { 
             if(res.status === 'success' || res.status === 'error_but_done') { 
-                // ลบประวัติจำลองออกจากเครื่องเมื่อกดยกเลิก
                 localStorage.removeItem('sdh_history_' + activeBookingObj.idCard); 
 
                 Swal.fire({ title:_t('swal_success'), text: "กำลังส่งข้อความยกเลิกเข้าแชท...", icon:'success', showConfirmButton: false, allowOutsideClick: false, timer: 3000, timerProgressBar: true, customClass:{popup:'swal-3d-popup'} });
@@ -1186,16 +1180,20 @@
       bookingData.service = "อบไอน้ำ"; bookingData.staff = "ไม่ระบุ"; } 
       else { bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = baseStaffName; bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; bookingData.addSteam = document.getElementById('chk-addon-steam') ? document.getElementById('chk-addon-steam').checked : false; if(bookingData.addSteam) bookingData.steamGender = document.getElementById('inp-addon-gender').value; }
       
-      // 🚀 ข้ามหน้าต่างเลือกสิทธิ หากเป็นบริการที่ต้องชำระเงินเองอยู่แล้ว
+      // 🚀 เช็คบริการที่ต้องชำระเงินเอง
       let isSelfPayOnly = (currentApp === 'tcm' && (bookingData.service.includes("ครอบแก้ว") || bookingData.service.includes("ฝังเข็มใบหน้า") || bookingData.service.includes("เม็ดผักกาด"))) || 
                           (currentApp === 'ttm' && bookingData.service.includes("ชำระเงินเอง"));
 
       if (currentApp === 'tcm' && bookingData.service.includes("ปรึกษา")) { 
-          buildSummaryAndShow('3'); // ปรึกษาฟรี
+          // ✅ อุดรอยรั่วสิทธิหาย: บันทึกข้อมูลสิทธิ "ปรึกษาฟรี" ให้เข้าระบบ
+          bookingData.rightName = (currentLang === 'en') ? "Free Consultation" : "ไม่มีค่าใช้จ่าย (ปรึกษาฟรี)";
+          buildSummaryAndShow('FREE'); 
       } else if (isSelfPayOnly) {
-          buildSummaryAndShow('5'); // '5' คือรหัสของ "ชำระเงินเอง" (ให้ระบบคำนวณและข้าม Popup ไปเลย)
+          // ✅ อุดรอยรั่วสิทธิหาย: บันทึกข้อมูลสิทธิ "ชำระเงินเอง" ให้เข้าระบบ
+          bookingData.rightName = (currentLang === 'en') ? "Social Security / Self-Pay" : "สิทธิประกันสังคม / ชำระเงินเอง";
+          buildSummaryAndShow('5'); 
       } else { 
-          promptRightSelection(); // ถ้าเป็นบริการอื่น ค่อยเด้งถามสิทธิตามปกติ
+          promptRightSelection(); 
       }
     }
 
@@ -1234,26 +1232,30 @@
             <div style="display:flex; gap:15px; align-items:center; margin-bottom:20px; background:white; padding:15px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #f1f5f9;">
                 <div style="width:55px; height:55px; border-radius:16px; background:linear-gradient(135deg, #f59e0b, #d97706); display:flex; justify-content:center; align-items:center; font-size:1.8rem; color:white; box-shadow:0 4px 10px rgba(245,158,11,0.3);"><i class="fas fa-user"></i></div>
                 <div>
-             
                     <div style="font-weight:800; font-size:1.15rem; color:#1e293b;">${pLabel} <span style="font-size:0.85rem; font-weight:500; color:#64748b;">(${mN})</span></div>
                     <div style="color:#16a34a; font-size:0.95rem; font-weight:700; margin-top:4px;"><i class="fas fa-phone-alt"></i> ${getMaskedTel(t)}</div>
                 </div>
             </div>
-            <div style="background:white; border-radius:20px; padding:20px;
-            margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #f1f5f9;">
-                <div style="margin-bottom:12px;
-                font-size:1.05rem; display:flex; align-items:center; gap:8px;"><b>${currentLang==='en'?'Service':'บริการ'}:</b> <span style="color:#f59e0b; font-weight:800;">${_t(bookingData.service)}</span></div>
-                <div style="font-size:1.05rem;
-                display:flex; align-items:center; gap:8px;"><b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} <span style="background:#16a34a; color:white; padding:4px 12px; border-radius:10px; font-size:0.95rem; font-weight:800;
-                box-shadow:0 2px 8px rgba(22,163,74,0.3);">${bookingData.time}</span></div>
-                ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div style="margin-top:12px;
-                font-size:1.05rem; display:flex; align-items:center; gap:8px;"><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> <span style="color:#1e293b; font-weight:700;">${dS}</span></div>` : ''}
+            <div style="background:white; border-radius:20px; padding:20px; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #f1f5f9;">
+                <div style="margin-bottom:12px; font-size:1.05rem; display:flex; align-items:center; gap:8px;">
+                    <b>${currentLang==='en'?'Service':'บริการ'}:</b> 
+                    <span style="color:#f59e0b; font-weight:800;">${bookingData.service}</span>
+                </div>
+                <div style="font-size:1.05rem; display:flex; align-items:center; gap:8px;">
+                    <b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} 
+                    <span style="background:#16a34a; color:white; padding:4px 12px; border-radius:10px; font-size:0.95rem; font-weight:800; box-shadow:0 2px 8px rgba(22,163,74,0.3);">${bookingData.time}</span>
+                </div>
+                ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div style="margin-top:12px; font-size:1.05rem; display:flex; align-items:center; gap:8px;"><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> <span style="color:#1e293b; font-weight:700;">${dS}</span></div>` : ''}
             </div>
         `;
         
-        let brk = []; let total = 0; let rName = ""; 
-        if (rV === '1') rName = _t('right_uc30'); else if (rV === '2') rName = _t('right_uc_free'); else if (rV === '3') rName = _t('right_gov'); else if (rV === '4') rName = _t('right_enterprise'); else if (rV === '5') 
-        rName = _t('right_ss');
+        let brk = []; let total = 0; 
+        let rName = bookingData.rightName || ""; 
+        if (rV === '1') rName = _t('right_uc30'); 
+        else if (rV === '2') rName = _t('right_uc_free'); 
+        else if (rV === '3') rName = _t('right_gov'); 
+        else if (rV === '4') rName = _t('right_enterprise'); 
+        else if (rV === '5') rName = _t('right_ss');
 
         if (currentApp === 'ttm') {
             let base = 0; let oohFee = bookingData.isOOH ? 60 : 0; 
@@ -1381,15 +1383,15 @@
                                 status: "รอรับบริการ"
                             };
                             localStorage.setItem('sdh_history_' + bookingData.idCard, JSON.stringify(instantHistory));
+         
                             renderHistoryUI(bookingData.idCard, instantHistory);
                         }, 200);
                     });
 
                     if (liff.isInClient()) {
-                        // 🚀 แก้ไข: นำข้อความแจ้งเตือน "การจองคิวใหม่" กลับมาใส่ให้ถูกต้อง
                         let msgText = currentLang === 'en' ? 
-                            `🖥️ [Auto] New Booking ✅\n👤 Name: ${fCombined}\n📞 Tel: ${bookingData.tel}\n🩺 Service: ${_t(bookingData.service)}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time}\n👨‍⚕️ Provider: ${displayStaffName}\n💰 Total: ${bookingData.totalFee} THB` : 
-                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${fCombined}\n📞 โทร: ${bookingData.tel}\n🩺 บริการ: ${_t(bookingData.service)}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${bookingData.time} น.\n👨‍⚕️ สิทธิ: ${bookingData.rightName}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
+                            `🖥️ [Auto] New Booking ✅\n👤 Name: ${fCombined}\n📞 Tel: ${bookingData.tel}\n🩺 Service: ${bookingData.service}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time}\n👨‍⚕️ Provider: ${displayStaffName}\n💰 Total: ${bookingData.totalFee} THB` : 
+                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${fCombined}\n📞 โทร: ${bookingData.tel}\n🩺 บริการ: ${bookingData.service}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${bookingData.time} น.\n👨‍⚕️ สิทธิ: ${bookingData.rightName}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
                         
                         liff.sendMessages([{ type: 'text', text: msgText }])
                             .then(() => { setTimeout(() => liff.closeWindow(), 2500); })
