@@ -692,11 +692,11 @@
     }
 
     function validateNameInput(input) { if(isForeigner) input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); }
+    // 🛡️ ฟังก์ชันสำหรับซ่อนชื่อ/เบอร์โทรให้ปลอดภัยตาม พ.ร.บ. ข้อมูลส่วนบุคคล (PDPA)
     function maskString(str) { if(!str) return ""; let s = str.toString().trim(); if(s.length <= 2) return s.substring(0, 1) + "***"; if(s.length <= 4) return s.substring(0, 2) + "***"; return s.substring(0, 3) + "***"; }
     function getMaskedFullName(fname, lname) { return maskString(fname) + " " + maskString(lname); }
     function getMaskedTel(tel) { if(!tel || tel.length < 10) return tel; return tel.substring(0,3) + "-xxx-x" + tel.substring(8); }
 
-    // 🚀 ระบบดึงประวัติจาก Firebase แบบ Realtime (อัปเกรดความอึดและเช็ค Local Storage)
     function fetchPatientHistory(idCard) {
         fetch(FIREBASE_BASE_URL + "patientHistory/" + idCard + ".json?t=" + new Date().getTime(), { cache: 'no-store' })
         .then(r => r.json())
@@ -793,10 +793,10 @@
                 if (liff.isInClient()) {
                     let p = savedProfiles.find(x => x.id === activeBookingObj.idCard);
                     let cName = p ? getMaskedFullName(p.fname, p.lname) : "-";
-                    let cTel = p ? p.tel : "-";
+                    let cTel = p ? getMaskedTel(p.tel) : "-";
 
                     let msgText = currentLang === 'en' ? 
-                        `🖥️ [Auto] Cancel Booking ❌\n👤 Name: ${cName}\n📞 Tel: ${cTel}\n🩺 Service: ${activeBookingObj.service}\n📅 Date: ${activeBookingObj.sysDate}\n⏰ Time: ${activeBookingObj.time}` : 
+                        `🖥️ [Auto] Cancel Booking ❌\n👤 Name: ${cName}\n📞 Tel: ${cTel}\n🩺 Service: ${activeBookingObj.service}\n📅 Date: ${activeBookingObj.sysDate}\n⏰ Time: ${activeBookingObj.time} น.` : 
                         `🖥️ [ระบบอัตโนมัติ] แจ้งยกเลิกนัดหมาย ❌\n👤 ชื่อ: ${cName}\n📞 โทร: ${cTel}\n🩺 บริการ: ${activeBookingObj.service}\n📅 วันที่: ${activeBookingObj.sysDate}\n⏰ รอบเวลา: ${activeBookingObj.time} น.`;
                     
                     liff.sendMessages([{ type: 'text', text: msgText }])
@@ -1178,18 +1178,21 @@
           bookingData.is2Hr = true; 
       } else if (currentApp === 'steam') { bookingData.extraInfo = currentLang==='en' ? `Gender: ${document.getElementById('inp-gender').value}` : `เพศ: ${document.getElementById('inp-gender').value}`;
       bookingData.service = "อบไอน้ำ"; bookingData.staff = "ไม่ระบุ"; } 
-      else { bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; bookingData.staff = baseStaffName; bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; bookingData.addSteam = document.getElementById('chk-addon-steam') ? document.getElementById('chk-addon-steam').checked : false; if(bookingData.addSteam) bookingData.steamGender = document.getElementById('inp-addon-gender').value; }
+      else { 
+          bookingData.service = document.getElementById('inp-service').value.split(' (')[0]; 
+          bookingData.staff = baseStaffName; 
+          bookingData.is2Hr = document.getElementById('inp-2hr') ? document.getElementById('inp-2hr').checked : false; 
+          bookingData.addSteam = document.getElementById('chk-addon-steam') ? document.getElementById('chk-addon-steam').checked : false; 
+          if(bookingData.addSteam) bookingData.steamGender = document.getElementById('inp-addon-gender').value; 
+      }
       
-      // 🚀 เช็คบริการที่ต้องชำระเงินเอง
       let isSelfPayOnly = (currentApp === 'tcm' && (bookingData.service.includes("ครอบแก้ว") || bookingData.service.includes("ฝังเข็มใบหน้า") || bookingData.service.includes("เม็ดผักกาด"))) || 
                           (currentApp === 'ttm' && bookingData.service.includes("ชำระเงินเอง"));
 
       if (currentApp === 'tcm' && bookingData.service.includes("ปรึกษา")) { 
-          // ✅ อุดรอยรั่วสิทธิหาย: บันทึกข้อมูลสิทธิ "ปรึกษาฟรี" ให้เข้าระบบ
           bookingData.rightName = (currentLang === 'en') ? "Free Consultation" : "ไม่มีค่าใช้จ่าย (ปรึกษาฟรี)";
           buildSummaryAndShow('FREE'); 
       } else if (isSelfPayOnly) {
-          // ✅ อุดรอยรั่วสิทธิหาย: บันทึกข้อมูลสิทธิ "ชำระเงินเอง" ให้เข้าระบบ
           bookingData.rightName = (currentLang === 'en') ? "Social Security / Self-Pay" : "สิทธิประกันสังคม / ชำระเงินเอง";
           buildSummaryAndShow('5'); 
       } else { 
@@ -1228,6 +1231,23 @@
         let p = savedProfiles.find(x => x.id === bookingData.idCard); let pLabel = (p && p.label) ?
         p.label : (currentLang === 'en' ? 'Patient' : 'ผู้รับบริการ');
 
+        // 🌟 แก้ไข: จัดเตรียม "ชื่อบริการ" และ "เวลา" สำหรับแสดงผลให้สวยงาม
+        let displayService = bookingData.service;
+        if (bookingData.is2Hr && currentApp !== 'postpartum') {
+            displayService = (currentApp === 'tcm') ? "ฝังเข็ม + ครอบแก้ว" : bookingData.service + " (2 ชม.)";
+        }
+
+        let displayTime = bookingData.time + " น.";
+        if (bookingData.time) {
+            let tParts = bookingData.time.split(":");
+            let totalMins = (parseInt(tParts[0]) * 60) + parseInt(tParts[1]);
+            if (bookingData.is2Hr) { totalMins += 120; } else { totalMins += 60; }
+            if (bookingData.addSteam) { totalMins += 30; }
+            let eH = Math.floor(totalMins / 60); let eM = totalMins % 60;
+            let endTimeStr = (eH < 10 ? '0' : '') + eH + ':' + (eM < 10 ? '0' : '') + eM;
+            displayTime = bookingData.time + " - " + endTimeStr + " น.";
+        }
+
         let infoH = `
             <div style="display:flex; gap:15px; align-items:center; margin-bottom:20px; background:white; padding:15px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #f1f5f9;">
                 <div style="width:55px; height:55px; border-radius:16px; background:linear-gradient(135deg, #f59e0b, #d97706); display:flex; justify-content:center; align-items:center; font-size:1.8rem; color:white; box-shadow:0 4px 10px rgba(245,158,11,0.3);"><i class="fas fa-user"></i></div>
@@ -1239,11 +1259,11 @@
             <div style="background:white; border-radius:20px; padding:20px; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #f1f5f9;">
                 <div style="margin-bottom:12px; font-size:1.05rem; display:flex; align-items:center; gap:8px;">
                     <b>${currentLang==='en'?'Service':'บริการ'}:</b> 
-                    <span style="color:#f59e0b; font-weight:800;">${bookingData.service}</span>
+                    <span style="color:#f59e0b; font-weight:800;">${displayService}</span>
                 </div>
                 <div style="font-size:1.05rem; display:flex; align-items:center; gap:8px;">
                     <b>${currentLang==='en'?'Time':'เวลา'}:</b> ${bookingData.date} 
-                    <span style="background:#16a34a; color:white; padding:4px 12px; border-radius:10px; font-size:0.95rem; font-weight:800; box-shadow:0 2px 8px rgba(22,163,74,0.3);">${bookingData.time}</span>
+                    <span style="background:#16a34a; color:white; padding:4px 12px; border-radius:10px; font-size:0.95rem; font-weight:800; box-shadow:0 2px 8px rgba(22,163,74,0.3);">${displayTime}</span>
                 </div>
                 ${(currentApp === 'ttm' || currentApp === 'tcm') ? `<div style="margin-top:12px; font-size:1.05rem; display:flex; align-items:center; gap:8px;"><b>${currentLang==='en'?'Provider':'ผู้ให้บริการ'}:</b> <span style="color:#1e293b; font-weight:700;">${dS}</span></div>` : ''}
             </div>
@@ -1315,8 +1335,12 @@
         showPercentageLoader(); 
         let fCombined = (bookingData.fname + " " + (bookingData.lname || "")).trim(); 
         
+        // 🌟 แก้ไข: บังคับชื่อบริการสำหรับส่งเข้าไลน์และฐานข้อมูลให้เป๊ะ 100%
         let fSvc = bookingData.service;
-        if(bookingData.is2Hr && currentApp !== 'postpartum') fSvc += (currentApp === 'ttm') ? " (2 ชม.)" : " + ครอบแก้ว";
+        if (bookingData.is2Hr && currentApp !== 'postpartum') {
+            fSvc = (currentApp === 'tcm') ? "ฝังเข็ม + ครอบแก้ว" : fSvc + " (2 ชม.)";
+        }
+
         let sN = bookingData.staff || "ไม่ระบุ"; 
         let displayStaffName = currentLang === 'en' ? (STAFF_EN_NAMES[sN] || sN) : (STAFF_NAME_MAP[sN] || sN);
         let payload = { 
@@ -1383,15 +1407,32 @@
                                 status: "รอรับบริการ"
                             };
                             localStorage.setItem('sdh_history_' + bookingData.idCard, JSON.stringify(instantHistory));
-         
                             renderHistoryUI(bookingData.idCard, instantHistory);
                         }, 200);
                     });
 
                     if (liff.isInClient()) {
+                        // 🌟 แก้ไข: ซ่อนข้อมูลส่วนบุคคล (PDPA) และเพิ่มเวลาสิ้นสุด, ชื่อผู้ให้บริการ, หมายเหตุ ให้แอดมิน
+                        let mName = getMaskedFullName(bookingData.fname, bookingData.lname);
+                        let mTel = getMaskedTel(bookingData.tel);
+                        let pNote = bookingData.note ? bookingData.note : "-";
+                        
+                        let displayTime = bookingData.time + " น.";
+                        if (bookingData.time) {
+                            let tParts = bookingData.time.split(":");
+                            let totalMins = (parseInt(tParts[0]) * 60) + parseInt(tParts[1]);
+                            if (bookingData.is2Hr) { totalMins += 120; } else { totalMins += 60; }
+                            if (bookingData.addSteam) { totalMins += 30; }
+                            let eH = Math.floor(totalMins / 60); let eM = totalMins % 60;
+                            let endTimeStr = (eH < 10 ? '0' : '') + eH + ':' + (eM < 10 ? '0' : '') + eM;
+                            displayTime = bookingData.time + " - " + endTimeStr + " น.";
+                        }
+
+                        let fExtra = bookingData.extraInfo ? ` (${bookingData.extraInfo})` : "";
+
                         let msgText = currentLang === 'en' ? 
-                            `🖥️ [Auto] New Booking ✅\n👤 Name: ${fCombined}\n📞 Tel: ${bookingData.tel}\n🩺 Service: ${bookingData.service}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time}\n👨‍⚕️ Provider: ${displayStaffName}\n💰 Total: ${bookingData.totalFee} THB` : 
-                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${fCombined}\n📞 โทร: ${bookingData.tel}\n🩺 บริการ: ${bookingData.service}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${bookingData.time} น.\n👨‍⚕️ สิทธิ: ${bookingData.rightName}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
+                            `🖥️ [Auto] New Booking ✅\n👤 Name: ${mName}\n📞 Tel: ${mTel}\n🩺 Service: ${fSvc}${fExtra}\n📅 Date: ${bookingData.date}\n⏰ Time: ${displayTime}\n👨‍⚕️ Provider: ${displayStaffName}\n📝 Note: ${pNote}\n💰 Total: ${bookingData.totalFee} THB` : 
+                            `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${mName}\n📞 โทร: ${mTel}\n🩺 บริการ: ${fSvc}${fExtra}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${displayTime}\n👨‍⚕️ ผู้ให้บริการ: ${displayStaffName}\n📝 หมายเหตุ: ${pNote}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
                         
                         liff.sendMessages([{ type: 'text', text: msgText }])
                             .then(() => { setTimeout(() => liff.closeWindow(), 2500); })
@@ -1441,7 +1482,7 @@
     function closeModal() { document.getElementById('bookingModal').classList.remove('show');
     }
 
-    /* --- ADMIN SYSTEM (จากไฟล์ HTML1) --- */
+    /* --- ADMIN SYSTEM --- */
     let logoTaps = 0;
     let tapTimer; let currentAdminSort = 'created';
     function handleAdminTap() { logoTaps++; clearTimeout(tapTimer); tapTimer = setTimeout(() => logoTaps = 0, 2000);
