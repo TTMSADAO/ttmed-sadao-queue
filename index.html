@@ -1292,7 +1292,7 @@
         } else if (currentApp === 'tcm') {
      
             let base = 0; let sv = bookingData.service;
-            if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; else if (sv.includes("ครอบแก้ว")) base = 150; else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; else if (sv.includes("เม็ดผักกาด")) base = 50; else if (sv.includes("ปรึกษา")) base = 0;
+            if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; else if (sv.includes("ครอบแก้ว")) base = 150; else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; else if (sv.includes("เม็ดผักกาด")) base = 100; else if (sv.includes("ปรึกษา")) base = 0;
             
             brk.push(`<div style="display:flex;
             justify-content:space-between; margin-bottom:6px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
