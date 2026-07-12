@@ -1096,10 +1096,18 @@
     async function checkIDCardInput() {
         if(isForeigner) document.getElementById('inp-idcard').value = document.getElementById('inp-idcard-foreigner').value;
         clearTimeout(typingTimer);
-        let id = document.getElementById('inp-idcard').value; let stat = document.getElementById('idcard-status'); let btn = document.getElementById('btn-next-step');
+        let id = document.getElementById('inp-idcard').value; 
+        let stat = document.getElementById('idcard-status'); 
+        let btn = document.getElementById('btn-next-step');
+        
         if (isForeigner ? id.length >= 6 : id.length === 13) { 
             btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
             stat.innerHTML = '<span style="color:var(--accent);"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
+            
+            // 💡 FIX: ซ่อนฟอร์มกรอกข้อมูลและการ์ดประวัติไว้ก่อน ทันทีที่เริ่มโหลดข้อมูล!
+            document.getElementById('user-details-form').classList.add('hidden');
+            document.getElementById('existing-user-display').classList.add('hidden');
+
             try { 
                 let p = savedProfiles.find(x => x.id === id);
                 if(p) { stat.innerHTML = `<span style="color:var(--primary);">✅ ${_t('swal_record_found')}</span>`; fillUserDataUI(id, p.fname, p.lname, p.tel); } 
@@ -1108,16 +1116,47 @@
 
             typingTimer = setTimeout(async () => { 
                 try {
-                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); let data = await res.json(); btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
+                    let res = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify({ action: 'check_user', idCard: id, serviceCategory: currentApp }) }); 
+                    let data = await res.json(); 
+                    btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
                     if (data.status === 'success') {
-                        if (data.user) { currentUserDB = data.user; fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); stat.innerHTML = ''; document.getElementById('inp-fname').readOnly = true; document.getElementById('inp-lname').readOnly = true; document.getElementById('name-lock-warning').style.display = 'block'; } 
-                        else { currentUserDB = null; document.getElementById('inp-fname').value = ''; document.getElementById('inp-lname').value = ''; document.getElementById('inp-tel').value = ''; document.getElementById('inp-fname').readOnly = false; document.getElementById('inp-lname').readOnly = false; document.getElementById('name-lock-warning').style.display = 'none'; document.getElementById('user-details-form').classList.remove('hidden'); stat.innerHTML = `<span style="color:#0ea5e9;">${_t('swal_new_patient')}</span>`; document.getElementById('existing-user-display').classList.add('hidden'); }
+                        if (data.user) { 
+                            currentUserDB = data.user; 
+                            fillUserDataUI(id, data.user.fname, data.user.lname, data.user.tel); 
+                            stat.innerHTML = ''; 
+                            document.getElementById('inp-fname').readOnly = true; 
+                            document.getElementById('inp-lname').readOnly = true; 
+                            document.getElementById('name-lock-warning').style.display = 'block'; 
+                        } else { 
+                            currentUserDB = null; 
+                            document.getElementById('inp-fname').value = ''; 
+                            document.getElementById('inp-lname').value = ''; 
+                            document.getElementById('inp-tel').value = ''; 
+                            document.getElementById('inp-fname').readOnly = false; 
+                            document.getElementById('inp-lname').readOnly = false; 
+                            document.getElementById('name-lock-warning').style.display = 'none'; 
+                            
+                            // 💡 FIX: แสดงฟอร์มกรอกข้อมูล เฉพาะตอนที่เช็คแล้วพบว่าเป็น "ผู้ป่วยใหม่" จริงๆ เท่านั้น
+                            document.getElementById('user-details-form').classList.remove('hidden'); 
+                            
+                            stat.innerHTML = `<span style="color:#0ea5e9;">${_t('swal_new_patient')}</span>`; 
+                            document.getElementById('existing-user-display').classList.add('hidden'); 
+                        }
                         btn.disabled = false;
                     }
-                } catch(e) { stat.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; document.getElementById('user-details-form').classList.remove('hidden'); btn.disabled = false; btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; }
+                } catch(e) { 
+                    stat.innerHTML = `<span style="color:red;">${_t('swal_sys_err')}</span>`; 
+                    document.getElementById('user-details-form').classList.remove('hidden'); 
+                    btn.disabled = false; 
+                    btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
+                }
                 renderSmartBookDropdown();
             }, 600); 
-        } else { stat.innerHTML = ''; btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; btn.disabled = true; }
+        } else { 
+            stat.innerHTML = ''; 
+            btn.innerHTML = `${_t('btn_next')} <i class="fas fa-arrow-right"></i>`; 
+            btn.disabled = true; 
+        }
     }
 
     function editCurrentLabel() {
