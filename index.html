@@ -594,7 +594,6 @@
 
     function selectUser(id) { activeProfileId = id; saveProfilesToStorage(); renderMultiUserCard(); }
 
-    // 🚀 ปรับโฉมระบบเลือกประวัติญาติ/ครอบครัว: แสดงเป็นการ์ดรายชื่อด้านบนสุดเพื่อความสะดวกสูงสุดในการจองหลายคน
     function renderSmartBookDropdown() {
         let area = document.getElementById('smart-book-area');
         if (!area) return;
@@ -689,7 +688,6 @@
 
     window.onload = function() { initializeLiff(); applyLanguageToUI(); setupIDBoxes(); renderMultiUserCard(); };
     
-    // ⚡ ฟังก์ชันสำหรับดักจับและผูก Event การจัดรูปแบบเลข 13 หลักอัตโนมัติ
     function setupIDBoxes() {
         const singleInput = document.getElementById('inp-idcard-single');
         if(singleInput) {
@@ -699,7 +697,6 @@
         }
     }
 
-    // ⚡ ลอจิกการคำนวณและเติมขีด (-) อัตโนมัติในกล่องเดียว แม่นยำ รวดเร็ว และรองรับระบบเดิมสมบูรณ์
     function handleThaiIdInput(input) {
         if(isForeigner) return;
         let val = input.value.replace(/\D/g, ''); 
@@ -839,8 +836,6 @@
 
     function reqCancelBooking() {
         if(!activeBookingObj) return;
-        let today = new Date(); today.setHours(0,0,0,0); let bParts = activeBookingObj.sysDate.split('-'); let bDate = new Date(bParts[0], bParts[1]-1, bParts[2]);
-        let diffTime = Math.abs(bDate - today); let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         let warnMsg = _t('swal_cancel_warn3');
         Swal.fire({ title: _t('swal_cancel_title'), text: warnMsg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: _t('btn_yes_cancel'), cancelButtonText: _t('btn_cancel'), customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } }).then((result) => { if (result.isConfirmed) executeCancelBooking(); });
     }
@@ -1104,7 +1099,6 @@
             btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${_t('loading')}`;
             stat.innerHTML = '<span style="color:var(--accent);"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
             
-            // 💡 FIX: ซ่อนฟอร์มกรอกข้อมูลและการ์ดประวัติไว้ก่อน ทันทีที่เริ่มโหลดข้อมูล!
             document.getElementById('user-details-form').classList.add('hidden');
             document.getElementById('existing-user-display').classList.add('hidden');
 
@@ -1136,7 +1130,6 @@
                             document.getElementById('inp-lname').readOnly = false; 
                             document.getElementById('name-lock-warning').style.display = 'none'; 
                             
-                            // 💡 FIX: แสดงฟอร์มกรอกข้อมูล เฉพาะตอนที่เช็คแล้วพบว่าเป็น "ผู้ป่วยใหม่" จริงๆ เท่านั้น
                             document.getElementById('user-details-form').classList.remove('hidden'); 
                             
                             stat.innerHTML = `<span style="color:#0ea5e9;">${_t('swal_new_patient')}</span>`; 
@@ -1300,6 +1293,12 @@
             if (sv.includes("ฝังเข็มเพื่อการรักษา")) base = (rV === '3') ? 0 : 200; else if (sv.includes("ครอบแก้ว")) base = 150; else if (sv.includes("ฝังเข็มใบหน้า")) base = 300; else if (sv.includes("เม็ดผักกาด")) base = 100; else if (sv.includes("ปรึกษา")) base = 0;
             brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
             if (bookingData.is2Hr) { brk.push(`<div style="display:flex; justify-content:space-between; color:#d97706; margin-bottom:6px;"><span>${currentLang==='en'?"Cupping:":"ครอบแก้ว:"}</span><b>150 ${_t('baht')}</b></div>`); total += 150; }
+            
+            // 🔥 เพิ่มการบวกค่านอกเวลา 60 บาท สำหรับแพทย์แผนจีน
+            if (bookingData.isOOH) {
+                brk.push(`<div style="display:flex; justify-content:space-between; color:#ea580c; margin-bottom:6px;"><span>${_t('bill_ooh')}</span><b>60 ${_t('baht')}</b></div>`);
+                total += 60;
+            }
         } else if (currentApp === 'postpartum') {
             let base = 0; if (rV === '2' || rV === '3') base = 0; else if (rV === '1') base = 30; else if (rV === '4') base = 670; else if (rV === '5') base = 500;
             brk.push(`<div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>${_t('bill_base')}</span><b>${base} ${_t('baht')}</b></div>`); total += base;
