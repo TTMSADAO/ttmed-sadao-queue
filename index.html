@@ -854,16 +854,40 @@
                 Swal.fire({ title:_t('swal_success'), text: "กำลังส่งข้อความยกเลิกเข้าแชท...", icon:'success', showConfirmButton: false, allowOutsideClick: false, timer: 3000, timerProgressBar: true, customClass:{popup:'swal-3d-popup'} });
                 
                 if (liff.isInClient()) {
-                    let p = savedProfiles.find(x => x.id === activeBookingObj.idCard);
-                    let cName = p ? getMaskedFullName(p.fname, p.lname) : "-";
-                    let cTel = p ? getMaskedTel(p.tel) : "-";
-                    let msgText = currentLang === 'en' ?
-                    `🖥️ [Auto] Cancel Booking ❌\n👤 Name: ${cName}\n📞 Tel: ${cTel}\n🩺 Service: ${activeBookingObj.service}\n📅 Date: ${activeBookingObj.sysDate}\n⏰ Time: ${activeBookingObj.time} น.` : 
-                    `🖥️ [ระบบอัตโนมัติ] แจ้งยกเลิกนัดหมาย ❌\n👤 ชื่อ: ${cName}\n📞 โทร: ${cTel}\n🩺 บริการ: ${activeBookingObj.service}\n📅 วันที่: ${activeBookingObj.sysDate}\n⏰ รอบเวลา: ${activeBookingObj.time} น.`;
-                    liff.sendMessages([{ type: 'text', text: msgText }])
-                        .then(() => { setTimeout(() => liff.closeWindow(), 800); })
-                        .catch(() => { setTimeout(() => liff.closeWindow(), 800); });
-                }
+                        let mName = getMaskedFullName(bookingData.fname, bookingData.lname); let mTel = getMaskedTel(bookingData.tel); let pNote = bookingData.note ? bookingData.note : "-";
+                        let displayTime = bookingData.time + " น.";
+                        if (bookingData.time) {
+                            let tParts = bookingData.time.split(":"); let totalMins = (parseInt(tParts[0]) * 60) + parseInt(tParts[1]);
+                            if (bookingData.is2Hr) { totalMins += 120; } else { totalMins += 60; }
+                            if (bookingData.addSteam) { totalMins += 30; }
+                            let eH = Math.floor(totalMins / 60); let eM = totalMins % 60;
+                            let endTimeStr = (eH < 10 ? '0' : '') + eH + ':' + (eM < 10 ? '0' : '') + eM;
+                            displayTime = bookingData.time + " - " + endTimeStr + " น.";
+                        }
+                        let fExtra = bookingData.extraInfo ? ` (${bookingData.extraInfo})` : "";
+                        
+                        // 💬 บับเบิ้ลที่ 1: สรุปข้อมูลการจอง
+                        let msgText1 = currentLang === 'en' ?
+                        `🖥️ [Auto] New Booking ✅\n👤 Name: ${mName}\n📞 Tel: ${mTel}\n🩺 Service: ${fSvc}${fExtra}\n📅 Date: ${bookingData.date}\n⏰ Time: ${displayTime}\n👨‍⚕️ Provider: ${displayStaffName}\n📝 Note: ${pNote}\n💰 Total: ${bookingData.totalFee} THB` : 
+                        `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${mName}\n📞 โทร: ${mTel}\n🩺 บริการ: ${fSvc}${fExtra}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${displayTime}\n👨‍⚕️ ผู้ให้บริการ: ${displayStaffName}\n📝 หมายเหตุ: ${pNote}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
+                        
+                        // 💬 บับเบิ้ลที่ 2: กฎกติกาและการเตรียมตัว (ใช้ตามที่คุณร่างมา)
+                        let msgText2 = "🕰️ กรุณามาก่อนเวลานัด\nอย่างน้อย 15 นาที\n\n***‼️หากไม่มาติดต่อภายในเวลาที่กำหนด  \nถือว่าท่านสละสิทธิ์ให้คนไข้ท่านอื่น\n\n***‼️การเลื่อนนัดหรือยกเลิกนัด\nโปรดแจ้งล่วงหน้า อย่างน้อย 2 วัน\n\n😷โปรดสวมหน้ากากอนามัยตลอดเวลาเข้ารับบริการ\n📝 อย่าลืมนำบัตรประจำตัวประชาชนมาด้วยนะครับ\n\nขอสงวนสิทธิ์ยกเลิกการจอง กรณีที่ไม่ปฏิบัติตามข้อกำหนด";
+
+                        // 🚀 ยิงออกไปพร้อมกัน 2 บับเบิ้ล (Array รองรับสูงสุด 5 บับเบิ้ล)
+                        liff.sendMessages([
+                            { type: 'text', text: msgText1 },
+                            { type: 'text', text: msgText2 }
+                        ])
+                        .then(() => { 
+                            // ปิดหน้าจออัตโนมัติหลังส่งเสร็จ
+                            setTimeout(() => liff.closeWindow(), 2500); 
+                        })
+                        .catch((err) => { 
+                            console.error("LIFF Send Error:", err);
+                            setTimeout(() => liff.closeWindow(), 2500); 
+                        });
+                    }
                 fetchPatientHistory(activeBookingObj.idCard);
                 fetch(API_ENDPOINT, {method:'POST', body:JSON.stringify({action:'background_sync', dept:sDept})}); 
             } else Swal.fire({title:_t('swal_error'), text:(res.message || 'Error occurred'), icon:'error', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'}});
