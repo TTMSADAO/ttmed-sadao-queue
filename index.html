@@ -334,7 +334,7 @@
                       </div>
                   </div>
               </div>
-
+          </div>
           <div id="postpartum-fields" class="hidden" style="margin-top:20px;">
               <div class="form-group"><label class="form-label" id="t-birthdate">วันคลอด</label><input type="date" id="inp-birth-date" class="form-control"></div>
               <div class="form-group"><label class="form-label" id="t-del-type">ประเภทการคลอด</label><select id="inp-delivery-type" class="form-control"><option value="" id="t-opt-sel">-- เลือก --</option><option value="คลอดธรรมชาติ" id="t-opt-nat">คลอดธรรมชาติ</option><option value="ผ่าคลอด" id="t-opt-csec">ผ่าคลอด</option></select></div>
@@ -879,15 +879,13 @@
                         liff.sendMessages([{ type: 'text', text: msgText }])
                             .then(() => { 
                                 // 👉 ป้องกันข้อความหาย: หน่วงเวลา 0.8 วินาที
-                                setTimeout(() => {
-                                    liff.closeWindow(); 
-                                }, 800);
+                                setTimeout(() => { liff.closeWindow(); }, 800);
                             })
                             .catch(() => { 
-                                setTimeout(() => {
-                                    liff.closeWindow(); 
-                                }, 800);
+                                setTimeout(() => { liff.closeWindow(); }, 800);
                             });
+                    } // <--- วงเล็บที่เคยหล่นหายไป กลับมาแล้วครับ!
+                }); // <--- วงเล็บที่เคยหล่นหายไป กลับมาแล้วครับ!
                 
                 // สั่งซิงค์ระบบและล้างคิวหน้าบ้าน
                 fetchPatientHistory(activeBookingObj.idCard);
