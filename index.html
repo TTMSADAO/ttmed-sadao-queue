@@ -875,10 +875,17 @@
                         `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ❌\n👤 ชื่อ: ${cName}\n📞 โทร: ${cTel}\n🩺 บริการ: ${activeBookingObj.service}\n📅 วันที่: ${activeBookingObj.sysDate}\n⏰ รอบเวลา: ${activeBookingObj.time} น.`;
                         
                         liff.sendMessages([{ type: 'text', text: msgText }])
-                            .then(() => { liff.closeWindow(); }) // ปิดหน้าต่างทันที เพราะรอป๊อปอัปมา 3 วิแล้ว
-                            .catch(() => { liff.closeWindow(); });
-                    }
-                });
+                            .then(() => { 
+                                // 👉 ป้องกันข้อความหาย: หน่วงเวลา 0.8 วินาที
+                                setTimeout(() => {
+                                    liff.closeWindow(); 
+                                }, 800);
+                            })
+                            .catch(() => { 
+                                setTimeout(() => {
+                                    liff.closeWindow(); 
+                                }, 800);
+                            });
                 
                 // สั่งซิงค์ระบบและล้างคิวหน้าบ้าน
                 fetchPatientHistory(activeBookingObj.idCard);
@@ -1582,8 +1589,17 @@ function openBooking(time, dateFull, sysDate, dayIndex, staffDataEncoded, slotGe
                             let msgText2 = "🕰️ กรุณามาก่อนเวลานัด\nอย่างน้อย 15 นาที\n\n***‼️หากไม่มาติดต่อภายในเวลาที่กำหนด  \nถือว่าท่านสละสิทธิ์ให้คนไข้ท่านอื่น\n\n***‼️การเลื่อนนัดหรือยกเลิกนัด\nโปรดแจ้งล่วงหน้า อย่างน้อย 2 วัน\n\n😷โปรดสวมหน้ากากอนามัยตลอดเวลาเข้ารับบริการ\n📝 อย่าลืมนำบัตรประจำตัวประชาชนมาด้วยนะครับ\n\nขอสงวนสิทธิ์ยกเลิกการจอง กรณีที่ไม่ปฏิบัติตามข้อกำหนด";
 
                             liff.sendMessages([ { type: 'text', text: msgText1 }, { type: 'text', text: msgText2 } ])
-                            .then(() => { liff.closeWindow(); }) // ปิดหน้าต่างทันที เพราะรอป๊อปอัป 3 วินาทีมาแล้ว
-                            .catch((err) => { liff.closeWindow(); });
+                            .then(() => { 
+                                // 👉 ป้องกันข้อความหาย: หน่วงเวลา 0.8 วินาทีให้ LINE ประมวลผลก่อนปิดหน้าต่าง
+                                setTimeout(() => {
+                                    liff.closeWindow(); 
+                                }, 800); 
+                            }) 
+                            .catch((err) => { 
+                                setTimeout(() => {
+                                    liff.closeWindow(); 
+                                }, 800); 
+                            });
                         }
                     });
                 } else { 
