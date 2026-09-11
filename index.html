@@ -196,7 +196,14 @@
     </div>
 
     <div class="menu-container">
-        <div class="dept-card card-ttm" onclick="openApp('ttm')"><img src="https://github.com/TTMSADAO/ttmed-sadao-queue/blob/PIC/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B8%A3%E0%B8%B2%E0%B8%A8%E0%B8%B5.png?raw=true" class="dept-icon"><div class="dept-info"><h3 id="t-menu-ttm">แพทย์แผนไทย</h3><p id="t-desc-ttm">นวดรักษา, ประคบ, นวดส่งเสริมฯ</p></div><div class="arrow-btn"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="dept-card card-ttm" onclick="openApp('ttm')">
+            <img src="https://github.com/TTMSADAO/ttmed-sadao-queue/blob/PIC/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B8%A3%E0%B8%B2%E0%B8%A8%E0%B8%B5.png?raw=true" class="dept-icon">
+            <div class="dept-info">
+                <h3 id="t-menu-ttm" style="display:flex; align-items:center; gap:8px;">แพทย์แผนไทย <span style="background:#fee2e2; color:#dc2626; font-size:0.7rem; padding:3px 8px; border-radius:10px; border:1px solid #fca5a5;">ปิดปรับปรุง</span></h3>
+                <p id="t-desc-ttm">นวดรักษา, ประคบ, นวดส่งเสริมฯ</p>
+            </div>
+            <div class="arrow-btn"><i class="fas fa-tools"></i></div>
+        </div>
         <div class="dept-card card-tcm" onclick="openApp('tcm')"><img src="https://raw.githubusercontent.com/TTMSADAO/ttmed-sadao-queue/refs/heads/PIC/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B9%80%E0%B8%AE%E0%B8%87-%E0%B9%80%E0%B8%AE%E0%B8%87-%E0%B9%80%E0%B8%AE%E0%B8%87.png" class="dept-icon"><div class="dept-info"><h3 id="t-menu-tcm">แพทย์แผนจีน</h3><p id="t-desc-tcm">ฝังเข็ม, ครอบแก้ว, ฝังเข็มใบหน้า</p></div><div class="arrow-btn"><i class="fas fa-chevron-right"></i></div></div>
         <div class="dept-card card-postpartum" onclick="openApp('postpartum')"><img src="https://github.com/TTMSADAO/ttmed-sadao-queue/blob/PIC/%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%94%E0%B8%87%E0%B9%88%E0%B8%B2%E0%B8%A2.png?raw=true" class="dept-icon"><div class="dept-info"><h3 id="t-menu-post">บริการหลังคลอด</h3><p id="t-desc-post">หลังคลอดธรรมชาติ 7 วัน / ผ่า 1 เดือน</p></div><div class="arrow-btn"><i class="fas fa-chevron-right"></i></div></div>
         <div class="dept-card card-steam" onclick="openApp('steam')"><img src="https://github.com/TTMSADAO/ttmed-sadao-queue/blob/PIC/IMC.png?raw=true" class="dept-icon"><div class="dept-info"><h3 id="t-menu-steam">อบไอน้ำสมุนไพร</h3><p id="t-desc-steam">ช่วยการไหลเวียนโลหิต ภูมิแพ้</p></div><div class="arrow-btn"><i class="fas fa-chevron-right"></i></div></div>
@@ -899,28 +906,34 @@
     }
 
     function openApp(type) { 
+        // 🔴 ดักจับการกดเข้า "แพทย์แผนไทย" เพื่อแสดงประกาศปิดปรับปรุงชั่วคราว
+        if (type === 'ttm') {
+            Swal.fire({
+                title: 'ปิดปรับปรุงชั่วคราว',
+                html: '<div style="margin-top:10px; line-height:1.5;">ระบบนัดจองคิวออนไลน์ <b>แพทย์แผนไทย</b><br>อยู่ระหว่างการอัปเดตชั่วคราว<br><br><span style="color:#00B900; font-weight:800; font-size:1.05rem;"><i class="fab fa-line"></i> กรุณาพิมพ์แจ้งนัดจองคิว<br>ผ่านช่องทางแชท LINE ได้เลยครับ</span></div>',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#00B900',
+                cancelButtonColor: '#cbd5e1',
+                confirmButtonText: 'กลับไปหน้าแชท',
+                cancelButtonText: 'ปิด',
+                customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (liff.isInClient()) {
+                        liff.closeWindow(); // สั่งปิดหน้าต่าง LIFF กลับไปที่แชท
+                    }
+                }
+            });
+            return; // หยุดการทำงาน ไม่ให้เปิดเข้าหน้าตารางคิว
+        }
+
+        // สำหรับแผนกอื่นๆ (TCM, Postpartum, Steam) ให้ทำงานตามปกติ
         proceedToApp(type); 
         document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active')); 
         document.getElementById('nav-home').classList.add('active');
         let nav = document.getElementById('main-bottom-nav');
         if(nav) nav.classList.add('nav-hidden');
-    }
-
-    function proceedToApp(type) { 
-        currentApp = type;
-        let conf = APP_CONFIG[type]; 
-        document.documentElement.style.setProperty('--primary', conf.color); 
-        document.documentElement.style.setProperty('--primary-light', type==='tcm'?'#ffebee':type==='postpartum'?'#fce4ec':type==='steam'?'#e0f2fe':'#e8f5e9');
-        document.getElementById('app-title').innerText = _t('app_' + type); 
-        document.getElementById('app-logo').src = conf.logo; 
-        
-        document.getElementById('view-home').classList.add('hidden'); 
-        document.getElementById('view-profile').classList.add('hidden'); 
-        document.getElementById('view-dashboard').classList.remove('hidden'); 
-        window.scrollTo(0,0);
-        fetchData(true); 
-        if(refreshInterval) clearInterval(refreshInterval); 
-        refreshInterval = setInterval(() => { fetchData(false); }, 15000);
     }
     
     function goHome() { 
