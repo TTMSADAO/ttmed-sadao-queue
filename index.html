@@ -935,6 +935,24 @@
         let nav = document.getElementById('main-bottom-nav');
         if(nav) nav.classList.add('nav-hidden');
     }
+
+    // 🔴 ฟังก์ชันนี้เผลอถูกลบทิ้งไปตอนวางโค้ด เอาคืนมาตรงนี้ครับ
+    function proceedToApp(type) { 
+        currentApp = type;
+        let conf = APP_CONFIG[type]; 
+        document.documentElement.style.setProperty('--primary', conf.color); 
+        document.documentElement.style.setProperty('--primary-light', type==='tcm'?'#ffebee':type==='postpartum'?'#fce4ec':type==='steam'?'#e0f2fe':'#e8f5e9');
+        document.getElementById('app-title').innerText = _t('app_' + type); 
+        document.getElementById('app-logo').src = conf.logo; 
+        
+        document.getElementById('view-home').classList.add('hidden'); 
+        document.getElementById('view-profile').classList.add('hidden'); 
+        document.getElementById('view-dashboard').classList.remove('hidden'); 
+        window.scrollTo(0,0);
+        fetchData(true); 
+        if(refreshInterval) clearInterval(refreshInterval); 
+        refreshInterval = setInterval(() => { fetchData(false); }, 15000);
+    }
     
     function goHome() { 
         document.getElementById('view-dashboard').classList.add('hidden');
