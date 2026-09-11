@@ -1225,10 +1225,21 @@
     }
 
 function openBooking(time, dateFull, sysDate, dayIndex, staffDataEncoded, slotGender) {
-      try {
-          let staffs = staffDataEncoded ? JSON.parse(decodeURIComponent(staffDataEncoded)) : [];
-          bookingData = { dept: APP_CONFIG[currentApp].title, date: dateFull, sysDate: sysDate, time: time, appType: currentApp, sheetName: globalData[dayIndex].sheetName, ppExtraData: staffDataEncoded };
-          document.getElementById('auth-section').style.display = 'block'; 
+          try {
+              let staffs = staffDataEncoded ? JSON.parse(decodeURIComponent(staffDataEncoded)) : [];
+              
+              // 🔴 เพิ่ม decodeURIComponent เพื่อแก้บั๊ก Error ตอนจองบริการหลังคลอด
+              bookingData = { 
+                  dept: APP_CONFIG[currentApp].title, 
+                  date: dateFull, 
+                  sysDate: sysDate, 
+                  time: time, 
+                  appType: currentApp, 
+                  sheetName: globalData[dayIndex].sheetName, 
+                  ppExtraData: staffDataEncoded ? decodeURIComponent(staffDataEncoded) : '[]' 
+              };
+              
+              document.getElementById('auth-section').style.display = 'block';
           
           if(activeProfileId) { 
               let idStr = activeProfileId.toString();
