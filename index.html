@@ -844,12 +844,17 @@
                     let cTel = p ? getMaskedTel(p.tel) : "-";
                     let msgText = `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการยกเลิกนัดหมาย ❌\n👤 ชื่อ: ${cName}\n📞 โทร: ${cTel}\n🩺 บริการ: ${activeBookingObj.service}\n📅 วันที่: ${activeBookingObj.sysDate}\n⏰ รอบเวลา: ${activeBookingObj.time} น.`;
                     
-                    // ปล่อยคำสั่งส่ง LINE ไปในพื้นหลัง (Fire and Forget)
-                    liff.sendMessages([{ type: 'text', text: msgText }]).catch(()=>{});
+                    Swal.fire({ title: 'ยกเลิกคิวสำเร็จ!', text: "กำลังส่งข้อความยืนยัน...", icon: 'success', showConfirmButton: false, allowOutsideClick: false, customClass:{popup:'swal-3d-popup'} });
                     
-                    // ปิดหน้าต่างทันที (Fast UX)
-                    Swal.fire({ title: 'ยกเลิกคิวสำเร็จ!', text: "ระบบดำเนินการเรียบร้อยแล้ว", icon: 'success', timer: 1800, showConfirmButton: false, customClass:{popup:'swal-3d-popup'} })
-                    .then(() => liff.closeWindow());
+                    // รอ LINE ตอบกลับว่าส่งข้อความสำเร็จ ถึงจะปิดแอป
+                    liff.sendMessages([{ type: 'text', text: msgText }])
+                    .then(() => {
+                        liff.closeWindow();
+                    })
+                    .catch(() => {
+                        Swal.fire({ title: 'ยกเลิกคิวสำเร็จ!', text: "ระบบดำเนินการเรียบร้อยแล้ว แต่ส่งข้อความเข้าแชทไม่สำเร็จ (อินเทอร์เน็ตขัดข้อง)", icon: 'info', confirmButtonText: 'ปิดหน้าต่าง', confirmButtonColor: '#f59e0b', customClass:{popup:'swal-3d-popup', confirmButton:'swal-3d-btn'} })
+                        .then(() => liff.closeWindow());
+                    });
                 } else {
                     Swal.fire({ title:_t('swal_success'), text: "ยกเลิกคิวเรียบร้อยแล้ว", icon:'success', timer: 1800, showConfirmButton: false, customClass:{popup:'swal-3d-popup'} });
                 }
@@ -1526,6 +1531,7 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
                 renderHistoryUI(bookingData.idCard, historyArray);
 
                 // 👉 4. ส่งข้อความ LINE ในพื้นหลัง (ไม่รอคำตอบ)
+                // 👉 4. ส่งข้อความ LINE และรอให้สำเร็จ 100% ก่อนปิดหน้าจอ
                 if (liff.isInClient()) {
                     let mName = getMaskedFullName(bookingData.fname, bookingData.lname); let mTel = getMaskedTel(bookingData.tel); let pNote = bookingData.note ? bookingData.note : "-";
                     let displayTime = bookingData.time + " น.";
@@ -1543,14 +1549,25 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
                     let msgText1 = `🖥️ [ระบบอัตโนมัติ] แจ้งทำรายการนัดหมายสำเร็จ ✅\n👤 ชื่อ: ${mName}\n📞 โทร: ${mTel}\n🩺 บริการ: ${finalSvc}${fExtra}\n📅 วันที่: ${bookingData.date}\n⏰ เวลา: ${displayTime}\n👨‍⚕️ ผู้ให้บริการ: ${displayStaffName}\n📝 หมายเหตุ: ${pNote}\n💰 ยอดชำระ: ${bookingData.totalFee} บาท`;
                     let msgText2 = "🕰️ กรุณามาก่อนเวลานัดอย่างน้อย 15 นาที\n\n***‼️หากไม่มาติดต่อภายในเวลาที่กำหนด ถือว่าท่านสละสิทธิ์ให้คนไข้ท่านอื่น\n\n***‼️การเลื่อนนัดหรือยกเลิกนัด โปรดแจ้งล่วงหน้า อย่างน้อย 2 วัน\n\n😷โปรดสวมหน้ากากอนามัยตลอดเวลาเข้ารับบริการ\n📝 อย่าลืมนำบัตรประจำตัวประชาชนมาด้วยนะครับ";
                     
-                    liff.sendMessages([ { type: 'text', text: msgText1 }, { type: 'text', text: msgText2 } ]).catch(()=>{});
+                    finishPercentageLoader(() => {
+                        // โชว์ว่าสำเร็จให้คนไข้สบายใจ ระหว่างรอ LINE ส่งข้อความ
+                        Swal.fire({ title: 'จองคิวสำเร็จ!', text: "กำลังส่งใบเสร็จเข้าแชท...", icon: 'success', showConfirmButton: false, allowOutsideClick: false, customClass: { popup: 'swal-3d-popup' } });
+                        
+                        // รอส่งสำเร็จชัวร์ๆ แล้วค่อยปิดหน้าต่าง
+                        liff.sendMessages([ { type: 'text', text: msgText1 }, { type: 'text', text: msgText2 } ])
+                        .then(() => {
+                            liff.closeWindow(); 
+                        })
+                        .catch(() => {
+                            Swal.fire({ title: "จองคิวสำเร็จ!", html: "<div style='text-align:left;'>ระบบล็อกคิวเรียบร้อย แต่ไม่สามารถส่งข้อความเข้าแชทได้ (อินเทอร์เน็ตขัดข้อง)<br><br><b style='color:#0ea5e9;'>กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน:</b><br>• บริการ: " + finalSvc + "<br>• วันที่: " + bookingData.date + "<br>• เวลา: " + displayTime + "</div>", icon: 'info', confirmButtonText: 'แคปหน้าจอแล้ว', confirmButtonColor: '#f59e0b', customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } })
+                            .then(() => liff.closeWindow());
+                        });
+                    });
+                } else {
+                    finishPercentageLoader(() => {
+                        Swal.fire({ title: 'จองคิวสำเร็จ!', text: "คิวของคุณถูกบันทึกเรียบร้อยแล้ว", icon: 'success', timer: 1800, showConfirmButton: false, customClass: { popup: 'swal-3d-popup' } });
+                    });
                 }
-                
-                // 👉 5. แสดงหน้าต่างสำเร็จ และปิดหน้าเว็บอัตโนมัติ (Fast UX)
-                finishPercentageLoader(() => {
-                    Swal.fire({ title: 'จองคิวสำเร็จ!', text: "คิวของคุณถูกบันทึกเรียบร้อยแล้ว", icon: 'success', timer: 1800, showConfirmButton: false, customClass: { popup: 'swal-3d-popup' } })
-                    .then(() => { if(liff.isInClient()) liff.closeWindow(); });
-                });
             } else { 
                 finishPercentageLoader(() => { 
                     let errTitle = _t('swal_error'); let errMsg = res.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ'; let errIcon = 'error'; let btnColor = '#ef4444';
