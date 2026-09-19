@@ -1474,7 +1474,7 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
         document.getElementById('summary-content').innerHTML = infoH + billH + nH; 
         goToStep3();
     }
-   // 🔴 ปรับกระบวนการให้รวดเร็ว (Fast Background Processing)
+   // 🔴 ปรับเป็น Single Payload ยิง API ครั้งเดียวจบ
     async function confirmBooking() {
         document.getElementById('btn-final-confirm').disabled = true;
         showPercentageLoader(); 
@@ -1485,17 +1485,16 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
         let displayStaffName = currentLang === 'en' ? (STAFF_EN_NAMES[sN] || sN) : (STAFF_NAME_MAP[sN] || sN);
         
         let hasCross = bookingData.crossDeptApp ? true : false;
-        let nameDept1 = rawFullName; let nameDept2 = rawFullName;
-        if (hasCross) {
-            if (bookingData.is2Hr) { nameDept1 = rawFullName; nameDept2 = rawFullName + " 3"; } 
-            else { nameDept1 = rawFullName + " 1"; nameDept2 = rawFullName + " 2"; }
-        }
+        let nameDept1 = rawFullName;
+        if (hasCross) { nameDept1 = bookingData.is2Hr ? rawFullName + " 1" : rawFullName + " 1"; }
 
+        // มัดรวมข้อมูลส่งไปทีเดียว ไม่ต้องยิงคำสั่งซ้ำซ้อน
         let payload = { 
             lineUid: currentLineUid, staff: displayStaffName, appType: bookingData.appType, sheetName: bookingData.sheetName, idCard: bookingData.idCard, 
             fname: bookingData.fname, lname: bookingData.lname, fullName: nameDept1, tel: bookingData.tel, service: fSvc, 
             note: (bookingData.extraInfo + " | " + (bookingData.note || "")), time: bookingData.time, date: bookingData.date, sysDate: bookingData.sysDate, 
-            is2Hr: bookingData.is2Hr, addSteam: bookingData.addSteam, steamTime: bookingData.steamTime, steamGender: bookingData.steamGender, right: bookingData.rightName, totalFee: bookingData.totalFee 
+            is2Hr: bookingData.is2Hr, addSteam: bookingData.addSteam, steamTime: bookingData.steamTime, steamGender: bookingData.steamGender, right: bookingData.rightName, totalFee: bookingData.totalFee,
+            crossDeptApp: bookingData.crossDeptApp, crossTime: bookingData.crossDeptTime, crossSvc: bookingData.crossDeptService, crossStfName: bookingData.crossDeptStaffName, crossRow: bookingData.crossDeptRow, crossCol: bookingData.crossDeptCol
         };
         
         if ((currentApp === 'ttm' || currentApp === 'tcm') && selectedSlotData) { payload.row = selectedSlotData.row; payload.col = selectedSlotData.col; } 
@@ -1503,25 +1502,14 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
         else if (currentApp === 'postpartum') { payload.ppExtraData = bookingData.ppExtraData; }
         
         try {
-            // 👉 1. ยิงข้อมูลคิวแรกลง Database (ต้องรอคอนเฟิร์มว่าเตียงไม่ชน)
+            // ยิงเพียงครั้งเดียว รับประกันลงฐานข้อมูลสำเร็จพร้อมกัน (ลบคำสั่งยิง p2 ทิ้งไปแล้ว)
             let r = await fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) });
             let res = await r.json();
             
             if(res.status === 'success' || res.status === 'error_but_done') { 
-                // 👉 2. ยิงคิวต่อเนื่องข้ามแผนกในพื้นหลัง (Fire and Forget) ไม่ต้องรอ!
-                if (hasCross) {
-                    let p2 = Object.assign({}, payload);
-                    p2.appType = bookingData.crossDeptApp; p2.time = bookingData.crossDeptTime; p2.service = bookingData.crossDeptService; p2.fullName = nameDept2; p2.is2Hr = false; p2.addSteam = false; 
-                    p2.staff = bookingData.crossDeptStaffName || "ไม่ระบุ"; p2.row = bookingData.crossDeptRow || 0; p2.col = bookingData.crossDeptCol || (bookingData.crossDeptApp === 'tcm' ? 30 : 14);
-                    p2.totalFee = 0; p2.note = "✨ จองต่อเนื่องจาก " + (currentApp === 'ttm' ? "แผนไทย" : "แผนจีน");
-                    fetch(API_ENDPOINT, { method: 'POST', body: JSON.stringify(p2) }).catch(()=>{});
-                }
-                
-                // 👉 3. ประมวลผล Local Storage อัตโนมัติ ปิดจอไว
                 let p = savedProfiles.find(x => x.id === bookingData.idCard); 
                 addOrUpdateProfile(bookingData.idCard, bookingData.fname, bookingData.lname, bookingData.tel, p ? p.label : ''); 
-                closeModal(); switchMainTab('profile'); 
-                fetchData(false); // ซิงค์ background
+                closeModal(); switchMainTab('profile'); fetchData(false); 
                 
                 let historyArray = JSON.parse(localStorage.getItem('sdh_history_' + bookingData.idCard)) || [];
                 if(!Array.isArray(historyArray)) historyArray = [historyArray];
@@ -1530,18 +1518,13 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
                 localStorage.setItem('sdh_history_' + bookingData.idCard, JSON.stringify(historyArray));
                 renderHistoryUI(bookingData.idCard, historyArray);
 
-                // 👉 4. ส่งข้อความ LINE ในพื้นหลัง (ไม่รอคำตอบ)
-                // 👉 4. ส่งข้อความ LINE และรอให้สำเร็จ 100% ก่อนปิดหน้าจอ
                 if (liff.isInClient()) {
                     let mName = getMaskedFullName(bookingData.fname, bookingData.lname); let mTel = getMaskedTel(bookingData.tel); let pNote = bookingData.note ? bookingData.note : "-";
                     let displayTime = bookingData.time + " น.";
                     if (bookingData.time) {
                         let tParts = bookingData.time.split(":"); let totalMins = (parseInt(tParts[0]) * 60) + parseInt(tParts[1]);
-                        totalMins += bookingData.is2Hr ? 120 : 60;
-                        if (bookingData.addSteam) totalMins += 30;
-                        if (hasCross) totalMins += 60; 
-                        let eH = Math.floor(totalMins / 60); let eM = totalMins % 60;
-                        let endTimeStr = (eH < 10 ? '0' : '') + eH + ':' + (eM < 10 ? '0' : '') + eM;
+                        totalMins += bookingData.is2Hr ? 120 : 60; if (bookingData.addSteam) totalMins += 30; if (hasCross) totalMins += 60; 
+                        let eH = Math.floor(totalMins / 60); let eM = totalMins % 60; let endTimeStr = (eH < 10 ? '0' : '') + eH + ':' + (eM < 10 ? '0' : '') + eM;
                         displayTime = bookingData.time + " - " + endTimeStr + " น.";
                     }
                     let finalSvc = fSvc; let fExtra = bookingData.extraInfo ? ` (${bookingData.extraInfo})` : "";
@@ -1550,23 +1533,13 @@ crossDisplayStr = `<div style="margin-top:12px; font-size:0.95rem; color:#b45309
                     let msgText2 = "🕰️ กรุณามาก่อนเวลานัดอย่างน้อย 15 นาที\n\n***‼️หากไม่มาติดต่อภายในเวลาที่กำหนด ถือว่าท่านสละสิทธิ์ให้คนไข้ท่านอื่น\n\n***‼️การเลื่อนนัดหรือยกเลิกนัด โปรดแจ้งล่วงหน้า อย่างน้อย 2 วัน\n\n😷โปรดสวมหน้ากากอนามัยตลอดเวลาเข้ารับบริการ\n📝 อย่าลืมนำบัตรประจำตัวประชาชนมาด้วยนะครับ";
                     
                     finishPercentageLoader(() => {
-                        // โชว์ว่าสำเร็จให้คนไข้สบายใจ ระหว่างรอ LINE ส่งข้อความ
                         Swal.fire({ title: 'จองคิวสำเร็จ!', text: "กำลังส่งใบเสร็จเข้าแชท...", icon: 'success', showConfirmButton: false, allowOutsideClick: false, customClass: { popup: 'swal-3d-popup' } });
-                        
-                        // รอส่งสำเร็จชัวร์ๆ แล้วค่อยปิดหน้าต่าง
-                        liff.sendMessages([ { type: 'text', text: msgText1 }, { type: 'text', text: msgText2 } ])
-                        .then(() => {
-                            liff.closeWindow(); 
-                        })
-                        .catch(() => {
-                            Swal.fire({ title: "จองคิวสำเร็จ!", html: "<div style='text-align:left;'>ระบบล็อกคิวเรียบร้อย แต่ไม่สามารถส่งข้อความเข้าแชทได้ (อินเทอร์เน็ตขัดข้อง)<br><br><b style='color:#0ea5e9;'>กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน:</b><br>• บริการ: " + finalSvc + "<br>• วันที่: " + bookingData.date + "<br>• เวลา: " + displayTime + "</div>", icon: 'info', confirmButtonText: 'แคปหน้าจอแล้ว', confirmButtonColor: '#f59e0b', customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } })
-                            .then(() => liff.closeWindow());
+                        liff.sendMessages([ { type: 'text', text: msgText1 }, { type: 'text', text: msgText2 } ]).then(() => { liff.closeWindow(); }).catch(() => {
+                            Swal.fire({ title: "จองคิวสำเร็จ!", html: "<div style='text-align:left;'>ระบบล็อกคิวเรียบร้อย แต่ไม่สามารถส่งข้อความเข้าแชทได้ (อินเทอร์เน็ตขัดข้อง)<br><br><b style='color:#0ea5e9;'>กรุณาแคปหน้าจอนี้ไว้เป็นหลักฐาน:</b><br>• บริการ: " + finalSvc + "<br>• วันที่: " + bookingData.date + "<br>• เวลา: " + displayTime + "</div>", icon: 'info', confirmButtonText: 'แคปหน้าจอแล้ว', confirmButtonColor: '#f59e0b', customClass: { popup: 'swal-3d-popup', confirmButton: 'swal-3d-btn' } }).then(() => liff.closeWindow());
                         });
                     });
                 } else {
-                    finishPercentageLoader(() => {
-                        Swal.fire({ title: 'จองคิวสำเร็จ!', text: "คิวของคุณถูกบันทึกเรียบร้อยแล้ว", icon: 'success', timer: 1800, showConfirmButton: false, customClass: { popup: 'swal-3d-popup' } });
-                    });
+                    finishPercentageLoader(() => { Swal.fire({ title: 'จองคิวสำเร็จ!', text: "คิวของคุณถูกบันทึกเรียบร้อยแล้ว", icon: 'success', timer: 1800, showConfirmButton: false, customClass: { popup: 'swal-3d-popup' } }); });
                 }
             } else { 
                 finishPercentageLoader(() => { 
